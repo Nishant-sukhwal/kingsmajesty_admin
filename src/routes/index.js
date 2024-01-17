@@ -29,6 +29,14 @@ import CreateNewHotel from "../pages/Hotel/NewHotelCreate";
 // import EcommerceProductDetail from "../pages/Ecommerce/EcommerceProducts/EcommerceProductDetail";
 import EcommerceOrderss from "../pages/Ecommerce/EcommerceOrders";
 import EcommerceOrders from "../pages/Ecommerce/EcommerceCustomers";
+import HotelCreateForm from "../pages/Deals/CreateHotelForm";
+import ViewDeals from "../pages/Deals/ViewDeals";
+import CreateDeals from "../pages/Deals/CreateDeals";
+import ViewHotels from "../pages/Hotels/ViewHotel";
+import ViewRooms from "../pages/Room/ViewRooms";
+import CommingSoon from "../pages/Utils/CommingSoon";
+import Maintenance from "../pages/Utils/Maintenance";
+import CreateHotel from "../pages/Hotels/CreateHotelForm";
 
 
 
@@ -42,11 +50,30 @@ const authProtectedRoutes = [
 	{ path: "/facility/update", exact: true, component: <UpdateFacility /> },
 	{ path: "/facility/create", exact: true, component: <CreateFacility /> },  
 
-    //Dummy Hotel 
+    //Hotel 
 	// { path: "/hotels", exact: true, component: <HotelCreateForm /> },
-	{ path: "/hotels", exact: true, component: <CreateNewHotel /> },
-	{ path: "/order", exact: true, component: <EcommerceOrderss /> },
+	{ path: "/hotels", exact: true, component: <ViewHotels/> },
+	{ path: "/hotels/create", exact: true, component: <CreateHotel /> },
+	{ path: "/hot", exact: true, component: <CreateNewHotel /> },
 
+	//Deals	
+	{ path: "/deals", exact: true, component: <ViewDeals /> },
+	// { path: "/facility/update", exact: true, component: <UpdateDeals /> },
+	{ path: "/deals/create", exact: true, component: <CreateDeals /> }, 
+
+	//Rooms	
+	{ path: "/rooms", exact: true, component: <ViewRooms /> },
+	// { path: "/facility/update", exact: true, component: <UpdateDeals /> },
+	{ path: "/room/create", exact: true, component: <CreateDeals /> },
+	
+	//Packages	
+	{ path: "/packages", exact: true, component: <Maintenance /> },
+	{ path: "/activity", exact: true, component: <Maintenance /> },
+	{ path: "/booking", exact: true, component: <Maintenance /> },
+	{ path: "/services", exact: true, component: <Maintenance /> },
+
+	
+	
 	// Forms
 	{ path: "/form-elements", component: <FormElements /> },
 	{ path: "/form-advanced", component: <FormAdvanced /> },

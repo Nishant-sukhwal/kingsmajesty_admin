@@ -8,7 +8,7 @@ const TextInput = ({ label, id, defaultValue }) => (
       {label}
     </Label>
     <Col md={10} >
-      <Input type="text" defaultValue={defaultValue} id={id} />
+      <Input type="text" defaultValue={defaultValue} id={id} required/>
     </Col>
   </Row>
 );

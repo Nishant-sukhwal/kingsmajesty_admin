@@ -1,17 +1,21 @@
-import { FACILITY_LIST } from "./actionTypes";
+import { FACILITY_LIST, SET_FACILITY_LIST } from "./actionTypes";
 
 const INIT_STATE = {
-	facilities: []	
+	facilities: []
 };
 
 const Facility = (state = INIT_STATE, action) => {
-    console.log(action.payload);
 	switch (action.type) {
-		case FACILITY_LIST:
+		case SET_FACILITY_LIST:
 			return {
 				...state,
 				facilities: action.payload
 			};		
+		case FACILITY_LIST:
+			return {
+				...state,
+				facilities: action.payload
+			};
 		default:
 			return state;
 	}

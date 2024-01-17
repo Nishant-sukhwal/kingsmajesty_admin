@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { loginUserSuccessful } from '../../../store/actions';
 
-export const login = async (formData, dispatch) => {
+export const login = async (formData) => {
   try {
     // Make the API call using Axios
     const response = await axios.post(
@@ -16,13 +16,8 @@ export const login = async (formData, dispatch) => {
         },
       }
     );
-    if (response.status === 200) {
-      localStorage.setItem('token', response.data.tokens.token);
-      dispatch(loginUserSuccessful(response.data));
-    } else {
-      // Handle errors or display error message
-      console.log('Invalid credentials. Please try again.');
-    }
+    return response.data;
+    
   } catch {
     console.log('Error in API call:');
     // throw error;
@@ -37,11 +32,7 @@ export const logout = async (token) => {
       {
         token: token
       })
-    if (response.status === 200) {
-      localStorage.removeItem('token');
-    } else {
-      console.log("Sending wrong token value!");
-    }
+    return response;
   } catch {
     console.log("Logout Failed!");
   }

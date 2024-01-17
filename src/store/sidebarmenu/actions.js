@@ -1,13 +1,15 @@
+import { SET_SIDEBAR_MENUS, GET_SIDEBAR_MENUS } from './actionTypes';
 
-
-// actions.js
-import {SET_SIDEBAR_MENUS,GET_SIDEBAR_MENUS} from './actionTypes';
+export const getSidebarMenus = () => {
+  return {
+    type: GET_SIDEBAR_MENUS,
+  };
+};
 
 export const setSidebarMenus = (sidebarMenus) => {
-    console.log('call inside action.js', sidebarMenus);
   return {
     type: SET_SIDEBAR_MENUS,
-    payload:  sidebarMenus ,
+    payload: sidebarMenus,
   };
 };
 

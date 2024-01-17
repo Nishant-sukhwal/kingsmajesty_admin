@@ -5,9 +5,9 @@ import {
   TextInput,
   TimeInput,
 } from "../../components/Form/FormComponents";
-import CkEditor from "../../components/Form/FormComponents/CkEditor";
+
 import RadioButton from "../../components/Form/FormComponents/RadioButton";
-import HalfRatingInput from "../../components/Form/FormComponents/HalfRatingInput";
+
 import MultipleSelector from "../../components/Form/FormSelectorComponent/MultipleSelector";
 
 const PropertyRules = () => {
@@ -23,7 +23,7 @@ const PropertyRules = () => {
     setFormData((prevData) => ({ ...prevData, [field]: value }));
   };
 
-  const [halfRating, setHalfRating] = useState("");
+  
 
 
   const [selectedClassStatus, setSelectedClassStatus] = useState("");

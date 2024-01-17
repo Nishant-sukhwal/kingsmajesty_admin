@@ -1,19 +1,23 @@
 import React from "react";
 import Select from "react-select";
-import { Label } from "reactstrap";
+import { Col, Label } from "reactstrap";
 
 const MultipleSelector = ({ value, onChange, options, label, isDisabled }) => {
   return (
     <div className="d-flex flex-row mb-3">
-      <Label  className="col-md-2 col-form-label">{label}</Label>
-      <Select className="col-md-10"
+      <Col>
+       <Label  className="col-md-2 col-form-label mb-1">{label}</Label>
+      
+      <Select className="col-md-12"
         value={value}
         isMulti={true}
         onChange={onChange}
         options={options}
-        classNamePrefix="select2-selection"
+        // classNamePrefix="select3-selection"
+        // class='is-touched is-dirty av-valid form-control'
         isDisabled={isDisabled}
       />
+      </Col>
     </div>
   );
 };

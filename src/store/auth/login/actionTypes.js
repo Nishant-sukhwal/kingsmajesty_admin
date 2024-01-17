@@ -4,4 +4,6 @@ export const LOGIN_USER_SUCCESSFUL = 'login_user_successfull';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
 
+export const LOGIN_USER = 'LOGIN_USER';
+
 export const API_ERROR = 'api_failed';

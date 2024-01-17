@@ -2,21 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { withTranslation } from "react-i18next";
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
-import { logout } from '../../../services/api/authentication/authApi';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../../../store/actions';
 
 
 
-const ProfileMenu = ({ t, token }) => {
-
+const ProfileMenu = ({ t,  }) => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState(false);
-  const [username, setUsername] = useState("Admin");
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.Login.user);
+
+
 
   const handleLogout = () => {
     try {
-      logout(token); //api call
+      dispatch(logoutUser())
       navigate('/login')
     } catch (error) {
       console.log("Logout failed!")
@@ -41,7 +44,7 @@ const ProfileMenu = ({ t, token }) => {
       <Dropdown isOpen={menu} toggle={toggle} className="d-inline-block user-dropdown">
         <DropdownToggle tag="button" className="btn header-item waves-effect" id="page-header-user-dropdown">
           <img className="rounded-circle header-profile-user me-1" src={avatar2} alt="Header Avatar" />
-          <span className="d-none d-xl-inline-block ms-1 text-transform">{username}</span>
+          <span className="d-none d-xl-inline-block ms-1 text-transform">{user.firstname}</span>
           <i className="mdi mdi-chevron-down d-none ms-1 d-xl-inline-block"></i>
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu-end">
@@ -59,7 +62,7 @@ const ProfileMenu = ({ t, token }) => {
 
 const mapStateToProps = (state) => {
   return { token: state.Login.tokens.token };
-  
+
 };
 
 

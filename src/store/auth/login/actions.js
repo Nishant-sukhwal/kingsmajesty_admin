@@ -1,15 +1,20 @@
-import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, API_ERROR,LOGOUT_USER, LOGOUT_USER_SUCCESS } from './actionTypes';
+import { CHECK_LOGIN, LOGIN_USER_SUCCESSFUL, API_ERROR,LOGOUT_USER, LOGOUT_USER_SUCCESS, LOGIN_USER } from './actionTypes';
 
-export const checkLogin = (user, history) => {
-  
+export const checkLogin = () => {  
     return {
-        type: CHECK_LOGIN,
-        payload: { user, history }
+        type: CHECK_LOGIN        
     }
 }
 
+export const loginUser = (user) => {
+    return {
+        type: LOGIN_USER,
+        payload: user
+    }
+   
+}
+
 export const loginUserSuccessful = (user) => {
-    
     return {
         type: LOGIN_USER_SUCCESSFUL,
         payload: user
@@ -25,17 +30,15 @@ export const apiError = (error) => {
     }
 }
 
-export const logoutUser = (history) => {
+export const logoutUser = () => {
     
     return {
-        type: LOGOUT_USER,
-        payload: { history }
+        type: LOGOUT_USER
     }
 }
 
 export const logoutUserSuccess = () => {
     return {
-        type: LOGOUT_USER_SUCCESS,
-        payload: {}
+        type: LOGOUT_USER_SUCCESS,        
     }
 }

@@ -117,7 +117,7 @@ const TableContainer = ({
   );
 
   const generateSortingIndicator = (column) => {
-    return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : " ";
+    return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
   };
 
   const onChangeInSelect = (event) => {
@@ -132,6 +132,7 @@ const TableContainer = ({
 
   return (
     <Fragment>
+      
       <Row className="align-items-center  d-flex mb-3 rounded bg-subbar border border-info ">
         <Col md={customPageSizeOptions ? 2 : 1}>
           <select
@@ -217,6 +218,7 @@ const TableContainer = ({
           </Col>
         )}
       </Row>
+
        {/* table */}
       <div className="table-responsive react-table">
         <Table bordered hover {...getTableProps()} className={className}>

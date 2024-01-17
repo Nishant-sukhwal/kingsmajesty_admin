@@ -2,21 +2,21 @@ import React from "react";
 import { AvField } from "availity-reactstrap-validation";
 import { Col, Label } from "reactstrap";
 
-const TextInput = ({ name, placeholder, errorMessage, validation, onChange,defaultValue }) => {
+const TextInput = ({ label,name, placeholder, errorMessage, validation, onChange,defaultValue }) => {
+  console.log({ label, name, placeholder, errorMessage, validation, onChange });
   return (
     <div className="d-flex flex-row">
-      <Label className="col-md-2 col-form-label" htmlFor={`validationCustom${name}`}>
-        {placeholder}
+      <Label className="col-md-1 col-form-label" htmlFor={`validationCustom${label}`}>
+        {label}
       </Label>
-      <Col md={10} >
+      <Col lg={5} >
       <AvField
         name={name}
         placeholder={placeholder}
         type="text"
-        defaultValue={defaultValue}
         errorMessage={errorMessage}
-        className={`form-control ${validation ? "" : "is-invalid"}`}
-        validate={{ required: { value: true } }}
+        // className={`form-control ${validation ? "" : "is-invalid"}`}
+        validate={{ required: { value: validation } }}
         id={`validationCustom${name}`}
         onChange={(e) => onChange(e, name)}
       />

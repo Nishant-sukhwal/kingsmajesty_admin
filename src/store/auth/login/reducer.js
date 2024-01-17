@@ -4,6 +4,7 @@ import {
   API_ERROR,
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
+  LOGIN_USER
 } from "./actionTypes";
 
 const initialState = {
@@ -17,15 +18,13 @@ const initialState = {
 const login = (state = initialState, action) => {
 
   switch (action.type) {
-    case CHECK_LOGIN:
-      state = {
-        ...state,
-        loading: true,
-      };
 
+    case LOGIN_USER: 
       break;
-    case LOGIN_USER_SUCCESSFUL:
 
+    case CHECK_LOGIN:      
+      break;
+    case LOGIN_USER_SUCCESSFUL:        
       state = {
         ...state,
         loading: false,
@@ -33,17 +32,14 @@ const login = (state = initialState, action) => {
         userID: action.payload.user._id, // Include user data in the state
         tokens: action.payload.tokens, // Include token data in the state
       };
-
       break;
-
-    case LOGOUT_USER:
-      
-      state = { ...state };
+    case LOGOUT_USER:      
+      state = initialState;
       break;
 
     case LOGOUT_USER_SUCCESS:
       
-      state = { ...state };
+      state = initialState;
       break;
 
     case API_ERROR:

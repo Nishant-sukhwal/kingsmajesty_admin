@@ -16,8 +16,7 @@ const LocationForm = () => {
     long: "",
   });
 
-  console.log(locationDetails);
-  console.log("Country",locationDetails.country  );
+  
 
   useEffect(() => {
     // Load the Google Maps Places API script dynamically

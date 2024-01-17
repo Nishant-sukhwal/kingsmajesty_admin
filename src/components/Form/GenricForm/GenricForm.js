@@ -24,8 +24,11 @@ import {
     WeekInput,
     TimeInput,
     ColorInput,
-    SelectInput
+    SelectorInput,
+    ChooseFileInput
 } from '../FormComponents/index'
+
+
 
 const GenricForm = (props) => {
     console.log(props);
@@ -101,7 +104,7 @@ const GenricForm = (props) => {
                                         case 'email':
                                             return (
                                                 <Col key={fieldConfig.fieldName} lg="6">
-                                                    <EmailInput />
+                                                    <EmailInput label={fieldConfig.fieldName} validate={fieldConfig.required}  />
                                                 </Col>
                                             )
                                         case 'search':
@@ -170,10 +173,10 @@ const GenricForm = (props) => {
                                                     <ColorInput />
                                                 </Col>
                                             )
-                                        case 'select':
+                                        case 'upload':
                                             return (
                                                 <Col key={fieldConfig.fieldName} lg="6">
-                                                    {/* <SelectInput /> */}
+                                                    <ChooseFileInput label={fieldConfig.fieldName} />
                                                 </Col>
                                             )
                                     }

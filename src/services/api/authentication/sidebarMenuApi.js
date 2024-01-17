@@ -1,10 +1,6 @@
 import axios from 'axios';
-import { setSidebarMenus } from '../../../store/actions';
 
-
-const getSidebarMenus = async (token,dispatch) => {
-  
-
+const getSidebarMenus = async (token) => {
   try {
     const response = await axios.get("http://localhost:8086/v1/api/admin/auth/sidebar-menus", {
       headers: {
@@ -12,8 +8,6 @@ const getSidebarMenus = async (token,dispatch) => {
         "Authorization": `Bearer ${token}`,
       },
     });
-
-    // dispatch(setSidebarMenus(response.data));
     return response.data;
   } catch (error) {
     console.error("Error fetching sidebar menus:", error);

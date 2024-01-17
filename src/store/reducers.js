@@ -11,6 +11,7 @@ import Forget from './auth/forgetpwd/reducer';
 // Facility Module
 import Facility from './facility/reducer'
 import sidebarMenu from './sidebarmenu/reducer'
+import Hotel from './hotel/reducer'
 
 const rootReducer = combineReducers({
 
@@ -26,7 +27,10 @@ const rootReducer = combineReducers({
     Facility,
     
     //sidebar
-    sidebarMenu
+    sidebarMenu,
+
+    //Hotel
+    Hotel
 
 });
 

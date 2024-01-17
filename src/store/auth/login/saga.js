@@ -1,52 +1,63 @@
 import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 
 // Login Redux States
-import { CHECK_LOGIN, LOGOUT_USER } from "./actionTypes";
-import { apiError, loginUserSuccessful } from "./actions";
+import { CHECK_LOGIN, LOGIN_USER, LOGOUT_USER } from "./actionTypes";
+import { apiError, loginUserSuccessful, logoutUserSuccess } from "./actions";
 // import login from "../../../services/api/authentication/authApi"
-import  { login } from '../../../services/api/authentication/authApi';
+import  { login, logout } from '../../../services/api/authentication/authApi';
 
-function* loginUser({ payload: { user, history } }) {
+function* loginUser(data) {
+  
   try {
-    const response = yield call( login, {
-      username: user.username,
-      password: user.password,
+    const response = yield call(login, {
+      username: data.payload.username,
+      password: data.payload.password,
     });
-
     localStorage.setItem("authUser", JSON.stringify(response));
     localStorage.setItem("token", JSON.stringify(response.tokens.token));
     yield put(loginUserSuccessful(response));
-
-    history("/dashboard");
+    
+    
   } catch (error) {
     yield put(apiError(error));
   }
 }
 
+function* logoutUser() {  
+  try { 
+    const token = JSON.parse(localStorage.getItem('token'));  
+    const response = yield call(logout, token)    
+    localStorage.removeItem("authUser");
+    localStorage.removeItem("token"); 
+    yield put(logoutUserSuccess());  
+  } catch (error) {
+    yield put(apiError(error));
+  }
+}
 
-
-function* logoutUser({ payload: { history } }) {
-  console.log("Im inside logout saga function where I remove local storage tokem")
+function* checkLogin() {  
   try {
-    // localStorage.removeItem("authUser");
-    console.log("local Storage remove kar sakta hu inside try catch")
-    history("/login");
+    const response = JSON.parse(localStorage.getItem("authUser"));
+    yield put(loginUserSuccessful(response));    
   } catch (error) {
     yield put(apiError(error));
   }
 }
 
 export function* watchUserLogin() {
-  yield takeEvery(CHECK_LOGIN, loginUser);
+  yield takeEvery(LOGIN_USER, loginUser);
 }
 
-export function* watchUserLogout() {
-  
+export function* watchUserLogout() {  
   yield takeEvery(LOGOUT_USER, logoutUser);
 }
 
+export function* watchCheckLogin() {  
+  yield takeEvery(CHECK_LOGIN, checkLogin);
+}
+
 function* loginSaga() {
-  yield all([fork(watchUserLogin), fork(watchUserLogout)]);
+  yield all([fork(watchUserLogin), fork(watchUserLogout), fork(watchCheckLogin)]);
 }
 
 export default loginSaga;

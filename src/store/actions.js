@@ -9,3 +9,4 @@ export * from './auth/forgetpwd/actions';
 export * from './facility/actions';
 //sidebar menu
 export * from './sidebarmenu/actions';
+export * from './hotel/actions';
