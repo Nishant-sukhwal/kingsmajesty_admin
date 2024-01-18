@@ -22,7 +22,8 @@ const GenericFormAvfield = ({
     onCKEditorChange(fieldName, data);
   };
 
-  const renderField = (field) => {
+  const renderField = (field) => {  
+    
     switch (field.type) {
       case "select":
         return (
@@ -34,9 +35,13 @@ const GenericFormAvfield = ({
                 name={field.name}
                 id={field.name}
                 required={field.required}
+                value={field.value}
+                onChange={(event) =>
+                  onInputChange(event, field.name, event.target.value)
+                }                
               >
                 <option value="">Select an option</option>
-                {fieldOptions[field.name].map((option) => (
+                {field.options.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -45,6 +50,27 @@ const GenericFormAvfield = ({
             </FormGroup>
           </Col>
         );
+      // case "select":
+      //   return (
+      //     <Col md={6} key={field.name}>
+      //       <FormGroup>
+      //         <Label for={field.name}>{field.label}</Label>
+      //         <Input
+      //           type="select"
+      //           name={field.name}
+      //           id={field.name}
+      //           required={field.required}
+      //         >
+      //           <option value="">Select an option</option>
+      //           {fieldOptions[field.name].map((option) => (
+      //             <option key={option.value} value={option.value}>
+      //               {option.label}
+      //             </option>
+      //           ))}
+      //         </Input>
+      //       </FormGroup>
+      //     </Col>
+      //   );
 
       case "ckeditor":
         return (
@@ -100,7 +126,10 @@ const GenericFormAvfield = ({
               required={field.required}
               validate={field.required}
               onChange={(event) => onInputChange(event, field.name)}
-              value={prefilledDetails ? prefilledDetails[field.name] || "" : ""}
+              value={field.value}
+              // value={prefilledDetails ? prefilledDetails[field.name] || "" : ""}
+              // value={fieldValue}
+              // value={fieldValue !== "" ? fieldValue : ""}
             />
           </Col>
         );

@@ -137,8 +137,8 @@ const CreateHotel = () => {
                           {tab === 1 && <BasicInfoForm ref={basicInfoFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}
                           {tab === 2 && <LocationForm ref={locationFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}
                           {tab === 3 && <MediaForm ref={mediaFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess}/>}
-                          {tab === 4 && <PropertyRulesForm ref={propertyRulesFormRef} />}
-                          {tab === 5 && <FacilitiesForm ref={facilitiesFormRef} />}
+                          {tab === 4 && <PropertyRulesForm ref={propertyRulesFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}
+                          {tab === 5 && <FacilitiesForm ref={facilitiesFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}
                         </TabPane>
                       ))}
                     </TabContent>

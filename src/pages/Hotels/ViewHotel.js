@@ -9,74 +9,76 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
 
 const ViewHotels = () => {
-  const [facilities, setFacilities] = useState([]);
+  const [hotels, setHotels] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
   useEffect(() => {
-    const fetchFacilities = async () => {
+    const fetchHotels = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8086/v1/ht/admin/auth/get-facilities"
+          "http://localhost:8086/v1/ht/hotels/get-hotels"
         );
         const data = await response.json();
-        setFacilities(data.facilities);
+        setHotels(data.hotels);
       } catch (error) {
         console.error("Error fetching facilities:", error);
       }
     };
 
-    fetchFacilities();
+    fetchHotels();
   }, []);
+
+console.log("hotels List  in viewHotel: ",hotels);
 
   const columns = useMemo(
     () => [
-      {
+      // {
         
-        Header: () => (
-          <div>
-          <input
-            type="checkbox"
-            onChange={(e) => {
-              const isChecked = e.target.checked;
-              const newSelectedFacilities = isChecked
-                ? facilities.map((facility) => facility._id)
-                : [];
-              setSelectedFacilities(newSelectedFacilities);
-            }}
-            checked={
-              selectedFacilities.length === facilities.length &&
-              facilities.length !== 0
-            }
-          />
-           {/* <span> Select All</span>  */}
-          </div>
-        ),
-        accessor: "_id",
-        Cell: ({ row }) => (
-          <input
-            type="checkbox"
-            onChange={() => {
-              const newSelectedFacilities = [...selectedFacilities];
-              if (newSelectedFacilities.includes(row.original._id)) {
-                newSelectedFacilities.splice(
-                  newSelectedFacilities.indexOf(row.original._id),
-                  1
-                );
-              } else {
-                newSelectedFacilities.push(row.original._id);
-              }
-              setSelectedFacilities(newSelectedFacilities);
-            }}
-            checked={selectedFacilities.includes(row.original._id)}
-          />
-        ),
-        id: "checkbox", // Add a unique ID for the checkbox column
-        disableFilters: true,
-        filterable: false,
-        disableSortBy: true,
-        show: false,
+      //   Header: () => (
+      //     <div>
+      //     <input
+      //       type="checkbox"
+      //       onChange={(e) => {
+      //         const isChecked = e.target.checked;
+      //         const newSelectedFacilities = isChecked
+      //           ? facilities.map((hotels) => hotels._id)
+      //           : [];
+      //         setSelectedFacilities(newSelectedFacilities);
+      //       }}
+      //       checked={
+      //         selectedFacilities.length === hotels.length &&
+      //         hotels.length !== 0
+      //       }
+      //     />
+      //      {/* <span> Select All</span>  */}
+      //     </div>
+      //   ),
+      //   accessor: "_id",
+      //   Cell: ({ row }) => (
+      //     <input
+      //       type="checkbox"
+      //       onChange={() => {
+      //         const newSelectedFacilities = [...selectedFacilities];
+      //         if (newSelectedFacilities.includes(row.original._id)) {
+      //           newSelectedFacilities.splice(
+      //             newSelectedFacilities.indexOf(row.original._id),
+      //             1
+      //           );
+      //         } else {
+      //           newSelectedFacilities.push(row.original._id);
+      //         }
+      //         setSelectedFacilities(newSelectedFacilities);
+      //       }}
+      //       checked={selectedFacilities.includes(row.original._id)}
+      //     />
+      //   ),
+      //   id: "checkbox", // Add a unique ID for the checkbox column
+      //   disableFilters: true,
+      //   filterable: false,
+      //   disableSortBy: true,
+      //   show: false,
         
-      },
+      // },
 
       {
         Header: "ID",
@@ -87,32 +89,48 @@ const ViewHotels = () => {
     
       {
         Header: "Image",
-        accessor: "image",
+        accessor: "thumbnail",
         disableFilters: true,
         filterable: false,
+        
         Cell: ({ cell: { value } }) => (
           
-          <div style={{ width: "50px", height: "50px" }}>
-            <img src={value} alt="Img" style={{ width: "100%", height: "100%", objectFit: "fit" }} />
+          <div style={{ width: "150px", height: "80px" }}>
+            <img 
+             src={`http://localhost:8086/v1/img/get-Images/image/${value}`}
+            alt="Img" style={{ width: "100%", height: "100%", objectFit: "fit" }} />
           </div>
         ),
       },
       {
         Header: "Name",
-        accessor: "facilityName",
+        accessor: "name",
         disableFilters: true,
         filterable: false,
       },
       {
+        Header: "Category",
+        accessor: "hotelCategory",
+        disableFilters: true,
+        filterable: false,
+      },
+      {
+        Header: "Address",
+        accessor: "address",
+        disableFilters: true,
+        filterable: false,
+      },
+      
+      {
         Header: "Class",
-        accessor: "class",
+        accessor: "classStatus",
         disableFilters: true,
         filterable: false,
        
       },
         {
         Header: "Status",
-        accessor: "status",
+        accessor: "releaseStatus",
         disableFilters: true,
         filterable: false,
        
@@ -145,7 +163,7 @@ const ViewHotels = () => {
         disableSortBy: true,
       },
     ],
-    [selectedFacilities, facilities]
+    [selectedFacilities, hotels]
   );
 
   const breadcrumbItems = [
@@ -180,7 +198,7 @@ const ViewHotels = () => {
       
               <TableContainer
                 columns={columns || []}
-                data={facilities || []}
+                data={hotels || []}
                 isPagination={false}
                 iscustomPageSize={false}
                 isBordered={false}

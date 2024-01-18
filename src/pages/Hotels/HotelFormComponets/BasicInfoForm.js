@@ -20,13 +20,18 @@ const BasicInfoForm = forwardRef((props, ref) => {
     classStatus: "",
     releaseStatus: "",
     description: "",
+    hotelCategory:"",
   });
   console.log(formData);
+
+  
+  
+
   const formFields = [
-    { name: "name", label: "Name", required: true },
+    { name: "name",  label: "Name", required: true },
     { name: "tag", label: "TagLine", required: true },
-    { name: "email", label: "Email", required: true },
-    { name: "mobile", label: "Mobile", required: true },
+    { name: "email", label: "Email",type: "email" , required: true },
+    { name: "mobile", label: "Mobile", type: "number", max:'10', required: true },
     {
       name: "classStatus",
       label: "Class",
@@ -41,8 +46,22 @@ const BasicInfoForm = forwardRef((props, ref) => {
       options: ["Published", "NotPublished", "Awaiting", "Archived"],
       required: true,
     },
+    {
+      name: "hotelCategory",
+      label: "Hotel Category",
+      value: formData.hotelCategory,
+      type: "select",
+      options: [
+        { value: "Resort", label: "Resort" },
+        { value: "Villa", label: "Villa" },
+        { value: "Business", label: "Business" },
+        { value: "Other", label: "Other" },
+      ],
+      required: true,
+    },
     { name: "description", label: "Description", type: "ckeditor" },
   ];
+
 
   const handleInputChange = (event, field, value) => {
     setFormData((prevData) => ({

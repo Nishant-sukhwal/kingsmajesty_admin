@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const BasicInfoAddApi = async (formData) => {
-    console.log(formData);
+    
     try {
     //   const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     //   const data = new FormData();
@@ -27,7 +27,7 @@ export const BasicInfoAddApi = async (formData) => {
   };
 
   export const AddLocationInfoApi = async (formData,id) => {
-    console.log("AddLocationInfoApi formData: ",formData, id);
+    
     try {
       // const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
       const response = await axios.patch(
@@ -53,7 +53,7 @@ export const BasicInfoAddApi = async (formData) => {
   
 
   export const MediaAddApi = async (formData, id) => {
-    console.log("MediaAddApi formData: ", formData);
+    
   
     try {
       const data = new FormData();
@@ -89,3 +89,53 @@ export const BasicInfoAddApi = async (formData) => {
     }
   };
   
+  
+
+
+  export const PropertyRulesAddApi = async (formData,id) => {
+    
+    try {
+      // const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+      const response = await axios.patch(
+        `http://localhost:8086/v1/ht/hotels/add-propertyrulesinfo/${id}`,
+        formData,
+        // data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            // "Content-Type": "multipart/form-data",
+            // Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error creating facility:", error);
+      throw error;
+    }
+  };
+
+
+  export const FacilitiesAddApi = async (formData,id) => {
+    console.log("FacilitiesAddApi formData: ",formData, id);
+    try {
+      // const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+      const response = await axios.patch(
+        `http://localhost:8086/v1/ht/hotels/addfacilities/${id}`,
+        formData,
+        // data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            // "Content-Type": "multipart/form-data",
+            // Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error creating facility:", error);
+      throw error;
+    }
+  };
+
