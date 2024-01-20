@@ -20,7 +20,7 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             breadcrumbItems : [
-                { title : "Nazox", link : "/" },
+                { title : "Kingmajesty", link : "/" },
                 { title : "Dashboard", link : "#" },
             ],
             reports : [
@@ -37,7 +37,7 @@ class Dashboard extends Component {
                 <div className="page-content">
                     <Container fluid>
 
-                    <Breadcrumbs title="Dashboard" breadcrumbItems={this.state.breadcrumbItems} />
+                    <Breadcrumbs title="Kingmajesty" breadcrumbItems={this.state.breadcrumbItems} />
                         <Row>
                             <Col xl={8}>
                                 <Row>

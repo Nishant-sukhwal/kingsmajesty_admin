@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
-
 // Import Routes
 import { authProtectedRoutes, publicRoutes } from "./routes";
 
 // layouts
 import VerticalLayout from "./components/VerticalLayout/";
 import HorizontalLayout from "./components/HorizontalLayout/";
-
 import NonAuthLayout from "./components/NonAuthLayout";
 
 // Import scss

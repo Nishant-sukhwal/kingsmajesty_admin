@@ -37,6 +37,9 @@ import ViewRooms from "../pages/Room/ViewRooms";
 import CommingSoon from "../pages/Utils/CommingSoon";
 import Maintenance from "../pages/Utils/Maintenance";
 import CreateHotel from "../pages/Hotels/CreateHotelForm";
+import CreateRoomForm from "../pages/Room/CreateRoomForm";
+import ViewRoomCategory from "../pages/RoomCategory/ViewRoomCategory";
+import CreateRoomCategoryForm from "../pages/RoomCategory/CreateRoomCategoryForm";
 
 
 
@@ -64,8 +67,14 @@ const authProtectedRoutes = [
 	//Rooms	
 	{ path: "/rooms", exact: true, component: <ViewRooms /> },
 	// { path: "/facility/update", exact: true, component: <UpdateDeals /> },
-	{ path: "/room/create", exact: true, component: <CreateDeals /> },
+	{ path: "/room/create", exact: true, component: <CreateRoomForm /> },
 	
+
+	//Rooms	Category
+	{ path: "/roomcategory", exact: true, component: <ViewRoomCategory /> },
+	{ path: "/roomcategory/create", exact: true, component: <CreateRoomCategoryForm /> },
+
+
 	//Packages	
 	{ path: "/packages", exact: true, component: <Maintenance /> },
 	{ path: "/activity", exact: true, component: <Maintenance /> },

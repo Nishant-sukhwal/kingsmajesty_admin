@@ -28,6 +28,8 @@ const ViewHotels = () => {
     fetchHotels();
   }, []);
 
+  
+  
 console.log("hotels List  in viewHotel: ",hotels);
 
   const columns = useMemo(
@@ -119,6 +121,9 @@ console.log("hotels List  in viewHotel: ",hotels);
         accessor: "address",
         disableFilters: true,
         filterable: false,
+        Cell: ({ value }) => (
+          <span title={value}>{value.length > 40 ? `${value.substring(0, 30)}...` : value}</span>
+        ),
       },
       
       {

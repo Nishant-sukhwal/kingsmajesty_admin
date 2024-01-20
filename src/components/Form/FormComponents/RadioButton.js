@@ -1,11 +1,13 @@
 // RadioButton.js
 
 import React from 'react';
-import { Input, Label } from 'reactstrap';
+import { Col, Input, Label, Row } from 'reactstrap';
 
 const RadioButton = ({ id, name, label, value, defaultChecked }) => {
   return (
     <div className="form-check  ">
+     
+     
       <Input
         className="form-check-input"
         type="radio"
@@ -17,6 +19,7 @@ const RadioButton = ({ id, name, label, value, defaultChecked }) => {
       <Label className="form-check-label " htmlFor={id}>
         {label}
       </Label>
+    
     </div>
   );
 };

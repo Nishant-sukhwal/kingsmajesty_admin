@@ -12,21 +12,21 @@ const ViewRooms = () => {
   const [facilities, setFacilities] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
-  useEffect(() => {
-    const fetchFacilities = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/ht/admin/auth/get-facilities"
-        );
-        const data = await response.json();
-        setFacilities(data.facilities);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchFacilities = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "http://localhost:8086/v1/ht/admin/auth/get-facilities"
+  //       );
+  //       const data = await response.json();
+  //       setFacilities(data.facilities);
+  //     } catch (error) {
+  //       console.error("Error fetching facilities:", error);
+  //     }
+  //   };
 
-    fetchFacilities();
-  }, []);
+  //   fetchFacilities();
+  // }, []);
 
   const columns = useMemo(
     () => [

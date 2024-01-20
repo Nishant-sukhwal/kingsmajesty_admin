@@ -3,25 +3,55 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Col, Label } from "reactstrap";
 
-const CkEditor = ({ initialData, onReady, label, id }) => {
-    return (
-        <div className="d-flex flex-row mb-3">
-            <Label htmlFor={id} className="col-md-1 col-form-label">
-                {label}
-            </Label>
-            <Col lg="11">
-            <CKEditor
-                editor={ClassicEditor}
-                data={initialData}
-                onReady={onReady}
-            />
-            </Col>
-          
-        </div>
-    );
+const CkEditor = ({ initialData, label, id, onChange }) => {
+  const handleEditorChange = (event, editor) => {
+    const data = editor.getData();
+    onChange(id, data); // Update the form data with CKEditor content
+  };
+
+  return (
+    <div className="d-flex flex-row mb-3">
+      <Label htmlFor={id} className="col-md-1 col-form-label">
+        {label}
+      </Label>
+      <Col>
+        <CKEditor
+          editor={ClassicEditor}
+          data={initialData}
+          onChange={handleEditorChange}
+        />
+      </Col>
+    </div>
+  );
 };
 
 export default CkEditor;
+
+
+// import React from "react";
+// import { CKEditor } from "@ckeditor/ckeditor5-react";
+// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// import { Col, Label } from "reactstrap";
+
+// const CkEditor = ({ initialData, onReady, label, id }) => {
+//     return (
+//         <div className="d-flex flex-row mb-3">
+//             <Label htmlFor={id} className="col-md-1 col-form-label">
+//                 {label}
+//             </Label>
+//             <Col >
+//             <CKEditor
+//                 editor={ClassicEditor}
+//                 data={initialData}
+//                 onReady={onReady}
+//             />
+//             </Col>
+          
+//         </div>
+//     );
+// };
+
+// export default CkEditor;
 
 
 
