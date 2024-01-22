@@ -9,7 +9,6 @@ import "toastr/build/toastr.min.css";
 const CreateRoomForm = () => {
 
   const [formData, setFormData] = useState({
-    
     HotelCategory: '',
     RoomCategory:'',
     baseprice: '',
@@ -24,6 +23,7 @@ const CreateRoomForm = () => {
     thumbnail: null, 
   });
   console.log(formData);
+
   const handleFormChange = (name, value) => {
     setFormData({
       ...formData,

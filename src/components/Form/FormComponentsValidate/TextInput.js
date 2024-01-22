@@ -3,7 +3,7 @@ import { AvField } from "availity-reactstrap-validation";
 import { Col, Label } from "reactstrap";
 
 const TextInput = ({ label,name, placeholder, errorMessage, validation, onChange,defaultValue }) => {
-  console.log({ label, name, placeholder, errorMessage, validation, onChange });
+  
   return (
     <div className="d-flex flex-row">
       <Label className="col-md-1 col-form-label" htmlFor={`validationCustom${label}`}>
