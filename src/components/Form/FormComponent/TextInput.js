@@ -16,7 +16,7 @@ const TextInput = ({ label, id, fieldName, defaultValue, errorMessage, value, on
 
   return (
     <Row className="d-flex flex-row">
-      <Label htmlFor={id} className="col-md-2 col-form-label">
+      <Label htmlFor={id} className="d-flex flex-row col-md-2 col-form-label">
         {label}
       </Label>
       <Col className="col-md-10">

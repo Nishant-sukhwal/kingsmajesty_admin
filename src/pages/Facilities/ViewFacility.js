@@ -184,8 +184,8 @@ const ViewFacility = () => {
   );
 
   const breadcrumbItems = [
-    { title: "Ecommerce", link: "/" },
-    { title: "Orders", link: "#" },
+    { title: "Kingmajesty", link: "/" },
+    { title: "Facility List", link: "#" },
   ];
 
   const navigate = useNavigate();
@@ -197,7 +197,7 @@ const ViewFacility = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <Breadcrumbs title="Orders" breadcrumbItems={breadcrumbItems} />
+          <Breadcrumbs title="Facilities" breadcrumbItems={breadcrumbItems} />
           <Card>
             <CardBody>
               <TableContainer

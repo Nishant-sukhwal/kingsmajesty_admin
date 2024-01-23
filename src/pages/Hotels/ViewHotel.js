@@ -12,6 +12,7 @@ const ViewHotels = () => {
   const [hotels, setHotels] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
+
   useEffect(() => {
     const fetchHotels = async () => {
       try {
@@ -28,14 +29,14 @@ const ViewHotels = () => {
     fetchHotels();
   }, []);
 
-  
-  
-console.log("hotels List  in viewHotel: ",hotels);
+
+
+  console.log("hotels List  in viewHotel: ", hotels);
 
   const columns = useMemo(
     () => [
       // {
-        
+
       //   Header: () => (
       //     <div>
       //     <input
@@ -79,7 +80,7 @@ console.log("hotels List  in viewHotel: ",hotels);
       //   filterable: false,
       //   disableSortBy: true,
       //   show: false,
-        
+
       // },
 
       {
@@ -88,19 +89,19 @@ console.log("hotels List  in viewHotel: ",hotels);
         disableFilters: true,
         filterable: false,
       },
-    
+
       {
         Header: "Image",
         accessor: "thumbnail",
         disableFilters: true,
         filterable: false,
-        
+
         Cell: ({ cell: { value } }) => (
-          
+
           <div style={{ width: "150px", height: "80px" }}>
-            <img 
-             src={`http://localhost:8086/v1/img/get-Images/image/${value}`}
-            alt="Img" style={{ width: "100%", height: "100%", objectFit: "fit" }} />
+            <img
+              src={`http://localhost:8086/v1/img/get-Images/image/${value}`}
+              alt="Img" style={{ width: "100%", height: "100%", objectFit: "fit" }} />
           </div>
         ),
       },
@@ -122,34 +123,33 @@ console.log("hotels List  in viewHotel: ",hotels);
         disableFilters: true,
         filterable: false,
         Cell: ({ value }) => (
-          <span title={value}>{value.length > 40 ? `${value.substring(0, 30)}...` : value}</span>
+          <span title={value ? value : 'default'}>
+            {value && value.length > 40 ? `${value.substring(0, 30)}...` : value}
+          </span>
+          // <span title={value}>{value.length > 40 ? `${value.substring(0, 30)}...` : value}</span>
         ),
       },
-      
+
       {
         Header: "Class",
         accessor: "classStatus",
         disableFilters: true,
         filterable: false,
-       
+
       },
-        {
+      {
         Header: "Status",
         accessor: "releaseStatus",
         disableFilters: true,
         filterable: false,
-       
+
       },
       {
         Header: "Action",
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={`/facility/update?id=${
-                cellProps._id
-              }&facilityName=${encodeURIComponent(
-                cellProps.facilityName
-              )}&image=${encodeURIComponent(cellProps.image)}`}
+              to='#'
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -200,7 +200,7 @@ console.log("hotels List  in viewHotel: ",hotels);
           <Breadcrumbs title="Hotels" breadcrumbItems={breadcrumbItems} />
           <Card>
             <CardBody>
-      
+
               <TableContainer
                 columns={columns || []}
                 data={hotels || []}

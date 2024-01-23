@@ -12,21 +12,25 @@ const ViewRooms = () => {
   const [facilities, setFacilities] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
-  // useEffect(() => {
-  //   const fetchFacilities = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "http://localhost:8086/v1/ht/admin/auth/get-facilities"
-  //       );
-  //       const data = await response.json();
-  //       setFacilities(data.facilities);
-  //     } catch (error) {
-  //       console.error("Error fetching facilities:", error);
-  //     }
-  //   };
+ 
+  const [rooms, setRooms] = useState([]);
+  console.log(rooms);
 
-  //   fetchFacilities();
-  // }, []);
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        // Fetch data from your API endpoint
+        const response = await fetch("http://localhost:8086/v1/rm/rooms/get-rooms");
+        const data = await response.json();
+        setRooms(data.rooms);
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+      }
+    };
+
+    fetchRooms();
+  }, []);
+
 
   const columns = useMemo(
     () => [
@@ -94,19 +98,23 @@ const ViewRooms = () => {
       // },
       {
         Header: "Image",
-        accessor: "image",
+        accessor: "thumbnail",
         disableFilters: true,
         filterable: false,
         Cell: ({ cell: { value } }) => (
           
-          <div style={{ width: "50px", height: "50px" }}>
-            <img src={value} alt="Img" style={{ width: "100%", height: "100%", objectFit: "fit" }} />
+          <div style={{ width: "150px", height: "80px" }}>
+          <img 
+                      src={`http://localhost:8086/v1/img/get-Images/image/${value}`}
+                      style={{ width: "100%", height: "100%", objectFit: "fit" }}
+                       alt="img" />
+            {/* <img src={value} alt="Img" style={{ width: "100%", height: "100%", objectFit: "fit" }} /> */}
           </div>
         ),
       },
       {
         Header: "Name",
-        accessor: "facilityName",
+        accessor: "RoomCategory",
         disableFilters: true,
         filterable: false,
       },
@@ -115,11 +123,7 @@ const ViewRooms = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={`/facility/update?id=${
-                cellProps._id
-              }&facilityName=${encodeURIComponent(
-                cellProps.facilityName
-              )}&image=${encodeURIComponent(cellProps.image)}`}
+              to="#"
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -173,7 +177,7 @@ const ViewRooms = () => {
       
               <TableContainer
                 columns={columns || []}
-                data={facilities || []}
+                data={rooms || []}
                 isPagination={false}
                 iscustomPageSize={false}
                 isBordered={false}

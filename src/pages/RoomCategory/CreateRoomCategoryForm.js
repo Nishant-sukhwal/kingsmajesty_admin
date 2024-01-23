@@ -3,36 +3,35 @@ import GenralForm from '../../components/Form/GenricForm/GenralForm'
 import { Button, Card, CardBody, Container } from 'reactstrap'
 
 const CreateRoomCategoryForm = () => {
-  const [hotels, setHotels] = useState([]);
+  // const [hotels, setHotels] = useState([]);
   const [formData, setFormData] = useState({
-    hotel: '',
     category: '',
   });
   console.log(formData);
 
-  useEffect(() => {
-    const fetchHotels = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/ht/hotels/get-hotels"
-        );
-        const data = await response.json();
-        setHotels(data.hotels);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchHotels = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "http://localhost:8086/v1/ht/hotels/get-hotels"
+  //       );
+  //       const data = await response.json();
+  //       setHotels(data.hotels);
+  //     } catch (error) {
+  //       console.error("Error fetching facilities:", error);
+  //     }
+  //   };
 
-    fetchHotels();
-  }, []);
-  console.log(hotels);
+  //   fetchHotels();
+  // }, []);
+  // console.log(hotels);
 
 
   // Dynamically generate options based on the hotels data
-  const options = hotels.map(hotel => ({
-    value: hotel.name,
-    label: hotel.name,
-  }));
+  // const options = hotels.map(hotel => ({
+  //   value: hotel.name,
+  //   label: hotel.name,
+  // }));
 
 
   const handleFormChange = (fieldName, value) => {
@@ -60,7 +59,7 @@ const CreateRoomCategoryForm = () => {
         errorMessage: 'Enter Room Category Name',
         value: '',
         placeholder: 'Enter Room Category Name eg: Delux,SuperDelux...'
-      },
+      }
     ]
   }
 

@@ -12,9 +12,10 @@ import {
   Input,
   Form,
   Container,
+  Button,
 } from "reactstrap";
 import classnames from "classnames";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import BasicInfoForm from "./HotelFormComponets/BasicInfoForm";
 import LocationForm from "./HotelFormComponets/LocationForm";
@@ -25,8 +26,8 @@ import PropertyRulesForm from "./HotelFormComponets/PropertyRulesForm";
 const CreateHotel = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [isBasicInfoFormSubmitted, setIsBasicInfoFormSubmitted] = useState(false);
-  
-  
+ const navigate = useNavigate();
+
 
 
   const basicInfoFormRef = useRef(null);
@@ -77,8 +78,12 @@ const CreateHotel = () => {
     // Move to the next tab
     toggleTab(activeTab + 1);
     setIsBasicInfoFormSubmitted(true);
-    
+
   };
+
+  const handleNavigate = () => {
+    navigate('/hotels')
+  }
 
   return (
     <React.Fragment>
@@ -92,6 +97,24 @@ const CreateHotel = () => {
             <Col lg="12">
               <Card>
                 <CardBody>
+                  <Row className="align-items-center  d-flex mb-3 rounded bg-subbar border border-info">
+                    <Col
+                      xs="12"
+                      md="12"
+                      className="mb-2 d-md-flex justify-content-md-start"
+                    >
+                      <Button
+                        type="button"
+                        color="warning"
+                        className="btn-rounded me-2 mt-2 text-black"
+                        onClick={handleNavigate}
+                      >
+                        <i className="mdi mdi-arrow-left me-1" />
+                        Back to List
+                      </Button>
+                    </Col>
+                  </Row>
+
                   <h4 className="card-title mb-4">Create Hotel</h4>
 
                   <div id="basic-pills-wizard" className="twitter-bs-wizard">
@@ -136,7 +159,7 @@ const CreateHotel = () => {
                         <TabPane key={tab} tabId={tab}>
                           {tab === 1 && <BasicInfoForm ref={basicInfoFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}
                           {tab === 2 && <LocationForm ref={locationFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}
-                          {tab === 3 && <MediaForm ref={mediaFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess}/>}
+                          {tab === 3 && <MediaForm ref={mediaFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}
                           {tab === 4 && <PropertyRulesForm ref={propertyRulesFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}
                           {tab === 5 && <FacilitiesForm ref={facilitiesFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}
                         </TabPane>

@@ -31,7 +31,7 @@ const BasicInfoForm = forwardRef((props, ref) => {
     { name: "name",  label: "Name", required: true },
     { name: "tag", label: "TagLine", required: true },
     { name: "email", label: "Email",type: "email" , required: true },
-    { name: "mobile", label: "Mobile", type: "number", max:'10', required: true },
+    { name: "mobile", label: "Mobile", type: "text", max:'10', required: true },
     {
       name: "classStatus",
       label: "Class",
