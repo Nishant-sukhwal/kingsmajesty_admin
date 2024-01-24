@@ -7,6 +7,7 @@ import forgetSaga from './auth/forgetpwd/saga';
 import LayoutSaga from './layout/saga';
 import facilitySaga from './facility/saga';
 import sidebarSaga from './sidebarmenu/saga'
+import roomCategorySaga from './roomCategory/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -19,7 +20,9 @@ export default function* rootSaga() {
 
         // Facility
         facilitySaga(),
-        sidebarSaga()
+        sidebarSaga(),
+
+        roomCategorySaga(),
 
     ])
 }

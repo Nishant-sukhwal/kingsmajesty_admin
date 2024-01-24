@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import GenralForm from '../../components/Form/GenricForm/GenralForm'
 import { Button, Card, CardBody, Container } from 'reactstrap'
+import { useDispatch } from 'react-redux'
+import { saveRoomCategoryReq } from '../../store/roomCategory/actions'
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 const CreateRoomCategoryForm = () => {
   // const [hotels, setHotels] = useState([]);
+  const dispatch = useDispatch();
+  
   const [formData, setFormData] = useState({
     category: '',
   });
@@ -64,8 +70,10 @@ const CreateRoomCategoryForm = () => {
   }
 
   const handleSubmit = () => {
-
+    dispatch(saveRoomCategoryReq(formData));
+    toastr.success("Category Saved Successfully!");
   }
+
   return (
     <div className="page-content">
       <Container fluid={true}>

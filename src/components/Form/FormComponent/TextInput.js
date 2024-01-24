@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Row, Col, Label, Input, FormFeedback } from 'reactstrap';
 
 const TextInput = ({ label, id, fieldName, defaultValue, errorMessage, value, onChange, placeholder }) => {
-  console.log(fieldName)
   const [inputError, setInputError] = useState(false);
-
 
   const handleInputChange = e => {
     const inputValue = e.target.value;

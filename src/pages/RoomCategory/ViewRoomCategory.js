@@ -6,117 +6,112 @@ import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
 import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../../store/actions";
 
 const ViewRoomCategory = () => {
-  const [facilities, setFacilities] = useState([]);
-  const [selectedFacilities, setSelectedFacilities] = useState([]);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.RoomCategory.category)
   
-  useEffect(() => {
-    const fetchFacilities = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/new/facility/get-facilities"
-        );
-        const data = await response.json();
-        const filteredFacilities = data.facilities.filter(
-          (facility) => !facility.deleted
-        );
-        setFacilities(filteredFacilities);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
 
-    fetchFacilities();
+  const [category, setCategory] = useState([]);
+  // const [selectedFacilities, setSelectedFacilities] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
+
+  // useEffect(() => {
+  //   const fetchCategory = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
+  //       );
+  //       const data = await response.json();
+  //       console.log(data);
+  //       setCategory(data.category);
+  //     } catch (error) {
+  //       console.error("Error fetching facilities:", error);
+  //     }
+  //   };
+
+  //   fetchCategory();
+  // }, []);
+
+  useEffect(() => {
+    dispatch(getCategories());
   }, []);
 
-  const fetchFacilities = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:8086/v1/new/facility/get-facilities"
-      );
-      const data = await response.json();
-      const filteredFacilities = data.facilities.filter(
-        (facility) => !facility.deleted
-      );
-      // setFacilities(filteredFacilities);
-      return filteredFacilities;
-    } catch (error) {
-      console.error("Error fetching facilities:", error);
-    }
-  };
-  
+
+
+
 
   const handleDeleteClick = (facilityId) => {
     setShowDeleteModal(true);
-    setSelectedFacilities([facilityId]);
+    // setSelectedFacilities([facilityId]);
   };
 
   const handleDeleteConfirm = async () => {
     try {
-      for (const facilityId of selectedFacilities) {
-        await deleteFacilityApi(facilityId);
-      }
+      // for (const facilityId of selectedFacilities) {
+      //   await deleteFacilityApi(facilityId);
+      // }
 
-      const updatedFacilities = await fetchFacilities();
-      setFacilities(updatedFacilities);
-      setSelectedFacilities([]);
-     
+      // const updatedFacilities = await fetchFacilities();
+      // setFacilities(updatedFacilities);
+      // setSelectedFacilities([]);
 
-      setShowDeleteModal(false);
+
+      // setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting facility:", error);
     }
   };
 
-   const columns = useMemo(
+  const columns = useMemo(
     () => [
-      {
-        Header: () => (
-          <div>
-            <input
-              type="checkbox"
-              onChange={(e) => {
-                const isChecked = e.target.checked;
-                const newSelectedFacilities = isChecked
-                  ? facilities.map((facility) => facility._id)
-                  : [];
-                setSelectedFacilities(newSelectedFacilities);
-              }}
-              checked={
-                selectedFacilities.length === facilities.length &&
-                facilities.length !== 0
-              }
-            />
-            {/* <span> Select All</span>  */}
-          </div>
-        ),
-        accessor: "_id",
-        Cell: ({ row }) => (
-          <input
-            type="checkbox"
-            onChange={() => {
-              const newSelectedFacilities = [...selectedFacilities];
-              if (newSelectedFacilities.includes(row.original._id)) {
-                newSelectedFacilities.splice(
-                  newSelectedFacilities.indexOf(row.original._id),
-                  1
-                );
-              } else {
-                newSelectedFacilities.push(row.original._id);
-              }
-              setSelectedFacilities(newSelectedFacilities);
-            }}
-            checked={selectedFacilities.includes(row.original._id)}
-          />
-        ),
-        id: "checkbox", // Add a unique ID for the checkbox column
-        disableFilters: true,
-        filterable: false,
-        disableSortBy: true,
-        show: false,
-      },
+      // {
+      //   Header: () => (
+      //     <div>
+      //       <input
+      //         type="checkbox"
+      //         onChange={(e) => {
+      //           const isChecked = e.target.checked;
+      //           const newSelectedFacilities = isChecked
+      //             ? facilities.map((facility) => facility._id)
+      //             : [];
+      //           setSelectedFacilities(newSelectedFacilities);
+      //         }}
+      //         checked={
+      //           selectedFacilities.length === facilities.length &&
+      //           facilities.length !== 0
+      //         }
+      //       />
+      //       {/* <span> Select All</span>  */}
+      //     </div>
+      //   ),
+      //   accessor: "_id",
+      //   Cell: ({ row }) => (
+      //     <input
+      //       type="checkbox"
+      //       onChange={() => {
+      //         const newSelectedFacilities = [...selectedFacilities];
+      //         if (newSelectedFacilities.includes(row.original._id)) {
+      //           newSelectedFacilities.splice(
+      //             newSelectedFacilities.indexOf(row.original._id),
+      //             1
+      //           );
+      //         } else {
+      //           newSelectedFacilities.push(row.original._id);
+      //         }
+      //         setSelectedFacilities(newSelectedFacilities);
+      //       }}
+      //       checked={selectedFacilities.includes(row.original._id)}
+      //     />
+      //   ),
+      //   id: "checkbox", // Add a unique ID for the checkbox column
+      //   disableFilters: true,
+      //   filterable: false,
+      //   disableSortBy: true,
+      //   show: false,
+      // },
 
       {
         Header: "ID",
@@ -148,7 +143,7 @@ const ViewRoomCategory = () => {
       // },
       {
         Header: "Room Catagory Name",
-        accessor: "",
+        accessor: "category",
         disableFilters: true,
         filterable: false,
       },
@@ -157,11 +152,7 @@ const ViewRoomCategory = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={`/facility/update?id=${
-                cellProps._id
-              }&facilityName=${encodeURIComponent(
-                cellProps.facilityName
-              )}&image=${encodeURIComponent(cellProps.image)}`}
+              to="#"
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -180,7 +171,7 @@ const ViewRoomCategory = () => {
         disableSortBy: true,
       },
     ],
-    [selectedFacilities, facilities]
+    [category]
   );
 
   const breadcrumbItems = [
@@ -202,7 +193,7 @@ const ViewRoomCategory = () => {
             <CardBody>
               <TableContainer
                 columns={columns || []}
-                data={facilities || []}
+                data={categories || []}
                 isPagination={false}
                 iscustomPageSize={false}
                 isBordered={false}
