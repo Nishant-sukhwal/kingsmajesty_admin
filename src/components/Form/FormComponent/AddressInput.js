@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Label, Input, FormFeedback } from "reactstrap";
 
-const TextInput = ({
+const AddressInput = ({
   label,
   id,
   fieldName,
@@ -22,12 +22,12 @@ const TextInput = ({
 
   return (
     <Row className="d-flex flex-row mb-3">
-      <Label htmlFor={id} className="d-flex flex-row col-md-2 col-form-label">
+      <Label htmlFor={id} className="d-flex flex-row col-md-1 col-form-label">
         {label}
       </Label>
-      <Col className="col-md-10">
+      <Col className="col-md-11">
         <Input
-          type="text"
+          type="textarea"
           value={value || defaultValue}
           placeholder={placeholder}
           onChange={handleInputChange}
@@ -40,24 +40,4 @@ const TextInput = ({
   );
 };
 
-export default TextInput;
-
-// import React from 'react';
-// import { Row, Col, Label, Input, FormFeedback } from 'reactstrap';
-
-// const TextInput = ({ label, id, defaultValue, errorMessage }) => {
-//   console.log(errorMessage);
-//   return (
-//     <div className="d-flex flex-row">
-//       <Label htmlFor={id} className="col-md-1 col-form-label" >
-//         {label}
-//       </Label>
-//       <div className="col-md-11" >
-//         <Input type="text" defaultValue={defaultValue} id={id} required />
-//         {errorMessage && <FormFeedback>{errorMessage}</FormFeedback>}
-//       </div>
-//     </div>
-//   )
-// };
-
-// export default TextInput;
+export default AddressInput;

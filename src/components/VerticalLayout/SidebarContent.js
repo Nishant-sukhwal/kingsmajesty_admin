@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MetisMenu from "metismenujs";
 import { Link } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
@@ -17,13 +17,21 @@ import withRouter from "../Common/withRouter";
 const SidebarContent = ({ t, router, type, changeLayout, changeSidebarTheme, changeSidebarType, changeLayoutWidth, changePreloader, userID }) => {
   const [pathName, setPathName] = useState(router.location.pathname);  
   const dispatch = useDispatch();
-  const {sidebarMenu: {sidebarMenus}, Login: {tokens}}  = useSelector((state) => state);
+  // const {sidebarMenu: {sidebarMenus}, Login: {tokens}}  = useSelector((state) => state);
+  // const menus = useSelector((state) => state);
+  // console.log(sidebarMenus,tokens);
+
+  const [sidebarMenus, token] = useSelector((state) => [
+    state.sidebarMenu.sidebarMenus,
+    state.Login.tokens.token,
+  ]);
   
+
   useEffect(() => {
-    if(tokens.token){      
+    if(token){      
       dispatch(getSidebarMenus());       
     }    
-  }, [tokens]);
+  }, [token]);
 
   useEffect(() => {
     new MetisMenu("#side-menu");

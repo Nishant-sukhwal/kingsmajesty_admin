@@ -41,6 +41,7 @@ import CreateRoomForm from "../pages/Room/CreateRoomForm";
 import ViewRoomCategory from "../pages/RoomCategory/ViewRoomCategory";
 import CreateRoomCategoryForm from "../pages/RoomCategory/CreateRoomCategoryForm";
 import CreateRoom from "../pages/Room/CreateRoom";
+import CreateHotels from "../pages/Hotels/CreateHotel";
 
 
 
@@ -58,19 +59,20 @@ const authProtectedRoutes = [
 	// { path: "/hotels", exact: true, component: <HotelCreateForm /> },
 	{ path: "/hotels", exact: true, component: <ViewHotels/> },
 	{ path: "/hotels/create", exact: true, component: <CreateHotel /> },
+	{ path: "/hotels/creates", exact: true, component: <CreateHotels /> },
 	{ path: "/hot", exact: true, component: <CreateNewHotel /> },
 
 	//Deals	
 	// { path: "/deals", exact: true, component: <ViewDeals /> },//For one day
-	{ path: "/deals", exact: true, component: <Maintenance /> },
+	{ path: "/deals", exact: true, component: <ViewDeals /> },
 	// { path: "/facility/update", exact: true, component: <UpdateDeals /> },
 	{ path: "/deals/create", exact: true, component: <CreateDeals /> }, 
 
 	//Rooms	
 	{ path: "/rooms", exact: true, component: <ViewRooms /> },
 	// { path: "/facility/update", exact: true, component: <UpdateDeals /> },
-	{ path: "/room/create", exact: true, component: <CreateRoomForm /> },
-	{ path: "/room/creates", exact: true, component: <CreateRoom /> },
+	{ path: "/room/create", exact: true, component: <CreateRoom /> },
+	{ path: "/room/creates", exact: true, component: <CreateRoomForm /> },
 	
 
 	//Rooms	Category

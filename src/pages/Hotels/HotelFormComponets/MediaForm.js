@@ -11,7 +11,7 @@ const MediaForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
   const [thumbnail, setThumbnail] = useState(null);
   const [gallery, setGallery] = useState([]);
-
+  console.log(gallery);
   const handleGalleryFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
     setGallery([...gallery, ...selectedFiles]);

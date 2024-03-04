@@ -11,3 +11,5 @@ export * from './facility/actions';
 export * from './sidebarmenu/actions';
 export * from './hotel/actions';
 export * from './roomCategory/actions';
+export * from './room/actions';
+export * from './deals/actions';

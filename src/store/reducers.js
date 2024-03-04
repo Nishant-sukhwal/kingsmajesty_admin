@@ -13,6 +13,8 @@ import Facility from './facility/reducer'
 import sidebarMenu from './sidebarmenu/reducer'
 import Hotel from './hotel/reducer'
 import RoomCategory from './roomCategory/reducer'
+import Room  from './room/reducer'
+import Deals from './deals/reducer'
 
 const rootReducer = combineReducers({
 
@@ -35,6 +37,13 @@ const rootReducer = combineReducers({
 
     //RoomCategory
     RoomCategory,
+
+    
+    //Room
+    Room,
+
+    //Deals
+    Deals,
 
 });
 

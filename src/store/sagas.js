@@ -8,6 +8,8 @@ import LayoutSaga from './layout/saga';
 import facilitySaga from './facility/saga';
 import sidebarSaga from './sidebarmenu/saga'
 import roomCategorySaga from './roomCategory/saga';
+import roomSaga from './room/saga'
+import dealsSaga from './deals/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -21,8 +23,13 @@ export default function* rootSaga() {
         // Facility
         facilitySaga(),
         sidebarSaga(),
-
+         
+        //Room
+        roomSaga(),
         roomCategorySaga(),
+
+        //Deals
+        dealsSaga(),
 
     ])
 }

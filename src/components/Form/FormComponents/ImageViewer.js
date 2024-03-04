@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
-import defaultImage from "../../../assets/images/maintenance-bg.png"; // Replace with the actual path to your default image
+import defaultImage from "../../../assets/images/galry.png"; // Replace with the actual path to your default image
 import "./ImageViewer.css"; // Import your CSS file for styling
 
 const ImageViewer = ({ files, onRemoveFile }) => {

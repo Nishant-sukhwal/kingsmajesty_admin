@@ -114,7 +114,7 @@ const ViewRooms = () => {
       },
       {
         Header: "Name",
-        accessor: "RoomCategory",
+        accessor: "category",
         disableFilters: true,
         filterable: false,
       },

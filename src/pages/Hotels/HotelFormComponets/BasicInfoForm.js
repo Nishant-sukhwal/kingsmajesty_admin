@@ -103,7 +103,8 @@ const BasicInfoForm = forwardRef((props, ref) => {
       toastr.error("Failed to create Hotel");
     }
   };
-
+  
+  //Call from parent component
   useImperativeHandle(ref, () => ({
     submitForm
   }));
