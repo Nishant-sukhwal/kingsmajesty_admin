@@ -5,8 +5,6 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import { AddLocationInfoApi } from "../../../services/api/hotel/hotelCreateApi";
 import { useSelector } from "react-redux";
-import { Container } from "reactstrap";
-import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 
 const LocationForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
@@ -30,16 +28,6 @@ const LocationForm = forwardRef((props, ref) => {
     longitude: "",
   });
   console.log("formData in location form", formData);
-
-
-  const handleFormChange = (fieldName, value) => {
-    console.log(fieldName, value);
-    setFormData({
-      ...formData,
-      [fieldName]: value,
-    });
-  };
-
 
   useEffect(() => {
     // Load the Google Maps Places API script dynamically
@@ -172,31 +160,19 @@ const LocationForm = forwardRef((props, ref) => {
     return component ? component.long_name : "";
   };
 
-  // const formFields = [
-  //   { name: "country", label: "Country", type: "text", required: true },
-  //   { name: "state", label: "State", type: "text", required: true },
-  //   { name: "city", label: "City", type: "text", required: true },
-  //   { name: "zipcode", label: "Zipcode", type: "text", required: true },
-  //   { name: "latitude", label: "Latitude", type: "text", },
-  //   { name: "longitude", label: "Longitude", type: "text", },
-  // ];
-
-  const formFields = {
-    form: [
-      { fieldName: "country", label: "Country", type: "text", required: true, errorMessage: "Please Enter Country", placeholder: "Enter Country", },
-      { fieldName: "state", label: "State", type: "text", required: true, errorMessage: "Please Enter State", placeholder: "Enter State", },
-      { fieldName: "city", label: "City", type: "text", required: true, errorMessage: "Please Enter City", placeholder: "Enter City", },
-      { fieldName: "zipcode", label: "Zipcode", type: "text", required: true, errorMessage: "Please Enter Zipcode", placeholder: "Enter Zipcode", },
-      { fieldName: "latitude", label: "Latitude", type: "text", required: true, errorMessage: "Please Enter Latitude", placeholder: "Enter Latitude", },
-      { fieldName: "longitude", label: "Longitude", type: "text", required: true, errorMessage: "Please Enter Longitude", placeholder: "Enter Longitude", },
-    ],
-  };
-
+  const formFields = [
+    { name: "country", label: "Country", type: "text", required: true },
+    { name: "state", label: "State", type: "text", required: true },
+    { name: "city", label: "City", type: "text", required: true },
+    { name: "zipcode", label: "Zipcode", type: "text", required: true },
+    { name: "latitude", label: "Latitude", type: "text", },
+    { name: "longitude", label: "Longitude", type: "text", },
+  ];
 
 
   const submitForm = async () => {
     // Check if all required fields are filled
-    const missingFields = formFields.form.filter(
+    const missingFields = formFields.filter(
       (field) => field.required && !formData[field.name]
     );
     if (missingFields.length > 0) {
@@ -213,14 +189,14 @@ const LocationForm = forwardRef((props, ref) => {
       if (res.status === 200) {
         toastr.success(res.data.message);
         if (props.onSubmitSuccess) {
-          props.onSubmitSuccess();
-        }
-      } else {
+        props.onSubmitSuccess();
+      }
+      }else{
         if (props.onSubmitSuccess) {
           props.onSubmitSuccess();
         }
       }
-
+      
     } catch (error) {
       console.error(error);
       toastr.error("Failed to create Hotel");
@@ -232,39 +208,33 @@ const LocationForm = forwardRef((props, ref) => {
   }));
 
   return (
-    <div>
-      <Container fluid={true}>
-        <div class="row">
-          <div class="col-md-1">
-            <label for="address">Address</label>
-          </div>
-          <div class="col-md-11">
-            <AvForm>
-              <AvField
-                name="address"
-                id="address"
-                type="search"
-                value={searchTerm}
-                onChange={(e) => {
-                  handleInputChange(e, "address");
-                  handleAddressSelect(e);
-                }}
-                placeholder="Type an address..."
-                list="suggestedAddresses"
-                required
-              />
-              {/* Display suggested addresses */}
-              <datalist id="suggestedAddresses">
-                {suggestedAddresses.map((address) => (
-                  <option key={address} value={address} />
-                ))}
-              </datalist>
-            </AvForm>
-          </div>
-        </div>
-        <GenralForm formFields={formFields} onChange={handleFormChange} prefilledDetails={selectedPlaceDetails} />
-      </Container>
-    </div>
+    <AvForm >
+      <AvField
+        name="address"
+        label="Address"
+        type="search"
+        value={searchTerm}
+        onChange={(e) => {
+          handleInputChange(e, "address");
+          handleAddressSelect(e);
+        }}
+        placeholder="Type an address..."
+        list="suggestedAddresses"
+        required
+      />
+      {/* Display suggested addresses */}
+      <datalist id="suggestedAddresses">
+        {suggestedAddresses.map((address) => (
+          <option key={address} value={address} />
+        ))}
+      </datalist>
+
+      <GenericFormAvfield
+        fields={formFields}
+        onInputChange={handleInputChange}
+        prefilledDetails={selectedPlaceDetails}
+      />
+    </AvForm>
   );
 });
 

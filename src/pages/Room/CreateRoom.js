@@ -63,23 +63,23 @@ const CreateRoom = () => {
     facilitiesOptions,
     dealsOptions,
   ] = [
-    hotelDropdownOptions?.map((hotel) => ({
-      value: hotel.name,
-      label: hotel.name,
-    })),
-    categories?.map((category) => ({
-      value: category.category,
-      label: category.category,
-    })),
-    facilitiesDropdownOptions?.map((facilities) => ({
-      value: facilities.facilityName,
-      label: facilities.facilityName,
-    })),
-    DealsDropdownOptions?.map((deals) => ({
-      value: deals.name,
-      label: deals.name,
-    })),
-  ];
+      hotelDropdownOptions?.map((hotel) => ({
+        value: hotel.name,
+        label: hotel.name,
+      })),
+      categories?.map((category) => ({
+        value: category.category,
+        label: category.category,
+      })),
+      facilitiesDropdownOptions?.map((facilities) => ({
+        value: facilities.facilityName,
+        label: facilities.facilityName,
+      })),
+      DealsDropdownOptions?.map((deals) => ({
+        value: deals.name,
+        label: deals.name,
+      })),
+    ];
 
   const formFields = {
     backbutton: "/rooms",
@@ -207,9 +207,7 @@ const CreateRoom = () => {
           <CardBody>
             <SubHeader value="/rooms" />
             <GenralForm formFields={formFields} onChange={handleFormChange} />
-            <Button color="primary" type="submit" onClick={handleSubmit}>
-              Submit
-            </Button>
+            <Button color="primary" type="submit" onClick={handleSubmit}>Submit</Button>
           </CardBody>
         </Card>
       </Container>

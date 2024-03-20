@@ -49,19 +49,15 @@ const authProtectedRoutes = [
 	{ path: "/dashboard", component: <Dashboard /> },
 	{ path: "/", exact: true, component: <Navigate to="/login" /> },
 
-
 	//Facilities
 	{ path: "/facilities", exact: true, component: <ViewFacility /> },
 	{ path: "/facility/update", exact: true, component: <UpdateFacility /> },
 	{ path: "/facility/create", exact: true, component: <CreateFacility /> },  
 
     //Hotel 
-	// { path: "/hotels", exact: true, component: <HotelCreateForm /> },
 	{ path: "/hotels", exact: true, component: <ViewHotels/> },
 	{ path: "/hotels/create", exact: true, component: <CreateHotel /> },
-	{ path: "/hotels/creates", exact: true, component: <CreateHotels /> },
-	{ path: "/hot", exact: true, component: <CreateNewHotel /> },
-
+	
 	//Deals	
 	// { path: "/deals", exact: true, component: <ViewDeals /> },//For one day
 	{ path: "/deals", exact: true, component: <ViewDeals /> },

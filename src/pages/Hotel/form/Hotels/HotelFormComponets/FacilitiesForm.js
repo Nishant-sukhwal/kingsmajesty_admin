@@ -6,11 +6,10 @@ import "toastr/build/toastr.min.css";
 import MultipleSelector from "../../../components/Form/FormSelectorComponent/MultipleSelector";
 import { useSelector } from "react-redux";
 import { FacilitiesAddApi } from "../../../services/api/hotel/hotelCreateApi";
-import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 
 const FacilitiesForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
-
+  const [selectedFacilities, setSelectedFacilities] = useState(null);
   const [facilities, setFacilities] = useState([]);
 
   useEffect(() => {
@@ -36,42 +35,37 @@ const FacilitiesForm = forwardRef((props, ref) => {
     label: facility.facilityName,
     value: facility.facilityName,
   }));
-
-
-
-
+  
+  
+  const facilitiesOptions = [
+    {
+      label: "Facilities",
+      options: fetchedFacilities,
+    },
+  ];
+  
 
   const [formData, setFormData] = useState({
     facilities: [],
   });
   console.log(formData);
 
-  const handleFormChange = (fieldName, value) => {
-    console.log(fieldName, value);
-    setFormData({
-      ...formData,
-      [fieldName]: value,
-    });
+
+
+  const handleFacilityChange = (selectedFacilities) => {
+    setSelectedFacilities(selectedFacilities);
+    setFormData((prevData) => ({ ...prevData, facilities: selectedFacilities }));
   };
-
-  const formFields = {
-    form: [
-      { fieldName: "facilities", label: "Facilities", type: "select", errorMessage: "Select Facilities", value: formData.facilities, placeholder: "Select Facilities", isMulti: true, options: fetchedFacilities, },
-    ],
-  };
-
-
-
 
   const submitForm = async () => {
     // Implement the API call for Property Rules form submission
     try {
-
-      const res = await FacilitiesAddApi(formData, hotelId);
+      
+      const res = await FacilitiesAddApi(formData,hotelId);
       console.log(res);
       if (res.status === 200) {
         toastr.success(res.data.message);
-
+      
       } else {
         toastr.error("something went wrong!");
       }
@@ -89,7 +83,18 @@ const FacilitiesForm = forwardRef((props, ref) => {
   return (
     <div>
       <Container fluid={true}>
-        <GenralForm formFields={formFields} onChange={handleFormChange} />
+        <AvForm>
+          <Row>
+            <Col lg="6">
+              <MultipleSelector
+                label="Facilities"
+                value={selectedFacilities}
+                onChange={handleFacilityChange}
+                options={facilitiesOptions}
+              />
+            </Col>
+          </Row>
+        </AvForm>
       </Container>
     </div>
   );

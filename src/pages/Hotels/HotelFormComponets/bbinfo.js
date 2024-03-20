@@ -7,7 +7,6 @@ import GenericFormAvfield from "../../../components/Form/GenricForm/GenricFormAv
 import MultipleSelector from "../../../components/Form/FormSelectorComponent/MultipleSelector";
 import { useSelector } from "react-redux";
 import { PropertyRulesAddApi } from "../../../services/api/hotel/hotelCreateApi";
-import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 // import { PropertyRulesAddApi } from "../../../services/api/hotel/hotelCreateApi"; // Import the API for Property Rules
 
 
@@ -20,22 +19,21 @@ const PropertyRulesForm = forwardRef((props, ref) => {
     ageRestriction: "",
     checkintime: "",
     checkouttime: "",
-    paymentMethods: [],
+    PaymentMethods: [],
     petsRules: "",
     childRules: "",
   });
   console.log(formData);
 
-  const handleFormChange = (fieldName, value) => {
-    console.log(fieldName, value);
-    setFormData({
-      ...formData,
-      [fieldName]: value,
-    });
-  };
-
- 
-  const paymentOptions = [
+  const formFields = [
+    { name: "checkintime", label: "Check-In Time", type: "time" },
+    { name: "checkouttime", label: "Check-Out Time", type: "time" },
+    { name: "paymentPolicy", label: "Cancellation/Payment Policy", required: true },
+    { name: "ageRestriction", label: "Age restriction", required: true },
+    { name: "petsRules", label: "Pets", required: true },
+    { name: "childRules", label: "Child policies", required: true },
+  ];
+  const facilitiesOptions = [
     {
       label: "Card",
       options: [
@@ -59,36 +57,33 @@ const PropertyRulesForm = forwardRef((props, ref) => {
     },
   ];
 
-  const formFields = {
-    form: [
-      { fieldName: "checkintime", label: "Check-In Time", type: 'time', required: true, errorMessage: "Please Enter Check-In Time", placeholder: "Enter Check-In Time", },
-      { fieldName: "checkouttime", label: "Check-Out Time", type: 'time', required: true, errorMessage: "Please Enter Check-Out Time", placeholder: "Enter Check-Out Time", },
-      { fieldName: "paymentPolicy", label: "Cancellation / Payment Policy", type: 'address', required: true, errorMessage: "Please Enter Cancellation/Payment Policy", placeholder: "Enter Cancellation/Payment Policy" },
-      { fieldName: "ageRestriction", label: "Age Restriction", type: 'address', required: true, errorMessage: "Please Enter Age Restriction ploicy", placeholder: "Enter Age Restriction Policy" },
-      { fieldName: "petsRules", label: "Pets", type: 'address', required: true, errorMessage: "Please Enter Pets Policy", placeholder: "Enter Pets Policy" },
-      { fieldName: "childRules", label: "Child Policies", type: 'address', required: true, errorMessage: "Please Enter Child policies", placeholder: "Enter Child policies" },
-      { fieldName: "paymentMethods",label: "PaymentMethods",type: "select", errorMessage: "Select Payment Methods",value: formData.paymentMethods,placeholder: "Select Payment Methods",  isMulti: true, options: paymentOptions,},
-    ],
+  const handleInputChange = (event, field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value || event.target.value,
+    }));
   };
 
-  
-
+  const handlePaymentMethodChange = (selectedFacilities) => {
+    setSelectedFacilities(selectedFacilities);
+    setFormData((prevData) => ({ ...prevData, PaymentMethods: selectedFacilities }));
+  };
 
   const submitForm = async () => {
     // Check if all required fields are filled
-    // const missingFields = formFields.form.filter(
-    //   (field) => field.required && !formData[field.name]
-    // );
+    const missingFields = formFields.filter(
+      (field) => field.required && !formData[field.name]
+    );
 
-    // if (missingFields.length > 0) {
-    //   // Display error message for missing fields
-    //   toastr.error(
-    //     `Please fill in the following fields: ${missingFields
-    //       .map((field) => field.label)
-    //       .join(", ")}`
-    //   );
-    //   return;
-    // }
+    if (missingFields.length > 0) {
+      // Display error message for missing fields
+      toastr.error(
+        `Please fill in the following fields: ${missingFields
+          .map((field) => field.label)
+          .join(", ")}`
+      );
+      return;
+    }
 
     // Implement the API call for Property Rules form submission
     try {
@@ -118,7 +113,24 @@ const PropertyRulesForm = forwardRef((props, ref) => {
   return (
     <div>
       <Container fluid={true}>
-      <GenralForm formFields={formFields} onChange={handleFormChange} />
+        <AvForm>
+          <GenericFormAvfield
+            fields={formFields}
+            onInputChange={handleInputChange}
+          />
+          {/* Payment Selector */}
+          <Row>
+            <Col lg="6">
+              <MultipleSelector
+                label="Payment Methods"
+                value={selectedFacilities}
+                onChange={handlePaymentMethodChange}
+                options={facilitiesOptions}
+              />
+            </Col>
+          </Row>
+        </AvForm>
+        {/* Additional form fields or components related to Property Rules */}
       </Container>
     </div>
   );

@@ -9,6 +9,8 @@ import NumberInput from "../FormComponent/NumberInput";
 import { useNavigate } from "react-router-dom";
 import AddressInput from "../FormComponent/AddressInput";
 import EmailInput from "../FormComponent/EmailInput";
+import RadioButton from "../FormComponent/RadioInput";
+import TimeInput from "../FormComponent/TimeInput";
 
 const GenralForm = ({ formFields, onChange }) => {
   const navigate = useNavigate();
@@ -109,6 +111,33 @@ const GenralForm = ({ formFields, onChange }) => {
                 return (
                   <Col key={fieldConfig.fieldName} lg="6">
                     <EmailInput
+                      label={fieldConfig.label}
+                      fieldName={fieldConfig.fieldName}
+                      errorMessage={fieldConfig.errorMessage}
+                      value={fieldConfig.value}
+                      placeholder={fieldConfig.placeholder}
+                      onChange={handleFieldChange}
+                    />
+                  </Col>
+                );
+                case "radio":
+                return (
+                  <Col key={fieldConfig.fieldName} lg="6">
+                    <RadioButton
+                      label={fieldConfig.label}
+                      fieldName={fieldConfig.fieldName}
+                      errorMessage={fieldConfig.errorMessage}
+                      value={fieldConfig.value}
+                      placeholder={fieldConfig.placeholder}
+                      onChange={handleFieldChange}
+                      options={fieldConfig.options}
+                    />
+                  </Col>
+                );
+                case "time":
+                return (
+                  <Col key={fieldConfig.fieldName} lg="6">
+                    <TimeInput
                       label={fieldConfig.label}
                       fieldName={fieldConfig.fieldName}
                       errorMessage={fieldConfig.errorMessage}
