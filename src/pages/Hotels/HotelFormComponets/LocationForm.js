@@ -196,18 +196,18 @@ const LocationForm = forwardRef((props, ref) => {
 
   const submitForm = async () => {
     // Check if all required fields are filled
-    const missingFields = formFields.form.filter(
-      (field) => field.required && !formData[field.name]
-    );
-    if (missingFields.length > 0) {
-      // Display error message for missing fields
-      toastr.error(
-        `Please fill in the following fields: ${missingFields
-          .map((field) => field.label)
-          .join(", ")}`
-      );
+    const errors = {};
+    formFields.form.forEach(field => {
+      if (field.required && !formData[field.fieldName]) {
+        errors[field.fieldName] = field.label;
+      }
+    });
+    if (Object.keys(errors).length > 0) {
+      const errorMessages = Object.values(errors).join(" ,");
+      toastr.error(`Please ensure all required fields are filled. Missing fields: : ${errorMessages}`);
       return;
     }
+    
     try {
       const res = await AddLocationInfoApi(formData, hotelId);
       if (res.status === 200) {

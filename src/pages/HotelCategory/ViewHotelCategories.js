@@ -1,3 +1,14 @@
+// import React from 'react'
+
+// const ViewHotelCategories = () => {
+//   return (
+//     <div>ViewHotelCategories</div>
+//   )
+// }
+
+// export default ViewHotelCategories
+
+
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useMemo } from "react";
 import TableContainer from "../../components/Common/TableContainer";
@@ -7,29 +18,29 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
 import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
 
-const ViewPayment = () => {
-  const [paymentMethods, setPaymentMethods] = useState([]);
+const ViewHotelCategories = () => {
+  const [hotelCategories, sethHotelCategories] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
   
   useEffect(() => {
-    const fetchPaymentMethods = async () => {
+    const fetchHotelCategories = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8086/v1/pm/payment-methods/get-paymentmethods"
+          "http://localhost:8086/v1/hc/hotel-categories/get-hotelcategories"
         );
         const data = await response.json();
         // const filteredFacilities = data.facilities.filter(
         //   (facility) => !facility.deleted
         // );
         console.log('data is here data data data data : ',data)
-        setPaymentMethods(data.pamentMethods);
+        sethHotelCategories(data.hotelCategories);
       } catch (error) {
         console.error("Error fetching facilities:", error);
       }
     };
 
-    fetchPaymentMethods();
+    fetchHotelCategories();
   }, []);
 
   //This is for delete
@@ -178,7 +189,7 @@ const ViewPayment = () => {
         disableSortBy: true,
       },
     ],
-    [selectedFacilities, paymentMethods]
+    [selectedFacilities, hotelCategories]
   );
 
   const breadcrumbItems = [
@@ -188,7 +199,7 @@ const ViewPayment = () => {
 
   const navigate = useNavigate();
   const handleFacilityClick = () => {
-    navigate("/paymentmethods/create");
+    navigate("/hotelcategories/create");
   };
 
   return (
@@ -200,14 +211,14 @@ const ViewPayment = () => {
             <CardBody>
               <TableContainer
                 columns={columns || []}
-                data={paymentMethods || []}
+                data={hotelCategories || []}
                 isPagination={false}
                 iscustomPageSize={false}
                 isBordered={false}
                 isGlobalFilter={true}
                 isAddFacility={true}
                 handleFacilityClick={handleFacilityClick}
-                label={"Create New Payment Method"}
+                label={"Create New Hotel Category"}
                 customPageSize={5}
                 className="custom-header-css table align-middle table-nowrap"
                 tableClassName="table-centered align-middle table-nowrap mb-0"
@@ -228,4 +239,4 @@ const ViewPayment = () => {
   );
 };
 
-export default ViewPayment;
+export default ViewHotelCategories;

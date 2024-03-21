@@ -1,19 +1,5 @@
 import React, { useRef, useState } from "react";
-import {
-  Row,
-  Col,
-  Card,
-  CardBody,
-  TabContent,
-  TabPane,
-  NavItem,
-  NavLink,
-  Label,
-  Input,
-  Form,
-  Container,
-  Button,
-} from "reactstrap";
+import { Row, Col, Card, CardBody, TabContent, TabPane, NavItem, NavLink, Label, Input, Form, Container, Button } from "reactstrap";
 import classnames from "classnames";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
@@ -22,29 +8,24 @@ import LocationForm from "./HotelFormComponets/LocationForm";
 import MediaForm from "./HotelFormComponets/MediaForm";
 import FacilitiesForm from "./HotelFormComponets/FacilitiesForm";
 import PropertyRulesForm from "./HotelFormComponets/PropertyRulesForm";
+import SubHeader from "../../components/Common/SubHeader";
 
 const CreateHotel = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [isBasicInfoFormSubmitted, setIsBasicInfoFormSubmitted] = useState(false);
- const navigate = useNavigate();
-
-
-
+  const navigate = useNavigate();
   const basicInfoFormRef = useRef(null);
   const locationFormRef = useRef(null);
   const mediaFormRef = useRef(null);
   const propertyRulesFormRef = useRef(null);
   const facilitiesFormRef = useRef(null);
-
   const toggleTab = (tab) => {
     if (activeTab !== tab && tab >= 1 && tab <= 5) {
       setActiveTab(tab);
     }
   };
-
   const isLastTab = activeTab === 5;
   const isSaveAndNext = activeTab <= 4;
-
   const nextButtonText = isLastTab
     ? "Submit"
     : isSaveAndNext
@@ -78,12 +59,7 @@ const CreateHotel = () => {
     // Move to the next tab
     toggleTab(activeTab + 1);
     setIsBasicInfoFormSubmitted(true);
-
   };
-
-  const handleNavigate = () => {
-    navigate('/hotels')
-  }
 
   return (
     <React.Fragment>
@@ -98,23 +74,7 @@ const CreateHotel = () => {
               <Card>
                 <CardBody>
                   {/* Header */}
-                  <Row className="align-items-center  d-flex mb-3 rounded bg-subbar border border-info">
-                    <Col
-                      xs="12"
-                      md="12"
-                      className="mb-2 d-md-flex justify-content-md-start"
-                    >
-                      <Button
-                        type="button"
-                        color="warning"
-                        className="btn-rounded me-2 mt-2 text-black"
-                        onClick={handleNavigate}
-                      >
-                        <i className="mdi mdi-arrow-left me-1" />
-                        Back to List
-                      </Button>
-                    </Col>
-                  </Row>
+                  <SubHeader value="/hotels" />
                   {/* Heading */}
                   <h4 className="card-title mb-4">Create Hotel</h4>
                   {/* Form */}
@@ -151,7 +111,6 @@ const CreateHotel = () => {
                         </NavItem>
                       ))}
                     </ul>
-
                     <TabContent
                       activeTab={activeTab}
                       className="twitter-bs-wizard-tab-content"
@@ -166,7 +125,6 @@ const CreateHotel = () => {
                         </TabPane>
                       ))}
                     </TabContent>
-
                     <ul className="pager wizard twitter-bs-wizard-pager-link">
                       <li
                         className={

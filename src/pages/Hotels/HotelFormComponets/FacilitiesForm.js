@@ -64,7 +64,13 @@ const FacilitiesForm = forwardRef((props, ref) => {
 
 
   const submitForm = async () => {
-    // Implement the API call for Property Rules form submission
+
+    // Check if at least one facility is selected
+    if (formData.facilities.length === 0) {
+      toastr.error("Please select at least one facility");
+      return;
+    }
+
     try {
 
       const res = await FacilitiesAddApi(formData, hotelId);

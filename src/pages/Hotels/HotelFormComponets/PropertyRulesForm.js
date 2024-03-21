@@ -34,7 +34,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
     });
   };
 
- 
+
   const paymentOptions = [
     {
       label: "Card",
@@ -67,44 +67,41 @@ const PropertyRulesForm = forwardRef((props, ref) => {
       { fieldName: "ageRestriction", label: "Age Restriction", type: 'address', required: true, errorMessage: "Please Enter Age Restriction ploicy", placeholder: "Enter Age Restriction Policy" },
       { fieldName: "petsRules", label: "Pets", type: 'address', required: true, errorMessage: "Please Enter Pets Policy", placeholder: "Enter Pets Policy" },
       { fieldName: "childRules", label: "Child Policies", type: 'address', required: true, errorMessage: "Please Enter Child policies", placeholder: "Enter Child policies" },
-      { fieldName: "paymentMethods",label: "PaymentMethods",type: "select", errorMessage: "Select Payment Methods",value: formData.paymentMethods,placeholder: "Select Payment Methods",  isMulti: true, options: paymentOptions,},
+      { fieldName: "paymentMethods", label: "PaymentMethods", type: "select", errorMessage: "Select Payment Methods", value: formData.paymentMethods, placeholder: "Select Payment Methods", isMulti: true, options: paymentOptions, },
     ],
   };
 
-  
+
 
 
   const submitForm = async () => {
-    // Check if all required fields are filled
-    // const missingFields = formFields.form.filter(
-    //   (field) => field.required && !formData[field.name]
-    // );
-
-    // if (missingFields.length > 0) {
-    //   // Display error message for missing fields
-    //   toastr.error(
-    //     `Please fill in the following fields: ${missingFields
-    //       .map((field) => field.label)
-    //       .join(", ")}`
-    //   );
-    //   return;
-    // }
-
+    const errors = {};
+    formFields.form.forEach(field => {
+      if (field.required && !formData[field.fieldName]) {
+        errors[field.fieldName] = field.label;
+      }
+    });
+    if (Object.keys(errors).length > 0) {
+      const errorMessages = Object.values(errors).join(" ,");
+      toastr.error(`Please ensure all required fields are filled. Missing fields: : ${errorMessages}`);
+      return;
+    }
+   
     // Implement the API call for Property Rules form submission
     try {
-      const res = await PropertyRulesAddApi(formData,hotelId);
+      const res = await PropertyRulesAddApi(formData, hotelId);
       console.log(res);
       if (res.status === 200) {
         toastr.success(res.data.message);
         if (props.onSubmitSuccess) {
           props.onSubmitSuccess();
         }
-      }else{
+      } else {
         if (props.onSubmitSuccess) {
           props.onSubmitSuccess();
         }
       }
-      
+
     } catch (error) {
       console.error(error);
       toastr.error("Failed to create Property Rules");
@@ -118,7 +115,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
   return (
     <div>
       <Container fluid={true}>
-      <GenralForm formFields={formFields} onChange={handleFormChange} />
+        <GenralForm formFields={formFields} onChange={handleFormChange} />
       </Container>
     </div>
   );

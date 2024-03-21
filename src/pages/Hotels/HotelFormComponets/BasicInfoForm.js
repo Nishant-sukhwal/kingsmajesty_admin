@@ -1,14 +1,12 @@
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { Container } from "reactstrap";
-import { AvForm } from "availity-reactstrap-validation";
 import toastr from "toastr";
-import "toastr/build/toastr.min.css";
 import { BasicInfoAddApi } from "../../../services/api/hotel/hotelCreateApi";
 import GenericFormAvfield from "../../../components/Form/GenricForm/GenricFormAvfield";
 import { useDispatch } from "react-redux";
 import { getHotelId } from "../../../store/hotel/actions";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
-
+import "toastr/build/toastr.min.css";
 
 const BasicInfoForm = forwardRef((props, ref) => {
   const dispatch = useDispatch();
@@ -22,11 +20,8 @@ const BasicInfoForm = forwardRef((props, ref) => {
     description: "",
     hotelCategory: "",
   });
-  console.log(formData);
-
 
   const handleFormChange = (fieldName, value) => {
-    console.log(fieldName, value);
     setFormData({
       ...formData,
       [fieldName]: value,
@@ -55,25 +50,23 @@ const BasicInfoForm = forwardRef((props, ref) => {
 
 
 
-  
-  const submitForm = async () => {
-    // // Check if all required fields are filled
-    // const missingFields = formFields.form.filter(
-    //   (field) => field.required && !formData[field.name]
-    // );
 
-    // if (missingFields.length > 0) {
-    //   // Display error message for missing fields
-    //   toastr.error(
-    //     `Please fill in the following fields: ${missingFields
-    //       .map((field) => field.label)
-    //       .join(", ")}`
-    //   );
-    //   return;
-    // }
+  const submitForm = async () => {
+    // Check if all required fields are filled
+    const errors = {};
+    formFields.form.forEach(field => {
+      if (field.required && !formData[field.fieldName]) {
+        errors[field.fieldName] = field.label;
+      }
+    });
+    if (Object.keys(errors).length > 0) {
+      const errorMessages = Object.values(errors).join(" ,");
+      toastr.error(`Please ensure all required fields are filled. Missing fields: : ${errorMessages}`);
+      return;
+    }
     try {
       const res = await BasicInfoAddApi(formData);
-      dispatch(getHotelId(res.data.basicInfo._id));//hotel id for update next form information in same entry
+      dispatch(getHotelId(res.data.basicInfo._id));
       if (res.status === 201) {
         toastr.success(res.data.message);
       }
@@ -94,13 +87,6 @@ const BasicInfoForm = forwardRef((props, ref) => {
   return (
     <div>
       <Container fluid={true}>
-        {/* <AvForm>
-          <GenericFormAvfield
-            fields={formFields}
-            onInputChange={handleInputChange}
-            onCKEditorChange={handleCKEditorChange}
-          />
-        </AvForm> */}
         <GenralForm formFields={formFields} onChange={handleFormChange} />
       </Container>
     </div>

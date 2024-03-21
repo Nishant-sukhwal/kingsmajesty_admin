@@ -1,3 +1,14 @@
+// import React from 'react'
+
+// const CreateHotelCategoryForm = () => {
+//   return (
+//     <div>CreateHotelCategoryForm</div>
+//   )
+// }
+
+// export default CreateHotelCategoryForm
+
+
 import React, { useEffect, useState } from "react";
 import {
     Row,
@@ -16,8 +27,9 @@ import 'toastr/build/toastr.min.css'
 import SubHeader from "../../components/Common/SubHeader";
 import GenralForm from "../../components/Form/GenricForm/GenralForm";
 import { PaymentMethodsCreateApi } from "../../services/api/paymentMethods/paymentMethodsApi";
+import { HotelCategoryCreateApi } from "../../services/api/hotelCategory/hotelCategorysApi";
 
-const CreatePaytmentMethodForm = () => {
+const CreateHotelCategoryForm = () => {
 
     const [formData, setFormData] = useState({
         name: "",
@@ -33,9 +45,9 @@ const CreatePaytmentMethodForm = () => {
     };
 
     const formFields = {
-        backbutton: "/paymentmethods",
+        backbutton: "/hotelcategories",
         form: [
-            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Payment Method", placeholder: "Enter Payment Method Name" },
+            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Payment Method", placeholder: "Enter Hotel Category Name" },
         ],
     };
 
@@ -53,11 +65,11 @@ const CreatePaytmentMethodForm = () => {
         }
 
         try {
-            await PaymentMethodsCreateApi(formData);
-            toastr.success("Payment Methods created successfully");
+            await HotelCategoryCreateApi(formData);
+            toastr.success("Hotel Category created successfully");
         } catch (error) {
             console.error(error);
-            toastr.error("Failed to create Payment Methods");
+            toastr.error("Failed to create Hotel Category");
         }
 
     };
@@ -65,19 +77,19 @@ const CreatePaytmentMethodForm = () => {
 
     const [breadcrumbItems] = useState([
         { title: "KingMajesty", link: "/" },
-        { title: "Create Payment Methods", link: "#" },
+        { title: "Create Hotel Category", link: "#" },
     ]);
 
     return (
         <div className="page-content">
             <Container fluid={true}>
                 <Breadcrumbs
-                    title="Create Payment Methods"
+                    title="Create Hotel Category"
                     breadcrumbItems={breadcrumbItems}
                 />
                 <Card>
                     <CardBody>
-                        <SubHeader value={'/paymentmethods'} />
+                        <SubHeader value={'/hotelcategories'} />
                         <GenralForm formFields={formFields} onChange={handleFormChange} />
                         <Button color="primary" type="submit" onClick={handleSubmit}>Submit</Button>
                     </CardBody>
@@ -87,4 +99,4 @@ const CreatePaytmentMethodForm = () => {
     )
 }
 
-export default CreatePaytmentMethodForm
+export default CreateHotelCategoryForm

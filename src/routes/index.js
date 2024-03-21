@@ -41,7 +41,10 @@ import CreateRoomForm from "../pages/Room/CreateRoomForm";
 import ViewRoomCategory from "../pages/RoomCategory/ViewRoomCategory";
 import CreateRoomCategoryForm from "../pages/RoomCategory/CreateRoomCategoryForm";
 import CreateRoom from "../pages/Room/CreateRoom";
-import CreateHotels from "../pages/Hotels/CreateHotel";
+import ViewPayment from "../pages/PaymentMethod/ViewPaymentMethods";
+import CreatePaytmentMethodForm from "../pages/PaymentMethod/CreatePaytmentMethodForm";
+import ViewHotelCategories from "../pages/HotelCategory/ViewHotelCategories";
+import CreateHotelCategoryForm from "../pages/HotelCategory/CreateHotelCategoryForm";
 
 
 
@@ -49,31 +52,41 @@ const authProtectedRoutes = [
 	{ path: "/dashboard", component: <Dashboard /> },
 	{ path: "/", exact: true, component: <Navigate to="/login" /> },
 
+	//Hotel 
+	{ path: "/hotels", exact: true, component: <ViewHotels /> },
+	{ path: "/hotels/create", exact: true, component: <CreateHotel /> },
+
+	//Paymentmethods
+	{ path: "/paymentmethods", exact: true, component: <ViewPayment /> },
+	{ path: "/paymentmethods/create", exact: true, component: <CreatePaytmentMethodForm /> },
+
+	//Hotel Categories
+	{ path: "/hotelcategories", exact: true, component: <ViewHotelCategories /> },
+	{ path: "/hotelcategories/create", exact: true, component: <CreateHotelCategoryForm /> },
+
+
 	//Facilities
 	{ path: "/facilities", exact: true, component: <ViewFacility /> },
 	{ path: "/facility/update", exact: true, component: <UpdateFacility /> },
-	{ path: "/facility/create", exact: true, component: <CreateFacility /> },  
-
-    //Hotel 
-	{ path: "/hotels", exact: true, component: <ViewHotels/> },
-	{ path: "/hotels/create", exact: true, component: <CreateHotel /> },
-	
-	//Deals	
-	// { path: "/deals", exact: true, component: <ViewDeals /> },//For one day
-	{ path: "/deals", exact: true, component: <ViewDeals /> },
-	// { path: "/facility/update", exact: true, component: <UpdateDeals /> },
-	{ path: "/deals/create", exact: true, component: <CreateDeals /> }, 
+	{ path: "/facility/create", exact: true, component: <CreateFacility /> },
 
 	//Rooms	
 	{ path: "/rooms", exact: true, component: <ViewRooms /> },
 	// { path: "/facility/update", exact: true, component: <UpdateDeals /> },
 	{ path: "/room/create", exact: true, component: <CreateRoom /> },
 	{ path: "/room/creates", exact: true, component: <CreateRoomForm /> },
-	
+
+	//Deals	
+	{ path: "/deals", exact: true, component: <ViewDeals /> },
+	{ path: "/deals/create", exact: true, component: <CreateDeals /> },
 
 	//Rooms	Category
 	{ path: "/roomcategory", exact: true, component: <ViewRoomCategory /> },
 	{ path: "/roomcategory/create", exact: true, component: <CreateRoomCategoryForm /> },
+
+
+
+
 
 
 	//Packages	
@@ -81,10 +94,9 @@ const authProtectedRoutes = [
 	{ path: "/activity", exact: true, component: <Maintenance /> },
 	{ path: "/booking", exact: true, component: <Maintenance /> },
 	{ path: "/services", exact: true, component: <Maintenance /> },
-	{ path: "/paymentmethods", exact: true, component: <Maintenance /> },
 
-	
-	
+
+
 	// Forms
 	{ path: "/form-elements", component: <FormElements /> },
 	{ path: "/form-advanced", component: <FormAdvanced /> },

@@ -6,7 +6,8 @@ import { AvForm } from "availity-reactstrap-validation";
 import { MediaAddApi } from "../../../services/api/hotel/hotelCreateApi";
 import { useSelector } from "react-redux";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
-
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 const MediaForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
@@ -49,31 +50,35 @@ const MediaForm = forwardRef((props, ref) => {
   };
 
   const submitForm = async () => {
+    // Check if all required fields are filled
+    const errors = {};
+    formFields.form.forEach(field => {
+      if (field.required && !formData[field.fieldName]) {
+        errors[field.fieldName] = field.label;
+      }
+    });
+    if (Object.keys(errors).length > 0) {
+      const errorMessages = Object.values(errors).join(" ,");
+      toastr.error(`Please ensure all required fields are filled. Missing fields: : ${errorMessages}`);
+      return;
+    }
+
     if (props.onSubmitSuccess) {
       props.onSubmitSuccess();
     }
 
     try {
-      // // Your API submission logic here
-      const formData = new FormData();
-      // formData.append("thumbnail", thumbnail);
-      // gallery.forEach((file, index) => {
-      //   formData.append(`gallery_${index}`, file);
-      // });
-
-      console.log("formData in media: ", formData);
-      // // Call your API service with the formData
-      const res = await MediaAddApi(formData, hotelId);
-      console.log(res);
-
+      // Your API submission logic here
+      const formDataToSend = new FormData();
+      formDataToSend.append("thumbnail", formData.thumbnail);
+      formData.gallery.forEach((file, index) => {
+        formDataToSend.append(`gallery_${index}`, file);
+      });
+      const res = await MediaAddApi(formDataToSend, hotelId);
+      toastr.success(res.data.message);
       if (props.onSubmitSuccess) {
         props.onSubmitSuccess();
       }
-      // // Handle success or provide feedback to the user
-      // if (res.status === 201) {
-      //   console.log("Media added successfully");
-      // }
-
     } catch (error) {
       console.error(error);
       // Handle API error or provide feedback to the user
