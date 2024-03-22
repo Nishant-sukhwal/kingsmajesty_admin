@@ -76,6 +76,8 @@ const TableContainer = ({
   label,
   
 }) => {
+
+  
   const {
     getTableProps,
     getTableBodyProps,
@@ -132,7 +134,7 @@ const TableContainer = ({
 
   return (
     <Fragment>
-      
+      {/* UI for table */}
       <Row className="align-items-center  d-flex mb-3 rounded bg-subbar border border-info ">
         <Col md={customPageSizeOptions ? 2 : 1}>
           <select
@@ -212,14 +214,13 @@ const TableContainer = ({
               >
                 <i className="mdi mdi-plus-circle-outline me-1" />
                 {label}
-                {/* Create New Facility */}
               </Button>
             </div>
           </Col>
         )}
       </Row>
 
-       {/* table */}
+       {/* Table ------------> header and rows */}
       <div className="table-responsive react-table">
         <Table bordered hover {...getTableProps()} className={className}>
           <thead className="table-light table-nowrap">
@@ -259,6 +260,7 @@ const TableContainer = ({
         </Table>
       </div>
 
+       {/* Pagination and nect button Ui */}
       <Row className="justify-content-md-end justify-content-center align-items-center">
 
   

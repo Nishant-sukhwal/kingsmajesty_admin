@@ -42,6 +42,26 @@ export const facilityCreateApi = async (formData) => {
   }
 };
 
+
+export const getFacilityById = async (id) => {
+  try {
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const response = await axios.get(
+      `http://localhost:8086/v1/new/facility/get-facilities/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching facility by ID:", error);
+    throw error;
+  }
+};
+
 export const facilityUpdateApi = async (formData, id) => {
   try {
     const token = localStorage.getItem("token");

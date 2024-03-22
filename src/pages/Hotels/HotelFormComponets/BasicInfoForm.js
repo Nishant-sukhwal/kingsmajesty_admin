@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+ import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Container } from "reactstrap";
 import toastr from "toastr";
 import { BasicInfoAddApi } from "../../../services/api/hotel/hotelCreateApi";
@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { getHotelId } from "../../../store/hotel/actions";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 import "toastr/build/toastr.min.css";
+import { getHotelCategoriesApi } from "../../../services/api/hotelCategory/hotelCategorysApi";
 
 const BasicInfoForm = forwardRef((props, ref) => {
   const dispatch = useDispatch();
@@ -20,6 +21,26 @@ const BasicInfoForm = forwardRef((props, ref) => {
     description: "",
     hotelCategory: "",
   });
+  const[hotelCategories, setHotelCategories] = useState([]);
+  console.log(hotelCategories);
+  useEffect( ()=> {
+
+  
+    const hotelCetegories = async () => {
+      try {
+        //api call
+        const data = await getHotelCategoriesApi();
+        const categoryOptions = data.hotelCategories.map(category => ({
+          value: category.name,
+          label: category.name
+        }));
+         setHotelCategories(categoryOptions);
+      } catch (error) {
+        console.error("Error fetching facilities:", error);
+      }
+    };
+    hotelCetegories();
+  },[])
 
   const handleFormChange = (fieldName, value) => {
     setFormData({
@@ -28,17 +49,10 @@ const BasicInfoForm = forwardRef((props, ref) => {
     });
   };
 
-  const categoryOptions = [
-    { value: "Resort", label: "Resort" },
-    { value: "Villa", label: "Villa" },
-    { value: "Business", label: "Business" },
-    { value: "Other", label: "Other" },
-  ]
-
   const formFields = {
     form: [
       { fieldName: "name", label: "Name", type: 'text', required: true, errorMessage: "Please Enter Name", placeholder: "Enter Hotel Name", },
-      { fieldName: "hotelCategory", label: "Hotel Category", type: "select", errorMessage: "Please Select Hotel Cetegory", placeholder: "Select Hotel Cetegory", isMulti: false, options: categoryOptions },
+      { fieldName: "hotelCategory", label: "Hotel Category", type: "select", errorMessage: "Please Select Hotel Cetegory", placeholder: "Select Hotel Cetegory", isMulti: false, options: hotelCategories },
       { fieldName: "email", label: "Email", type: 'email', required: true, errorMessage: "Please Enter Email", placeholder: "Enter Email Address" },
       { fieldName: "mobile", label: "Mobile", type: 'number', required: true, errorMessage: "Please Enter Mobile Number", placeholder: "Enter Mobile Number" },
       { fieldName: "classStatus", label: "Class", type: "radio", options: ["1star", "2star", "3star", "4star", "5star"], required: true },
@@ -47,9 +61,6 @@ const BasicInfoForm = forwardRef((props, ref) => {
       { fieldName: "description", label: "Description", type: "editor" },
     ],
   };
-
-
-
 
   const submitForm = async () => {
     // Check if all required fields are filled

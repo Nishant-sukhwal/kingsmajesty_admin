@@ -35,61 +35,60 @@ const ViewHotels = () => {
 
   const columns = useMemo(
     () => [
-      // {
+      {
+        Header: () => (
+          <div>
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              const isChecked = e.target.checked;
+            //   const newSelectedFacilities = isChecked
+            //     ? facilities.map((hotels) => hotels._id)
+            //     : [];
+            //   setSelectedFacilities(newSelectedFacilities);
+            // }}
+            // checked={
+            //   selectedFacilities.length === hotels.length &&
+            //   hotels.length !== 0
+            }}
+          />
+           {/* <span> Select All</span>  */}
+          </div>
+        ),
+        accessor: "_id",
+        Cell: ({ row }) => (
+          <input
+            type="checkbox"
+            onChange={() => {
+              const newSelectedFacilities = [...selectedFacilities];
+              if (newSelectedFacilities.includes(row.original._id)) {
+                newSelectedFacilities.splice(
+                  newSelectedFacilities.indexOf(row.original._id),
+                  1
+                );
+              } else {
+                newSelectedFacilities.push(row.original._id);
+              }
+              setSelectedFacilities(newSelectedFacilities);
+            }}
+            checked={selectedFacilities.includes(row.original._id)}
+          />
+        ),
+        id: "checkbox", // Add a unique ID for the checkbox column
+        disableFilters: true,
+        filterable: false,
+        disableSortBy: true,
+        show: false,
+      },
 
-      //   Header: () => (
-      //     <div>
-      //     <input
-      //       type="checkbox"
-      //       onChange={(e) => {
-      //         const isChecked = e.target.checked;
-      //         const newSelectedFacilities = isChecked
-      //           ? facilities.map((hotels) => hotels._id)
-      //           : [];
-      //         setSelectedFacilities(newSelectedFacilities);
-      //       }}
-      //       checked={
-      //         selectedFacilities.length === hotels.length &&
-      //         hotels.length !== 0
-      //       }
-      //     />
-      //      {/* <span> Select All</span>  */}
-      //     </div>
-      //   ),
-      //   accessor: "_id",
-      //   Cell: ({ row }) => (
-      //     <input
-      //       type="checkbox"
-      //       onChange={() => {
-      //         const newSelectedFacilities = [...selectedFacilities];
-      //         if (newSelectedFacilities.includes(row.original._id)) {
-      //           newSelectedFacilities.splice(
-      //             newSelectedFacilities.indexOf(row.original._id),
-      //             1
-      //           );
-      //         } else {
-      //           newSelectedFacilities.push(row.original._id);
-      //         }
-      //         setSelectedFacilities(newSelectedFacilities);
-      //       }}
-      //       checked={selectedFacilities.includes(row.original._id)}
-      //     />
-      //   ),
-      //   id: "checkbox", // Add a unique ID for the checkbox column
-      //   disableFilters: true,
-      //   filterable: false,
-      //   disableSortBy: true,
-      //   show: false,
-
-      // },
-
+      // ID
       {
         Header: "ID",
         accessor: (originalRow, index) => index + 1, // Display serial number
         disableFilters: true,
         filterable: false,
-      },
-
+      }, 
+      // Image
       {
         Header: "Image",
         accessor: "thumbnail",
@@ -105,18 +104,21 @@ const ViewHotels = () => {
           </div>
         ),
       },
+      // Name
       {
         Header: "Name",
         accessor: "name",
         disableFilters: true,
         filterable: false,
       },
+      // Category
       {
         Header: "Category",
         accessor: "hotelCategory",
         disableFilters: true,
         filterable: false,
       },
+      // Address
       {
         Header: "Address",
         accessor: "address",
@@ -129,7 +131,7 @@ const ViewHotels = () => {
           // <span title={value}>{value.length > 40 ? `${value.substring(0, 30)}...` : value}</span>
         ),
       },
-
+      // Class
       {
         Header: "Class",
         accessor: "classStatus",
@@ -137,6 +139,7 @@ const ViewHotels = () => {
         filterable: false,
 
       },
+      // Status
       {
         Header: "Status",
         accessor: "releaseStatus",
@@ -144,6 +147,7 @@ const ViewHotels = () => {
         filterable: false,
 
       },
+      // Action
       {
         Header: "Action",
         accessor: (cellProps) => (
@@ -168,7 +172,7 @@ const ViewHotels = () => {
         disableSortBy: true,
       },
     ],
-    [selectedFacilities, hotels]
+    [hotels]
   );
 
   const breadcrumbItems = [
@@ -204,9 +208,6 @@ const ViewHotels = () => {
               <TableContainer
                 columns={columns || []}
                 data={hotels || []}
-                isPagination={false}
-                iscustomPageSize={false}
-                isBordered={false}
                 isGlobalFilter={true}
                 isAddFacility={true}
                 handleFacilityClick={handleFacilityClick}

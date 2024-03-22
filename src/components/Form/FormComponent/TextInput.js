@@ -5,14 +5,14 @@ const TextInput = ({
   label,
   id,
   fieldName,
-  defaultValue,
   errorMessage,
   value,
   onChange,
   placeholder,
+  defaultValue
 }) => {
   const [inputError, setInputError] = useState(false);
-
+  console.log("prefilledValue prefilledValue in text",defaultValue)
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     onChange(fieldName, inputValue);

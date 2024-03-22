@@ -28,7 +28,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
         console.error("Error fetching facilities:", error);
       }
     };
-
+  
     fetchFacilities();
   }, []);
 

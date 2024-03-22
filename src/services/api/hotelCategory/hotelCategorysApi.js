@@ -1,10 +1,13 @@
 import axios from "axios";
+import { endpoints } from "../../RequestUrls";
 
+// Load environment variables from .env file
+// import dotenv from 'dotenv';
+// dotenv.config();
 export const getHotelCategoriesApi = async (formData) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
-    const response = await axios.get(
-      "http://localhost:8086/v1/hc/hotel-categories/get-hotelcategories",
+    const response = await axios.get(`${endpoints.base_url}${endpoints.get_hotel_categories}`,
       {
         headers: {
           "Content-Type": "application/json",
