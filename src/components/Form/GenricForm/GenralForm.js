@@ -12,8 +12,8 @@ import EmailInput from "../FormComponent/EmailInput";
 import RadioButton from "../FormComponent/RadioInput";
 import TimeInput from "../FormComponent/TimeInput";
 
-const GenralForm = ({ formFields, onChange,prefilledValue }) => {
-  console.log("prefilled value in genral form", prefilledValue)
+const GenralForm = ({ formFields, onChange }) => {
+  
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate(formFields.backbutton);
@@ -41,7 +41,7 @@ const GenralForm = ({ formFields, onChange,prefilledValue }) => {
                       value={fieldConfig.value}
                       placeholder={fieldConfig.placeholder}
                       onChange={handleFieldChange}
-                      defaultValue={fieldConfig.prefilledValue}
+                      // defaultValue={fieldConfig.value}
                     />
                   </Col>
                 );
@@ -67,6 +67,7 @@ const GenralForm = ({ formFields, onChange,prefilledValue }) => {
                       fieldName={fieldConfig.fieldName}
                       onChange={handleFieldChange}
                       errorMessage={fieldConfig.errorMessage}
+                      value={fieldConfig.value}
                       isMulti={fieldConfig.isMulti}
                       imageViewer={fieldConfig.imageViewer}
                       multiple={fieldConfig.multiple}

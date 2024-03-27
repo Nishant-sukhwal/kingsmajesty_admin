@@ -45,6 +45,7 @@ import ViewPayment from "../pages/PaymentMethod/ViewPaymentMethods";
 import CreatePaytmentMethodForm from "../pages/PaymentMethod/CreatePaytmentMethodForm";
 import ViewHotelCategories from "../pages/HotelCategory/ViewHotelCategories";
 import CreateHotelCategoryForm from "../pages/HotelCategory/CreateHotelCategoryForm";
+import UpdateHotelCategoryForm from "../pages/HotelCategory/UpdateHotelCategoryForm";
 
 
 
@@ -63,7 +64,7 @@ const authProtectedRoutes = [
 	//Hotel Categories
 	{ path: "/hotelcategories", exact: true, component: <ViewHotelCategories /> },
 	{ path: "/hotelcategories/create", exact: true, component: <CreateHotelCategoryForm /> },
-
+	{ path: "/hotelcategories/update", exact: true, component: <UpdateHotelCategoryForm /> },
 
 	//Facilities
 	{ path: "/facilities", exact: true, component: <ViewFacility /> },

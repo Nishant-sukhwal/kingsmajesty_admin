@@ -24,22 +24,14 @@ import GenralForm from "../../components/Form/GenricForm/GenralForm";
 const UpdateFacility = () => {
   const [breadcrumbItems] = useState([
     { title: "KingMajesty", link: "/" },
-    { title: "Update Facilities", link: "#" },
+    { title: "Update Facility", link: "#" },
   ]);
-
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  console.log(searchParams);
-  const facilityName = searchParams.get("facilityName");
   const image = searchParams.get("image");
   const id = searchParams.get("id")
-  console.log(facilityName);
-  console.log("id in update ", id);
-
-  const [formData, setFormData] = useState({
-    name: "",
-    media: null,
-  });
+  const [formData, setFormData] = useState({ name: "", media: "" });
+  const [fetchedData, setFetchedData] = useState({ name: "", media: "" });
   console.log("formData formData formData",formData);
 
   const handleFormChange = (fieldName, value) => {
@@ -53,17 +45,21 @@ const UpdateFacility = () => {
     const fetchFacilityData = async () => {
       try {
         const facilityData = await getFacilityById(id);
-         console.log("facilityData",facilityData.facility);
-        setFormData({
+        setFetchedData(prevData => ({
+          ...prevData,
           name: facilityData.facility.facilityName,
           media: facilityData.facility.image,
-        });
+        }));
+        setFormData(prevData => ({
+          ...prevData,
+          name: facilityData.facility.facilityName,
+          media: facilityData.facility.image,
+        }));
       } catch (error) {
         console.error("Error fetching facility data:", error);
         // Handle error (e.g., display an error message)
       }
     };
-
     fetchFacilityData();
   }, [id]);
 
@@ -71,37 +67,38 @@ const UpdateFacility = () => {
   const handleSubmit = async (e, errors) => {
 
     e.preventDefault();
-    if (formData.name !== "") {
-      try {
-        // Assuming submitFacilityData is an async function that handles the API call
 
-        const res = await facilityUpdateApi(formData, id);
-        console.log(res);
-        //Clear form data on successful submission
-        setFormData({
+    try {
+      // Assuming submitFacilityData is an async function that handles the API call
 
-          media: "" || null,
-          name: ""
-        });
+      const res = await facilityUpdateApi(formData, id);
+      console.log(res);
+      //Clear form data on successful submission
+      setFormData({
 
-        toastr.success('Facility updated successfully!', 'Success');
+        media: "" || null,
+        name: ""
+      });
 
-        // Optionally, add any success messages or redirection logic here
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        toastr.error('An error occurred. Please try again.', 'Error');
-        // Handle error (e.g., display an error message)
-      }
-    } else {
-      toastr.error('Fill all the form data.', 'Error');
+      toastr.success('Facility updated successfully!', 'Success');
+
+      // Optionally, add any success messages or redirection logic here
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toastr.error('An error occurred. Please try again.', 'Error');
+      // Handle error (e.g., display an error message)
     }
+
   };
+
+  // Conditional image URL variable
+  const imageUrl = fetchedData?.media ? `${fetchedData.media}` : null;
 
   const formFields = {
     backbutton: "/facilities",
     form: [
-      { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Facility", placeholder: "Enter Facility Name" ,prefilledValue: facilityName},
-      { fieldName: "media", label: "Media", type: "file", errorMessage: "Select File", value: formData.thumbnail, placeholder: "Select Image...", imageViewer: true, },
+      { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Facility", placeholder: "Enter Facility Name", value: fetchedData?.name },
+      { fieldName: "media", label: "Media", type: "file", errorMessage: "Select File", value: imageUrl, placeholder: "Select Image...", imageViewer: true, },
     ],
   };
 
@@ -123,8 +120,8 @@ const UpdateFacility = () => {
                   Update
                 </Button>
               </AvForm> */}
-              <GenralForm formFields={formFields} onChange={handleFormChange}   prefilledValue={facilityName}/>
-              <Button color="primary" type="submit" onClick={handleSubmit}>Submit</Button>
+              <GenralForm formFields={formFields} onChange={handleFormChange} />
+              <Button color="primary" type="submit" onClick={handleSubmit}>Update</Button>
             </CardBody>
           </Card>
         </Form>

@@ -29,9 +29,15 @@ const ImageViewer = ({ files,onRemoveFile}) => {
       {/* <Row className="col-md-10 ">  */}
       {/*If want to show all images in one div comment out this row line but problem is not showing in row*/}
       {files.map((file, index) => (
+        
         <div key={index} className="image-item">
           <img
-            src={file instanceof Blob ? URL.createObjectURL(file) : defaultImage}
+            // src={file instanceof Blob ? URL.createObjectURL(file) : defaultImage} //This is last one
+            src={
+              typeof file === "string"
+                ? `http://localhost:8086/v1/img/get-Images/image/${file}` // Use URL directly if it's a string (URL)
+                : URL.createObjectURL(file) // Create object URL if it's a Blob
+            }
             alt={`Selected Image ${index + 1}`}
             className="img-thumbnail"
           />

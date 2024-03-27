@@ -9,10 +9,8 @@ const TextInput = ({
   value,
   onChange,
   placeholder,
-  defaultValue
 }) => {
   const [inputError, setInputError] = useState(false);
-  console.log("prefilledValue prefilledValue in text",defaultValue)
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     onChange(fieldName, inputValue);
@@ -28,7 +26,7 @@ const TextInput = ({
       <Col className="col-md-10">
         <Input
           type="text"
-          value={value || defaultValue}
+          defaultValue={value}
           placeholder={placeholder}
           onChange={handleInputChange}
           required

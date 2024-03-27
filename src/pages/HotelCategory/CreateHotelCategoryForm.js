@@ -47,7 +47,7 @@ const CreateHotelCategoryForm = () => {
     const formFields = {
         backbutton: "/hotelcategories",
         form: [
-            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Payment Method", placeholder: "Enter Hotel Category Name" },
+            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Hotel Category", placeholder: "Enter Hotel Category Name" },
         ],
     };
 

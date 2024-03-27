@@ -11,7 +11,7 @@ const ViewFacility = () => {
   const [facilities, setFacilities] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
-  
+
   useEffect(() => {
     const fetchFacilities = async () => {
       try {
@@ -46,7 +46,7 @@ const ViewFacility = () => {
       console.error("Error fetching facilities:", error);
     }
   };
-  
+
 
   const handleDeleteClick = (facilityId) => {
     setShowDeleteModal(true);
@@ -62,7 +62,7 @@ const ViewFacility = () => {
       const updatedFacilities = await fetchFacilities();
       setFacilities(updatedFacilities);
       setSelectedFacilities([]);
-     
+
 
       setShowDeleteModal(false);
     } catch (error) {
@@ -70,7 +70,7 @@ const ViewFacility = () => {
     }
   };
 
-   const columns = useMemo(
+  const columns = useMemo(
     () => [
       {
         Header: () => (
@@ -157,11 +157,10 @@ const ViewFacility = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={`/facility/update?id=${
-                cellProps._id
-              }&facilityName=${encodeURIComponent(
-                cellProps.facilityName
-              )}&image=${encodeURIComponent(cellProps.image)}`}
+              to={`/facility/update?id=${cellProps._id
+                }&facilityName=${encodeURIComponent(
+                  cellProps.facilityName
+                )}&image=${encodeURIComponent(cellProps.image)}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -185,7 +184,7 @@ const ViewFacility = () => {
 
   const breadcrumbItems = [
     { title: "Kingmajesty", link: "/" },
-    { title: "Facility List", link: "#" },
+    { title: "Facilities", link: "#" },
   ];
 
   const navigate = useNavigate();
@@ -215,7 +214,6 @@ const ViewFacility = () => {
                 tableClassName="table-centered align-middle table-nowrap mb-0"
                 theadClassName="text-muted table-light"
               />
-
               <ConfirmationModal
                 isOpen={showDeleteModal}
                 toggle={() => setShowDeleteModal(!showDeleteModal)}

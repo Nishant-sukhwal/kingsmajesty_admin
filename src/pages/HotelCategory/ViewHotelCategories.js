@@ -17,12 +17,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
 import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
+import { deleteHotelCategory } from "../../services/api/hotelCategory/hotelCategorysApi";
 
 const ViewHotelCategories = () => {
   const [hotelCategories, sethHotelCategories] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
-  
+
   useEffect(() => {
     const fetchHotelCategories = async () => {
       try {
@@ -30,11 +31,11 @@ const ViewHotelCategories = () => {
           "http://localhost:8086/v1/hc/hotel-categories/get-hotelcategories"
         );
         const data = await response.json();
-        // const filteredFacilities = data.facilities.filter(
-        //   (facility) => !facility.deleted
-        // );
-        console.log('data is here data data data data : ',data)
-        sethHotelCategories(data.hotelCategories);
+        const filteredHotelCategories = data.hotelCategories.filter(
+          (item) => !item.deleted
+        );
+        console.log('data is here data data data data : ', data)
+        sethHotelCategories(filteredHotelCategories);
       } catch (error) {
         console.error("Error fetching facilities:", error);
       }
@@ -44,46 +45,49 @@ const ViewHotelCategories = () => {
   }, []);
 
   //This is for delete
-  const fetchFacilities = async () => {
+  const fetchHotelCategories = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8086/v1/new/facility/get-facilities"
+        "http://localhost:8086/v1/hc/hotel-categories/get-hotelcategories"
       );
       const data = await response.json();
-      const filteredFacilities = data.facilities.filter(
-        (facility) => !facility.deleted
+      console.log(data)
+            
+      const filteredHotelCategories = data.hotelCategories.filter(
+        (item) => !item.deleted
       );
-      // setFacilities(filteredFacilities);
-      return filteredFacilities;
+      // sethHotelCategories(data.hotelCategories);
+      console.log(data)
+      return filteredHotelCategories
     } catch (error) {
       console.error("Error fetching facilities:", error);
     }
   };
-  
 
-  const handleDeleteClick = (facilityId) => {
+
+  const handleDeleteClick = (id) => {
     setShowDeleteModal(true);
-    setSelectedFacilities([facilityId]);
+    setSelectedFacilities([id]);
   };
 
-  // const handleDeleteConfirm = async () => {
-  //   try {
-  //     for (const facilityId of selectedFacilities) {
-  //       await deleteFacilityApi(facilityId);
-  //     }
+  const handleDeleteConfirm = async () => {
+    try {
+      for (const facilityId of selectedFacilities) {
+        await deleteHotelCategory(facilityId);
+      }
 
-  //     const updatedFacilities = await fetchFacilities();
-  //     setFacilities(updatedFacilities);
-  //     setSelectedFacilities([]);
-     
+      const updatedFacilities = await fetchHotelCategories();
+      sethHotelCategories(updatedFacilities);
+      setSelectedFacilities([]);
 
-  //     setShowDeleteModal(false);
-  //   } catch (error) {
-  //     console.error("Error deleting facility:", error);
-  //   }
-  // };
 
-   const columns = useMemo(
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error("Error deleting facility:", error);
+    }
+  };
+
+  const columns = useMemo(
     () => [
       // {
       //   Header: () => (
@@ -170,7 +174,7 @@ const ViewHotelCategories = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={''}
+              to={`/hotelcategories/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -178,7 +182,7 @@ const ViewHotelCategories = () => {
             <Link
               to="#"
               className="text-danger"
-              // onClick={() => handleDeleteClick(cellProps._id)}
+              onClick={() => handleDeleteClick(cellProps._id)}
             >
               <i className="mdi mdi-trash-can font-size-18"></i>
             </Link>
@@ -228,8 +232,8 @@ const ViewHotelCategories = () => {
               <ConfirmationModal
                 isOpen={showDeleteModal}
                 toggle={() => setShowDeleteModal(!showDeleteModal)}
-                // onConfirm={handleDeleteConfirm}
-                message="Are you sure you want to delete the selected facilities?"
+                onConfirm={handleDeleteConfirm}
+                message="Are you sure you want to delete the selected hotel catgory?"
               />
             </CardBody>
           </Card>

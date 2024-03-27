@@ -25,15 +25,19 @@ export const getHotelCategoriesApi = async (formData) => {
 export const HotelCategoryCreateApi = async (formData) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
-    const data = new FormData();
-    data.append("name", formData.name);
+    // const data = new FormData();
+    // data.append("name", formData.name);
+    const requestData = {
+      name: formData.name
+      // Add other fields here if needed
+    }
     // data.append("image", formData.media);
     const response = await axios.post(
       "http://localhost:8086/v1/hc/hotel-categories/create-hotelcategories",
-      data,
+      requestData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       }
@@ -45,19 +49,37 @@ export const HotelCategoryCreateApi = async (formData) => {
   }
 };
 
-export const facilityUpdateApi = async (formData, id) => {
+export const getHotelCategoryByIdApi = async (id) => {
+  console.log(id);
+  try {
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const response = await axios.get(
+      `http://localhost:8086/v1/hc/hotel-categories/get-hotelcategories/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching facility by ID:", error);
+    throw error;
+  }
+};
+
+export const hotelCategoryUpdateApi = async (formData, id) => {
   try {
     const token = localStorage.getItem("token");
     const data = new FormData();
-    data.append("facilityName", formData.name);
-    data.append("image", formData.media);
-    console.log("data in api send: ", data);
+    data.append("name", formData.name);
     const response = await axios.patch(
-      `http://localhost:8086/v1/new/facility/update-facility/${id}`,
+      `http://localhost:8086/v1/hc/hotel-categories/update-hotelcategories/${id}`,
       data,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       }
@@ -70,11 +92,11 @@ export const facilityUpdateApi = async (formData, id) => {
   }
 };
 
-export const deleteFacilityApi = async (facilityId) => {
+export const deleteHotelCategory = async (id) => {
   try {
     const token = localStorage.getItem("token");
     const response = await axios.delete(
-      `http://localhost:8086/v1/new/facility/delete-facility/${facilityId}`,
+      `http://localhost:8086/v1/hc/hotel-categories/delete-hotelcategories/${id}`,
       {
         headers: {
           "Content-Type": "application/json",

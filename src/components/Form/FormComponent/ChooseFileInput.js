@@ -1,5 +1,5 @@
 // ChooseFileInput.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Label, Input } from "reactstrap";
 import ImageViewer from "./ImageViewer";
 
@@ -10,8 +10,19 @@ const ChooseFileInput = ({
   multiple,
   imageViewer,
   fieldName,
+  value
 }) => {
+ console.log("Value is here ",value )
   const [files, setFiles] = useState([]);
+  const initializeFiles = () => {
+    if (value && value.length > 0) {
+      setFiles(value instanceof Array ? value : [value]);
+    }
+  };
+  // Call the initializeFiles function when the component mounts
+  React.useEffect(() => {
+    initializeFiles();
+  }, [value]);
 
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
@@ -38,6 +49,7 @@ const ChooseFileInput = ({
             type="file"
             className="custom-file-input"
             id={id}
+            defaultValue={value}
             onChange={handleFileChange}
             multiple={multiple}
           />
@@ -45,7 +57,7 @@ const ChooseFileInput = ({
       </Row>
 
       <Row className="d-flex flex-row mb-3" >
-        {imageViewer && <ImageViewer files={files} onRemoveFile={removeFile}/>}
+        {imageViewer && <ImageViewer files={files} onRemoveFile={removeFile} />}
       </Row>
       </>
   );
