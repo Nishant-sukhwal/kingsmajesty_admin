@@ -1,14 +1,3 @@
-// import React from 'react'
-
-// const ViewHotelCategories = () => {
-//   return (
-//     <div>ViewHotelCategories</div>
-//   )
-// }
-
-// export default ViewHotelCategories
-
-
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useMemo } from "react";
 import TableContainer from "../../components/Common/TableContainer";
@@ -83,7 +72,7 @@ const ViewHotelCategories = () => {
 
       setShowDeleteModal(false);
     } catch (error) {
-      console.error("Error deleting facility:", error);
+      console.error("Error deleting Hotel Category:", error);
     }
   };
 
@@ -174,7 +163,7 @@ const ViewHotelCategories = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={`/hotelcategories/update?id=${cellProps._id}`}
+              to={`/roomcategories/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>

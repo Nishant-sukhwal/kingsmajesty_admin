@@ -9,7 +9,6 @@ import ForgetPwd from "../pages/Authentication/ForgetPassword";
 import AuthLockScreen from "../pages/Authentication/AuthLockScreen";
 import Dashboard from "../pages/Dashboard";
 
-
 // Forms
 import FormElements from "../pages/Forms/FormElements";
 import FormAdvanced from "../pages/Forms/FormAdvanced";
@@ -46,76 +45,88 @@ import CreatePaytmentMethodForm from "../pages/PaymentMethod/CreatePaytmentMetho
 import ViewHotelCategories from "../pages/HotelCategory/ViewHotelCategories";
 import CreateHotelCategoryForm from "../pages/HotelCategory/CreateHotelCategoryForm";
 import UpdateHotelCategoryForm from "../pages/HotelCategory/UpdateHotelCategoryForm";
-
-
+import UpdateRoomCategoryForm from "../pages/RoomCategory/UpdateRoomCategoryForm";
 
 const authProtectedRoutes = [
-	{ path: "/dashboard", component: <Dashboard /> },
-	{ path: "/", exact: true, component: <Navigate to="/login" /> },
+  { path: "/dashboard", component: <Dashboard /> },
+  { path: "/", exact: true, component: <Navigate to="/login" /> },
 
-	//Hotel 
-	{ path: "/hotels", exact: true, component: <ViewHotels /> },
-	{ path: "/hotels/create", exact: true, component: <CreateHotel /> },
+  //Hotel
+  { path: "/hotels", exact: true, component: <ViewHotels /> },
+  { path: "/hotels/create", exact: true, component: <CreateHotel /> },
 
-	//Paymentmethods
-	{ path: "/paymentmethods", exact: true, component: <ViewPayment /> },
-	{ path: "/paymentmethods/create", exact: true, component: <CreatePaytmentMethodForm /> },
+  //Paymentmethods
+  { path: "/paymentmethods", exact: true, component: <ViewPayment /> },
+  {
+    path: "/paymentmethods/create",
+    exact: true,
+    component: <CreatePaytmentMethodForm />,
+  },
 
-	//Hotel Categories
-	{ path: "/hotelcategories", exact: true, component: <ViewHotelCategories /> },
-	{ path: "/hotelcategories/create", exact: true, component: <CreateHotelCategoryForm /> },
-	{ path: "/hotelcategories/update", exact: true, component: <UpdateHotelCategoryForm /> },
+  //Hotel Categories
+  { path: "/hotelcategories", exact: true, component: <ViewHotelCategories /> },
+  {
+    path: "/hotelcategories/create",
+    exact: true,
+    component: <CreateHotelCategoryForm />,
+  },
+  {
+    path: "/hotelcategories/update",
+    exact: true,
+    component: <UpdateHotelCategoryForm />,
+  },
 
-	//Facilities
-	{ path: "/facilities", exact: true, component: <ViewFacility /> },
-	{ path: "/facility/update", exact: true, component: <UpdateFacility /> },
-	{ path: "/facility/create", exact: true, component: <CreateFacility /> },
+  //Facilities
+  { path: "/facilities", exact: true, component: <ViewFacility /> },
+  { path: "/facility/update", exact: true, component: <UpdateFacility /> },
+  { path: "/facility/create", exact: true, component: <CreateFacility /> },
 
-	//Rooms	
-	{ path: "/rooms", exact: true, component: <ViewRooms /> },
-	// { path: "/facility/update", exact: true, component: <UpdateDeals /> },
-	{ path: "/room/create", exact: true, component: <CreateRoom /> },
-	{ path: "/room/creates", exact: true, component: <CreateRoomForm /> },
+  //Rooms
+  { path: "/rooms", exact: true, component: <ViewRooms /> },
+  // { path: "/facility/update", exact: true, component: <UpdateDeals /> },
+  { path: "/room/create", exact: true, component: <CreateRoom /> },
+  { path: "/room/creates", exact: true, component: <CreateRoomForm /> },
 
-	//Deals	
-	{ path: "/deals", exact: true, component: <ViewDeals /> },
-	{ path: "/deals/create", exact: true, component: <CreateDeals /> },
+  //Deals
+  { path: "/deals", exact: true, component: <ViewDeals /> },
+  { path: "/deals/create", exact: true, component: <CreateDeals /> },
 
-	//Rooms	Category
-	{ path: "/roomcategory", exact: true, component: <ViewRoomCategory /> },
-	{ path: "/roomcategory/create", exact: true, component: <CreateRoomCategoryForm /> },
+  //Rooms	Category
+  { path: "/roomcategory", exact: true, component: <ViewRoomCategory /> },
+  {
+    path: "/roomcategory/create",
+    exact: true,
+    component: <CreateRoomCategoryForm />,
+  },
+  {
+    path: "/roomcategories/update",
+    exact: true,
+    component: <UpdateRoomCategoryForm />,
+  },
 
+  //Packages
+  { path: "/packages", exact: true, component: <Maintenance /> },
+  { path: "/activity", exact: true, component: <Maintenance /> },
+  { path: "/booking", exact: true, component: <Maintenance /> },
+  { path: "/services", exact: true, component: <Maintenance /> },
 
-
-
-
-
-	//Packages	
-	{ path: "/packages", exact: true, component: <Maintenance /> },
-	{ path: "/activity", exact: true, component: <Maintenance /> },
-	{ path: "/booking", exact: true, component: <Maintenance /> },
-	{ path: "/services", exact: true, component: <Maintenance /> },
-
-
-
-	// Forms
-	{ path: "/form-elements", component: <FormElements /> },
-	{ path: "/form-advanced", component: <FormAdvanced /> },
-	{ path: "/form-editors", component: <FormEditors /> },
-	{ path: "/form-mask", component: <FormMask /> },
-	{ path: "/form-file-upload", component: <FormUpload /> },
-	{ path: "/form-wizard", component: <FormWizard /> },
-	{ path: "/form-validation", component: <FormValidations /> },
-	{ path: "/form-xeditable", component: <FormXeditable /> },
-
+  // Forms
+  { path: "/form-elements", component: <FormElements /> },
+  { path: "/form-advanced", component: <FormAdvanced /> },
+  { path: "/form-editors", component: <FormEditors /> },
+  { path: "/form-mask", component: <FormMask /> },
+  { path: "/form-file-upload", component: <FormUpload /> },
+  { path: "/form-wizard", component: <FormWizard /> },
+  { path: "/form-validation", component: <FormValidations /> },
+  { path: "/form-xeditable", component: <FormXeditable /> },
 ];
 
 const publicRoutes = [
-	{ path: "/logout", component: <Logout /> },
-	{ path: "/login", component: <Login /> },
-	{ path: "/forgot-password", component: <ForgetPwd /> },
-	{ path: "/register", component: <Register /> },
-	{ path: "/lock-screen", component: <AuthLockScreen /> },
+  { path: "/logout", component: <Logout /> },
+  { path: "/login", component: <Login /> },
+  { path: "/forgot-password", component: <ForgetPwd /> },
+  { path: "/register", component: <Register /> },
+  { path: "/lock-screen", component: <AuthLockScreen /> },
 ];
 
 export { authProtectedRoutes, publicRoutes };

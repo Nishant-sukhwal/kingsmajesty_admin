@@ -11,7 +11,7 @@ const CreateRoomCategoryForm = () => {
   const dispatch = useDispatch();
   
   const [formData, setFormData] = useState({
-    category: '',
+    name: '',
   });
   console.log(formData);
 
@@ -59,7 +59,7 @@ const CreateRoomCategoryForm = () => {
       //   options: options,
       // },
       {
-        fieldName: 'category',
+        fieldName: 'name',
         label: 'Room Category Name',
         type: 'text',
         errorMessage: 'Enter Room Category Name',

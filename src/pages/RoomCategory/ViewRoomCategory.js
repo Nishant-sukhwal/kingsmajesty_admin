@@ -5,61 +5,63 @@ import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
-import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
-import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "../../store/actions";
+
+import {
+  deleteRoomCategory,
+  getRoomCategoryApi,
+} from "../../services/api/roomCategory/roomCategoryApi";
 
 const ViewRoomCategory = () => {
-  const dispatch = useDispatch();
-  const categories = useSelector((state) => state.RoomCategory.category)
-  
-
   const [category, setCategory] = useState([]);
-  // const [selectedFacilities, setSelectedFacilities] = useState([]);
+  const [selectedId, setSelectedId] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
 
-  // useEffect(() => {
-  //   const fetchCategory = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-  //       );
-  //       const data = await response.json();
-  //       console.log(data);
-  //       setCategory(data.category);
-  //     } catch (error) {
-  //       console.error("Error fetching facilities:", error);
-  //     }
-  //   };
-
-  //   fetchCategory();
-  // }, []);
-
   useEffect(() => {
-    dispatch(getCategories());
+    const fetchCategory = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
+        );
+        const data = await response.json();
+        const filteredData = data.category.filter((item) => !item.deleted);
+        setCategory(filteredData);
+      } catch (error) {
+        console.error("Error fetching facilities:", error);
+      }
+    };
+
+    fetchCategory();
   }, []);
 
+  //This is for delete
+  const fetchRoomCategories = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
+      );
+      const data = await response.json();
+      const filteredData = data.category.filter((item) => !item.deleted);
+      return filteredData;
+    } catch (error) {
+      console.error("Error fetching facilities:", error);
+    }
+  };
 
-
-
-
-  const handleDeleteClick = (facilityId) => {
+  const handleDeleteClick = (id) => {
     setShowDeleteModal(true);
-    // setSelectedFacilities([facilityId]);
+    setSelectedId([id]);
   };
 
   const handleDeleteConfirm = async () => {
     try {
-      // for (const facilityId of selectedFacilities) {
-      //   await deleteFacilityApi(facilityId);
-      // }
+      for (const id of selectedId) {
+        await deleteRoomCategory(id);
+      }
 
-      // const updatedFacilities = await fetchFacilities();
-      // setFacilities(updatedFacilities);
-      // setSelectedFacilities([]);
+      const updatedData = await fetchRoomCategories();
+      setCategory(updatedData);
 
-
-      // setShowDeleteModal(false);
+      setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting facility:", error);
     }
@@ -143,7 +145,7 @@ const ViewRoomCategory = () => {
       // },
       {
         Header: "Room Catagory Name",
-        accessor: "category",
+        accessor: "name",
         disableFilters: true,
         filterable: false,
       },
@@ -152,7 +154,7 @@ const ViewRoomCategory = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to="#"
+              to={`/roomcategories/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -188,12 +190,15 @@ const ViewRoomCategory = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <Breadcrumbs title="Room Category" breadcrumbItems={breadcrumbItems} />
+          <Breadcrumbs
+            title="Room Category"
+            breadcrumbItems={breadcrumbItems}
+          />
           <Card>
             <CardBody>
               <TableContainer
                 columns={columns || []}
-                data={categories || []}
+                data={category || []}
                 isPagination={false}
                 iscustomPageSize={false}
                 isBordered={false}
