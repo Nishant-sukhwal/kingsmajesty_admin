@@ -46,6 +46,7 @@ import ViewHotelCategories from "../pages/HotelCategory/ViewHotelCategories";
 import CreateHotelCategoryForm from "../pages/HotelCategory/CreateHotelCategoryForm";
 import UpdateHotelCategoryForm from "../pages/HotelCategory/UpdateHotelCategoryForm";
 import UpdateRoomCategoryForm from "../pages/RoomCategory/UpdateRoomCategoryForm";
+import UpdatePaymentMethods from "../pages/PaymentMethod/UpdatePaytmentMethodForm";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -57,24 +58,13 @@ const authProtectedRoutes = [
 
   //Paymentmethods
   { path: "/paymentmethods", exact: true, component: <ViewPayment /> },
-  {
-    path: "/paymentmethods/create",
-    exact: true,
-    component: <CreatePaytmentMethodForm />,
-  },
+  { path: "/paymentmethods/create", exact: true,component: <CreatePaytmentMethodForm />},
+  { path: "/paymentmethods/update", exact: true, component: <UpdatePaymentMethods /> },
 
   //Hotel Categories
   { path: "/hotelcategories", exact: true, component: <ViewHotelCategories /> },
-  {
-    path: "/hotelcategories/create",
-    exact: true,
-    component: <CreateHotelCategoryForm />,
-  },
-  {
-    path: "/hotelcategories/update",
-    exact: true,
-    component: <UpdateHotelCategoryForm />,
-  },
+  { path: "/hotelcategories/create", exact: true, component: <CreateHotelCategoryForm /> },
+  { path: "/hotelcategories/update", exact: true, component: <UpdateHotelCategoryForm /> },
 
   //Facilities
   { path: "/facilities", exact: true, component: <ViewFacility /> },

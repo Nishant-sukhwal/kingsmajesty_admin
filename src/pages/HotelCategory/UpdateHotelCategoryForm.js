@@ -37,6 +37,7 @@ const UpdateHotelCategoryForm = () => {
         const fetchData = async () => {
             try {
                 const data = await getHotelCategoryByIdApi(id);
+                console.log(data);
                 setFetchedData(prevData => ({
                     ...prevData,
                     name: data.hotelCategory.name,

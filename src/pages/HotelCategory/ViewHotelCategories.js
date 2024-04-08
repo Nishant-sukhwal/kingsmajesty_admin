@@ -163,7 +163,7 @@ const ViewHotelCategories = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={`/roomcategories/update?id=${cellProps._id}`}
+              to={`/hotelcategories/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -187,7 +187,7 @@ const ViewHotelCategories = () => {
 
   const breadcrumbItems = [
     { title: "Kingmajesty", link: "/" },
-    { title: "Payment Methods", link: "#" },
+    { title: "Hotel Category", link: "#" },
   ];
 
   const navigate = useNavigate();
@@ -199,7 +199,7 @@ const ViewHotelCategories = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <Breadcrumbs title="Payment Methods" breadcrumbItems={breadcrumbItems} />
+          <Breadcrumbs title="Hotel Category" breadcrumbItems={breadcrumbItems} />
           <Card>
             <CardBody>
               <TableContainer

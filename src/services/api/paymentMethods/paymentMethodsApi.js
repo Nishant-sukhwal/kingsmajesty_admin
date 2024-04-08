@@ -42,19 +42,38 @@ export const PaymentMethodsCreateApi = async (formData) => {
   }
 };
 
-export const facilityUpdateApi = async (formData, id) => {
+
+export const getPaymentMethodsByIdApi = async (id) => {
+  console.log(id);
+  try {
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const response = await axios.get(
+      `http://localhost:8086/v1/pm/payment-methods/get-paymentmethod/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching facility by ID:", error);
+    throw error;
+  }
+};
+
+export const paymentMethodsUpdateApi = async (formData, id) => {
   try {
     const token = localStorage.getItem("token");
     const data = new FormData();
-    data.append("facilityName", formData.name);
-    data.append("image", formData.media);
-    console.log("data in api send: ", data);
+    data.append("name", formData.name);
     const response = await axios.patch(
-      `http://localhost:8086/v1/new/facility/update-facility/${id}`,
+      `http://localhost:8086/v1/pm/payment-methods/update-paymentmethod/${id}`,
       data,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       }
@@ -67,11 +86,11 @@ export const facilityUpdateApi = async (formData, id) => {
   }
 };
 
-export const deleteFacilityApi = async (facilityId) => {
+export const deletePaymentMethod = async (id) => {
   try {
     const token = localStorage.getItem("token");
     const response = await axios.delete(
-      `http://localhost:8086/v1/new/facility/delete-facility/${facilityId}`,
+      `http://localhost:8086/v1/pm/payment-methods/delete-paymentmethod/${id}`,
       {
         headers: {
           "Content-Type": "application/json",

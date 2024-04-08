@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
 import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
+import { deletePaymentMethod } from "../../services/api/paymentMethods/paymentMethodsApi";
 
 const ViewPayment = () => {
   const [paymentMethods, setPaymentMethods] = useState([]);
@@ -50,27 +51,27 @@ const ViewPayment = () => {
   };
   
 
-  const handleDeleteClick = (facilityId) => {
+  const handleDeleteClick = (id) => {
     setShowDeleteModal(true);
-    setSelectedFacilities([facilityId]);
+    setSelectedFacilities([id]);
   };
 
-  // const handleDeleteConfirm = async () => {
-  //   try {
-  //     for (const facilityId of selectedFacilities) {
-  //       await deleteFacilityApi(facilityId);
-  //     }
+  const handleDeleteConfirm = async () => {
+    try {
+      for (const facilityId of selectedFacilities) {
+        await deletePaymentMethod(facilityId);
+      }
 
-  //     const updatedFacilities = await fetchFacilities();
-  //     setFacilities(updatedFacilities);
-  //     setSelectedFacilities([]);
-     
+      const updatedFacilities = await fetchHotelCategories();
+      sethHotelCategories(updatedFacilities);
+      setSelectedFacilities([]);
 
-  //     setShowDeleteModal(false);
-  //   } catch (error) {
-  //     console.error("Error deleting facility:", error);
-  //   }
-  // };
+
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error("Error deleting Hotel Category:", error);
+    }
+  };
 
    const columns = useMemo(
     () => [
@@ -159,7 +160,7 @@ const ViewPayment = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={''}
+              to={`/paymentmethods/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -167,7 +168,7 @@ const ViewPayment = () => {
             <Link
               to="#"
               className="text-danger"
-              // onClick={() => handleDeleteClick(cellProps._id)}
+              onClick={() => handleDeleteClick(cellProps._id)}
             >
               <i className="mdi mdi-trash-can font-size-18"></i>
             </Link>
