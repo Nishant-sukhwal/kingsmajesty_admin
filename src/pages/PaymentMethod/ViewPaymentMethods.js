@@ -20,11 +20,10 @@ const ViewPayment = () => {
           "http://localhost:8086/v1/pm/payment-methods/get-paymentmethods"
         );
         const data = await response.json();
-        // const filteredFacilities = data.facilities.filter(
-        //   (facility) => !facility.deleted
-        // );
-        console.log('data is here data data data data : ',data)
-        setPaymentMethods(data.pamentMethods);
+        const filteredpaymentMethods = data.paymentMethods.filter(
+          (item) => !item.deleted
+        );
+        setPaymentMethods(filteredpaymentMethods);
       } catch (error) {
         console.error("Error fetching facilities:", error);
       }
@@ -34,17 +33,18 @@ const ViewPayment = () => {
   }, []);
 
   //This is for delete
-  const fetchFacilities = async () => {
+  const fetchPaymentMethods = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8086/v1/new/facility/get-facilities"
+        "http://localhost:8086/v1/pm/payment-methods/get-paymentmethods"
       );
       const data = await response.json();
-      const filteredFacilities = data.facilities.filter(
-        (facility) => !facility.deleted
+      
+      const filteredpaymentMethods = data.paymentMethods.filter(
+        (item) => !item.deleted
       );
       // setFacilities(filteredFacilities);
-      return filteredFacilities;
+      return filteredpaymentMethods;
     } catch (error) {
       console.error("Error fetching facilities:", error);
     }
@@ -58,12 +58,13 @@ const ViewPayment = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      for (const facilityId of selectedFacilities) {
-        await deletePaymentMethod(facilityId);
+      for (const Id of selectedFacilities) {
+        await deletePaymentMethod(Id);
       }
 
-      const updatedFacilities = await fetchHotelCategories();
-      sethHotelCategories(updatedFacilities);
+      const updatedPaymentMethods = await fetchPaymentMethods();
+      
+      setPaymentMethods(updatedPaymentMethods);
       setSelectedFacilities([]);
 
 
@@ -218,7 +219,7 @@ const ViewPayment = () => {
               <ConfirmationModal
                 isOpen={showDeleteModal}
                 toggle={() => setShowDeleteModal(!showDeleteModal)}
-                // onConfirm={handleDeleteConfirm}
+                onConfirm={handleDeleteConfirm}
                 message="Are you sure you want to delete the selected facilities?"
               />
             </CardBody>

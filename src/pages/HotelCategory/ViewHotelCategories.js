@@ -23,7 +23,6 @@ const ViewHotelCategories = () => {
         const filteredHotelCategories = data.hotelCategories.filter(
           (item) => !item.deleted
         );
-        console.log('data is here data data data data : ', data)
         sethHotelCategories(filteredHotelCategories);
       } catch (error) {
         console.error("Error fetching facilities:", error);
@@ -40,13 +39,10 @@ const ViewHotelCategories = () => {
         "http://localhost:8086/v1/hc/hotel-categories/get-hotelcategories"
       );
       const data = await response.json();
-      console.log(data)
             
       const filteredHotelCategories = data.hotelCategories.filter(
         (item) => !item.deleted
       );
-      // sethHotelCategories(data.hotelCategories);
-      console.log(data)
       return filteredHotelCategories
     } catch (error) {
       console.error("Error fetching facilities:", error);
