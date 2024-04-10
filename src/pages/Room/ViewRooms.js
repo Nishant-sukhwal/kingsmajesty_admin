@@ -122,8 +122,8 @@ const ViewRooms = () => {
         Header: "Action",
         accessor: (cellProps) => (
           <React.Fragment>
-            <Link
-              to="#"
+           <Link
+              to={`/room/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>

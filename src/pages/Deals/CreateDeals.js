@@ -3,6 +3,9 @@ import { Button, Card, CardBody, Container } from "reactstrap";
 import GenralForm from "../../components/Form/GenricForm/GenralForm";
 import { useDispatch } from "react-redux";
 import { saveDeals } from "../../store/deals/actions";
+import SubHeader from "../../components/Common/SubHeader";
+import toastr from 'toastr'
+import 'toastr/build/toastr.min.css'
 
 const CreateDeals = () => {
   const dispatch = useDispatch();
@@ -33,6 +36,7 @@ const CreateDeals = () => {
 
   const handleSubmit = () => {
     dispatch(saveDeals(formData))
+    toastr.success('Deal created successfully!', 'Success');
   };
 
   return (
@@ -40,6 +44,7 @@ const CreateDeals = () => {
       <Container fluid={true}>
         <Card>
           <CardBody>
+            <SubHeader value={'/deals'} />
             <GenralForm formFields={formFields} onChange={handleFormChange} />
             <Button color="primary" type="submit" onClick={handleSubmit}>
               Submit

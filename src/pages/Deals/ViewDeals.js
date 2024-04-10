@@ -1,44 +1,85 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useMemo } from "react";
 import TableContainer from "../../components/Common/TableContainer";
-import {  Card, CardBody, Col, Container, Row } from "reactstrap";
+import { Card, CardBody, Col, Container, Row } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
 import { useDispatch, useSelector } from "react-redux";
-import {  getDeals } from "../../store/actions";
+import { getDeals } from "../../store/actions";
+import { deleteDealsApi, getDealsApi } from "../../services/api/deals/dealsApi";
 
 const ViewDeals = () => {
-  const dispatch = useDispatch();
 
-  const deals = useSelector((state) => state.Deals.deals);
 
-  const [deal, setDeal] = useState([]);
+
+
+  const [deals, setDeals] = useState([]);
   console.log(deals);
 
-  // const [selectedFacilities, setSelectedFacilities] = useState([]);
+  const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
 
+
   useEffect(() => {
-    dispatch(getDeals());
+    const fetchDeals = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8086/v1/dl/deals/get-deals"
+        );
+        const data = await response.json();
+        const filteredData = data.deals.filter(
+          (item) => !item.deleted
+        );
+
+        setDeals(filteredData);
+      } catch (error) {
+        console.error("Error fetching facilities:", error);
+      }
+    };
+
+    fetchDeals();
   }, []);
 
-  const handleDeleteClick = (facilityId) => {
+
+  const handleDeleteClick = (id) => {
     setShowDeleteModal(true);
-    // setSelectedFacilities([facilityId]);
+    setSelectedFacilities([id]);
+  };
+
+   //This is for delete
+   const fetchDeals = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8086/v1/dl/deals/get-deals"
+      );
+      const data = await response.json();
+      console.log(data);
+      const filteredData = data.deals.filter(
+        (item) => !item.deleted
+      );
+      // setFacilities(filteredFacilities);
+      return filteredData;
+    } catch (error) {
+      console.error("Error fetching facilities:", error);
+    }
   };
 
   const handleDeleteConfirm = async () => {
     try {
-      // for (const facilityId of selectedFacilities) {
-      //   await deleteFacilityApi(facilityId);
-      // }
-      // const updatedFacilities = await fetchFacilities();
-      // setFacilities(updatedFacilities);
-      // setSelectedFacilities([]);
-      // setShowDeleteModal(false);
+      for (const Id of selectedFacilities) {
+        await deleteDealsApi(Id);
+      }
+
+      const updateDeals = await fetchDeals();
+
+      setDeals(updateDeals);
+      setSelectedFacilities([]);
+
+
+      setShowDeleteModal(false);
     } catch (error) {
-      console.error("Error deleting facility:", error);
+      console.error("Error deleting deal:", error);
     }
   };
 
@@ -128,7 +169,10 @@ const ViewDeals = () => {
         Header: "Action",
         accessor: (cellProps) => (
           <React.Fragment>
-            <Link to="#" className="me-3 text-primary">
+            <Link
+              to={`/deals/update?id=${cellProps._id}`}
+              className="me-3 text-primary"
+            >
               <i className="mdi mdi-pencil font-size-18"></i>
             </Link>
             <Link
@@ -145,7 +189,7 @@ const ViewDeals = () => {
         disableSortBy: true,
       },
     ],
-    [deal]
+    [deals]
   );
 
   const breadcrumbItems = [

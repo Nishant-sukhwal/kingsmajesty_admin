@@ -66,3 +66,24 @@ export const addRoomApi = async (formData) => {
     throw error;
   }
 };
+
+
+export const getRoomByIdApi = async (id) => {
+  console.log(id);
+  try {
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const response = await axios.get(
+      `http://localhost:8086/v1/rm/rooms/get-rooms/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching facility by ID:", error);
+    throw error;
+  }
+};
