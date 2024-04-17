@@ -16,9 +16,10 @@ import { getRoomByIdApi } from "../../services/api/room/roomsApi";
 const UpdateRoom = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const dispatch = useDispatch();
     const id = searchParams.get("id")
-    const [ rooms , setRooms] = useState([]);
+    const [rooms, setRooms] = useState([]);
+    const dispatch = useDispatch();
+
     const [
         hotelDropdownOptions,
         categories,
@@ -62,48 +63,74 @@ const UpdateRoom = () => {
         max_children: "",
         rooms_stock: "",
     });
-    console.log(formData);
+    console.log('formData formData formData formData formData formData formData',formData);
 
     const handleFormChange = (fieldName, value) => {
         console.log(fieldName, value);
-        setFormData({
+        setFormData(formData => ({
             ...formData,
             [fieldName]: value,
-        });
+        }));
     };
 
-    //   useEffect(() => {
-    //     dispatch(fetchHotelDropdownOptions());
-    //     dispatch(getCategories());
-    //     dispatch(getFacilityList());
-    //     dispatch(getDeals());
-    //   }, []);
+    useEffect(() => {
+        dispatch(fetchHotelDropdownOptions());
+        dispatch(getCategories());
+        dispatch(getFacilityList());
+        dispatch(getDeals());
+    }, []);
 
     useEffect(() => {
         const fetchRooms = async () => {
-          try {
-            // Fetch data from your API endpoint
-            const data = await getRoomByIdApi(id)
-            console.log(data.rooms);
-             
-            setFetchedData(prevData => ({
-                ...prevData,
-                max_adults: data.rooms?.max_adults,
-            }));
+            try {
+                // Fetch data from your API endpoint
+                const data = await getRoomByIdApi(id)
+                console.log("data.rooms data.rooms data.rooms data.rooms",data.rooms?.facilities);
 
-            setFormData(prevData => ({
-                ...prevData,
-                max_adults: data.rooms?.max_adults,
-            }));
-            // setRooms(data.rooms);
-          } catch (error) {
-            console.error("Error fetching rooms:", error);
-          }
+                setFetchedData(prevData => ({
+                    ...prevData,
+                    category: data.rooms?.category,
+                    hotel: data.rooms?.hotel,
+                    facilities: data.rooms?.facilities,
+                    deals: data.rooms?.deals,
+                    description: data.rooms?.description,
+                    thumbnail: data.rooms?.thumbnail,
+                    gallery: data.rooms?.gallery,
+
+                    min_people: data.rooms?.min_people,
+                    max_adults: data.rooms?.max_adults,
+                    base_Price: data.rooms?.base_Price,
+                    todays_price: data.rooms?.todays_price,
+                    max_children: data.rooms?.max_children,
+                    rooms_stock: data.rooms?.rooms_stock,
+                }));
+
+                setFormData(prevData => ({
+                    ...prevData,
+                    category: data.rooms?.category,
+                    hotel: data.rooms?.hotel,
+                    facilities: data.rooms?.facilities,
+                    deals: data.rooms?.deals,
+                    description: data.rooms?.description,
+                    thumbnail: data.rooms?.thumbnail,
+                    gallery: data.rooms?.gallery,
+
+                    min_people: data.rooms?.min_people,
+                    max_adults: data.rooms?.max_adults,
+                    base_Price: data.rooms?.base_Price,
+                    todays_price: data.rooms?.todays_price,
+                    max_children: data.rooms?.max_children,
+                    rooms_stock: data.rooms?.rooms_stock,
+                }));
+                // setRooms(data.rooms);
+            } catch (error) {
+                console.error("Error fetching rooms:", error);
+            }
         };
-    
+
         fetchRooms();
-      }, [id]);
-    
+    }, [id]);
+
 
     const [
         hotelsListOption,
@@ -138,6 +165,7 @@ const UpdateRoom = () => {
                 type: "select",
                 errorMessage: "Please Select Hotel",
                 value: formData.hotel,
+                defaultValue: formData.hotel,
                 options: hotelsListOption,
             },
             {
@@ -148,6 +176,7 @@ const UpdateRoom = () => {
                 value: formData.category,
                 placeholder: "Select Room Category Name eg: Delux,SuperDelux...",
                 options: roomCategoryOptions,
+                defaultValue: formData.category,
             },
             {
                 fieldName: "min_people",
@@ -156,6 +185,7 @@ const UpdateRoom = () => {
                 errorMessage: "Enter Minimum People",
                 placeholder: "Enter Minimum Number of People in Room",
                 value: "",
+                defaultValue: formData.min_people,
             },
             {
                 fieldName: "max_adults",
@@ -163,7 +193,8 @@ const UpdateRoom = () => {
                 type: "number",
                 errorMessage: "Enter Max Adults",
                 placeholder: "Enter Maximum Number of Adults in Room",
-                value: fetchedData?.max_adults,
+                // value: formData?.max_adults,
+                defaultValue: formData.max_adults,
             },
             {
                 fieldName: "base_Price",
@@ -172,6 +203,7 @@ const UpdateRoom = () => {
                 errorMessage: "Enter Base Price",
                 placeholder: "Enter Base Price",
                 value: "",
+                defaultValue: formData.base_Price,
             },
             {
                 fieldName: "todays_price",
@@ -180,6 +212,7 @@ const UpdateRoom = () => {
                 errorMessage: "Enter Todays Price",
                 placeholder: "Enter Todays Price",
                 value: "",
+                defaultValue: formData.todays_price,
             },
             {
                 fieldName: "max_children",
@@ -188,6 +221,7 @@ const UpdateRoom = () => {
                 errorMessage: "Enter Max. Children in Room",
                 placeholder: "Enter Max. Children in Room",
                 value: "",
+                defaultValue: formData.max_children,
             },
             {
                 fieldName: "rooms_stock",
@@ -196,6 +230,7 @@ const UpdateRoom = () => {
                 errorMessage: "Enter Number of Rooms Available in stock ",
                 placeholder: "Enter Number of Rooms in stock",
                 value: "",
+                defaultValue: formData.rooms_stock,
             },
             {
                 fieldName: "facilities",
@@ -206,6 +241,7 @@ const UpdateRoom = () => {
                 placeholder: "Select Facilities For Room eg: TV,AC,WiFi...",
                 isMulti: true,
                 options: facilitiesOptions,
+                defaultValue: formData.facilities,
             },
             {
                 fieldName: "deals",
@@ -216,6 +252,7 @@ const UpdateRoom = () => {
                 placeholder: "Select Deals For Room",
                 isMulti: true,
                 options: dealsOptions,
+                defaultValue: formData.deals,
             },
             {
                 fieldName: "thumbnail",
@@ -224,6 +261,7 @@ const UpdateRoom = () => {
                 errorMessage: "Select File",
                 value: formData.thumbnail,
                 placeholder: "Select Image...",
+                defaultValue: formData.thumbnail,
                 imageViewer: true, // Enable image viewer for this field
             },
             {
@@ -233,6 +271,7 @@ const UpdateRoom = () => {
                 errorMessage: "Select File",
                 placeholder: "Select Image...",
                 value: formData.gallery,
+                defaultValue: formData.gallery,
                 multiple: true,
                 imageViewer: true, // Enable image viewer for this field
             },
@@ -240,6 +279,7 @@ const UpdateRoom = () => {
                 fieldName: "description",
                 label: "Description",
                 type: "editor",
+                defaultValue: formData.description,
             },
         ],
     };

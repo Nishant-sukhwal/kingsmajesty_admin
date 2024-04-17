@@ -8,11 +8,10 @@ const NumberInput = ({
   errorMessage,
   placeholder,
   value,
-  defaultValue,
+  defaultVal,
   maxLength,
 }) => {
   const [inputError, setInputError] = useState(false);
-
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     onChange(fieldName, inputValue); // Pass the updated value back to the parent component
@@ -28,11 +27,12 @@ const NumberInput = ({
         <Input
           type="number"
           onChange={handleInputChange}
-          value={value || defaultValue}
+          value={defaultVal}
           placeholder={placeholder}
           required
           invalid={inputError}
           maxLength={maxLength}
+          // defaultValue={defaultVal}
         />
         {inputError && <FormFeedback>{errorMessage}</FormFeedback>}
       </Col>

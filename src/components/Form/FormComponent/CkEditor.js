@@ -3,7 +3,8 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Col, Label, Row } from "reactstrap";
 
-const CkEditor = ({ initialData, label, onChange, fieldName, id }) => {
+const CkEditor = ({ initialData, label, onChange, fieldName, id ,defaultVal}) => {
+
   const handleEditorChange = (event, editor) => {
     const data = editor.getData();
     onChange(fieldName, data); // Update the form data with CKEditor content
@@ -16,8 +17,9 @@ const CkEditor = ({ initialData, label, onChange, fieldName, id }) => {
       </Label>
       <Col>
         <CKEditor
+          value={defaultVal}
           editor={ClassicEditor}
-          data={initialData}
+          data={defaultVal}
           onChange={handleEditorChange}
         />
       </Col>

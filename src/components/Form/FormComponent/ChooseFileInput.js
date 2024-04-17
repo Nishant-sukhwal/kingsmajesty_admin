@@ -10,9 +10,12 @@ const ChooseFileInput = ({
   multiple,
   imageViewer,
   fieldName,
-  value
+  value,
+  defaultVal
 }) => {
- console.log("Value is here ",value )
+
+
+ console.log("Value is here ",defaultVal )
   const [files, setFiles] = useState([]);
   const initializeFiles = () => {
     if (value && value.length > 0) {
@@ -57,7 +60,7 @@ const ChooseFileInput = ({
       </Row>
 
       <Row className="d-flex flex-row mb-3" >
-        {imageViewer && <ImageViewer files={files} onRemoveFile={removeFile} />}
+        {imageViewer && <ImageViewer files={files} onRemoveFile={removeFile} defaultValue={defaultVal} />}
       </Row>
       </>
   );

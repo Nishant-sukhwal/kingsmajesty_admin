@@ -13,7 +13,6 @@ import RadioButton from "../FormComponent/RadioInput";
 import TimeInput from "../FormComponent/TimeInput";
 
 const GenralForm = ({ formFields, onChange }) => {
-  
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate(formFields.backbutton);
@@ -56,6 +55,8 @@ const GenralForm = ({ formFields, onChange }) => {
                       errorMessage={fieldConfig.errorMessage}
                       isMulti={fieldConfig.isMulti}
                       placeholder={fieldConfig.placeholder}
+                      defaultVal={fieldConfig.defaultValue}
+                      // categoryVal={fieldConfig.categoryValue}
                     />
                   </Col>
                 );
@@ -69,6 +70,7 @@ const GenralForm = ({ formFields, onChange }) => {
                       errorMessage={fieldConfig.errorMessage}
                       value={fieldConfig.value}
                       isMulti={fieldConfig.isMulti}
+                      defaultVal={fieldConfig.defaultValue}
                       imageViewer={fieldConfig.imageViewer}
                       multiple={fieldConfig.multiple}
                     />
@@ -81,6 +83,7 @@ const GenralForm = ({ formFields, onChange }) => {
                       label={fieldConfig.label}
                       fieldName={fieldConfig.fieldName}
                       onChange={handleFieldChange}
+                      defaultVal={fieldConfig.defaultValue}
                     />
                   </Col>
                 );
@@ -94,6 +97,7 @@ const GenralForm = ({ formFields, onChange }) => {
                       errorMessage={fieldConfig.errorMessage}
                       placeholder={fieldConfig.placeholder}
                       value={fieldConfig.value}
+                      defaultVal={fieldConfig.defaultValue}
                       maxLength={fieldConfig.maxLength}
                     />
                   </Col>
