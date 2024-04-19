@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Row, Col, Label, Input, FormFeedback } from "reactstrap";
 
-const RadioButton = ({ fieldName, label, options, value, onChange }) => {
+const RadioButton = ({ fieldName, label, options, value, onChange,defaultVal }) => {
+    console.log(" im radio button",defaultVal)
     const [selectedOption, setSelectedOption] = useState(value);
+
+    useEffect(() => {
+        setSelectedOption(defaultVal); // Update selectedOption when value prop changes
+    }, [defaultVal]);
 
     const handleOptionChange = (e) => {
         const selectedOption = e.target.value;
@@ -25,6 +30,7 @@ const RadioButton = ({ fieldName, label, options, value, onChange }) => {
                             value={option}
                             checked={selectedOption === option}
                             onChange={handleOptionChange}
+                            defaultValue={defaultVal}
                         />
                         <Label className="form-check-label" htmlFor={`${fieldName}-${option}`}>
                             {option}

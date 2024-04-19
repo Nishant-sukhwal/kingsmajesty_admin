@@ -153,7 +153,7 @@ const ViewHotels = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to='#'
+               to={`/hotel/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>

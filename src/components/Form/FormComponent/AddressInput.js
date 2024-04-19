@@ -5,7 +5,7 @@ const AddressInput = ({
   label,
   id,
   fieldName,
-  defaultValue,
+  defaultVal,
   errorMessage,
   value,
   onChange,
@@ -28,7 +28,8 @@ const AddressInput = ({
       <Col className="col-md-11">
         <Input
           type="textarea"
-          value={value || defaultValue}
+          defaultValue={defaultVal}
+          value={value}
           placeholder={placeholder}
           onChange={handleInputChange}
           required

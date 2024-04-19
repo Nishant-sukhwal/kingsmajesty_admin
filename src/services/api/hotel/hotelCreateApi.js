@@ -139,3 +139,24 @@ export const BasicInfoAddApi = async (formData) => {
     }
   };
 
+
+
+  export const getHotelByIdApi = async (id) => {
+    try {
+      const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+      const response = await axios.get(
+        `http://localhost:8086/v1/ht/hotels/get-hotels/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching hotel by ID:", error);
+      throw error;
+    }
+  };
+  

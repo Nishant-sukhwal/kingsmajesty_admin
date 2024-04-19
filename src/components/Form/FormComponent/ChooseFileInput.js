@@ -13,9 +13,6 @@ const ChooseFileInput = ({
   value,
   defaultVal
 }) => {
-
-
- console.log("Value is here ",defaultVal )
   const [files, setFiles] = useState([]);
   const initializeFiles = () => {
     if (value && value.length > 0) {

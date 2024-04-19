@@ -1,7 +1,8 @@
-import { GET_HOTEL_ID } from "./actionTypes";
+import { GET_HOTEL_BY_ID, GET_HOTEL_ID } from "./actionTypes";
 
 const INIT_STATE = {
-	id: ""
+	id: "",
+	data: ""
 };
 
 const Hotel = (state = INIT_STATE, action) => {
@@ -11,7 +12,11 @@ const Hotel = (state = INIT_STATE, action) => {
 				...state,
 				id: action.payload
 			};		
-		
+			case GET_HOTEL_BY_ID:
+				return {
+					...state,
+					data: action.payload
+				};		
 		default:
 			return state;
 	}

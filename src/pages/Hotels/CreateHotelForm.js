@@ -114,7 +114,7 @@ const CreateHotel = () => {
                     <TabContent
                       activeTab={activeTab}
                       className="twitter-bs-wizard-tab-content"
-                    >
+                    > 
                       {[1, 2, 3, 4, 5].map((tab) => (
                         <TabPane key={tab} tabId={tab}>
                           {tab === 1 && <BasicInfoForm ref={basicInfoFormRef} onSubmitSuccess={handleBasicInfoSubmitSuccess} />}

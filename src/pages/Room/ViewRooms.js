@@ -7,14 +7,17 @@ import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
+import { deleteRoomApi } from "../../services/api/room/roomsApi";
 
 const ViewRooms = () => {
   const [facilities, setFacilities] = useState([]);
+
   const [selectedFacilities, setSelectedFacilities] = useState([]);
+  
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
  
   const [rooms, setRooms] = useState([]);
-  console.log(rooms);
+  
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -22,7 +25,10 @@ const ViewRooms = () => {
         // Fetch data from your API endpoint
         const response = await fetch("http://localhost:8086/v1/rm/rooms/get-rooms");
         const data = await response.json();
-        setRooms(data.rooms);
+        const filteredRooms = data.rooms.filter(
+          (item) => !item.deleted
+        );
+        setRooms(filteredRooms);
       } catch (error) {
         console.error("Error fetching rooms:", error);
       }
@@ -30,6 +36,46 @@ const ViewRooms = () => {
 
     fetchRooms();
   }, []);
+
+     //This is for delete
+     const fetchRooms = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8086/v1/rm/rooms/get-rooms"
+        );
+        const data = await response.json();
+        
+        const filteredRooms = data.rooms.filter(
+          (item) => !item.deleted
+        );
+        return filteredRooms;
+      } catch (error) {
+        console.error("Error fetching facilities:", error);
+      }
+    };
+
+  const handleDeleteClick = (id) => {
+    setShowDeleteModal(true);
+    setSelectedFacilities([id]);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      for (const Id of selectedFacilities) {
+        await deleteRoomApi(Id);
+      }
+
+      const updatedRoom = await fetchRooms();
+      
+      setRooms(updatedRoom);
+      setSelectedFacilities([]);
+
+
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error("Error deleting Room:", error);
+    }
+  };
 
 
   const columns = useMemo(
@@ -94,7 +140,6 @@ const ViewRooms = () => {
       //   accessor: "_id",
       //   disableFilters: true,
       //   filterable: false,
-       
       // },
       {
         Header: "Image",
@@ -121,6 +166,7 @@ const ViewRooms = () => {
       {
         Header: "Action",
         accessor: (cellProps) => (
+          console.log(cellProps._id),
           <React.Fragment>
            <Link
               to={`/room/update?id=${cellProps._id}`}
@@ -131,7 +177,7 @@ const ViewRooms = () => {
             <Link
               to="#"
               className="text-danger"
-              onClick={() => handleDeleteClick(cellProps.original)}
+              onClick={() => handleDeleteClick(cellProps._id)}
             >
               <i className="mdi mdi-trash-can font-size-18"></i>
             </Link>
@@ -155,18 +201,8 @@ const ViewRooms = () => {
     navigate("/room/create");
   };
 
-  const handleDeleteClick = () => {
-    // Show the delete confirmation modal when the delete link is clicked
-    setShowDeleteModal(true);
-  };
-  const handleDeleteConfirm = () => {
-    // Handle the delete confirmation
-    // Perform your delete logic here
-    console.log("Deleting selected facilities:", selectedFacilities);
+ 
 
-    // Close the confirmation modal
-    setShowDeleteModal(false);
-  };
   return (
     <React.Fragment>
       <div className="page-content">

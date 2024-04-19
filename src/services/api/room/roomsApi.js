@@ -10,15 +10,15 @@ export const fetchHotelsDropdownListApi = async () => {
       {
         headers: {
           "Content-Type": "application/json",
-        //   Authorization: `Bearer ${token}`,
+          //   Authorization: `Bearer ${token}`,
         },
       }
     );
-    
+
     return response.data;
-    
+
   } catch (error) {
-    
+
     console.error("Error creating  facility :", error);
     throw error;
   }
@@ -29,24 +29,24 @@ export const addRoomApi = async (formData) => {
   try {
     // const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const formDataToSend = new FormData();
-      // Append thumbnail
-      formDataToSend.append("thumbnail", formData.thumbnail);
-      // Append gallery files
-      formData.gallery.forEach((file, index) => {
-        formDataToSend.append(`gallery`, file);
-      });
-      //other fields
-      formDataToSend.append("hotel", formData.hotel);
-      formDataToSend.append("category", formData.category);
-      formDataToSend.append("min_people", formData.min_people);
-      formDataToSend.append("max_adults", formData.max_adults);
-      formDataToSend.append("base_Price", formData.base_Price);
-      formDataToSend.append("todays_price", formData.todays_price);
-      formDataToSend.append("max_children", formData.max_children);
-      formDataToSend.append("rooms_stock", formData.rooms_stock);
-      formDataToSend.append("description", formData.description);
-      formDataToSend.append("facilities", JSON.stringify(formData.facilities)); // Assuming facilities is an array, stringify it
-      formDataToSend.append("deals", JSON.stringify(formData.deals));
+    // Append thumbnail
+    formDataToSend.append("thumbnail", formData.thumbnail);
+    // Append gallery files
+    formData.gallery.forEach((file, index) => {
+      formDataToSend.append(`gallery`, file);
+    });
+    //other fields
+    formDataToSend.append("hotel", formData.hotel);
+    formDataToSend.append("category", formData.category);
+    formDataToSend.append("min_people", formData.min_people);
+    formDataToSend.append("max_adults", formData.max_adults);
+    formDataToSend.append("base_Price", formData.base_Price);
+    formDataToSend.append("todays_price", formData.todays_price);
+    formDataToSend.append("max_children", formData.max_children);
+    formDataToSend.append("rooms_stock", formData.rooms_stock);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("facilities", JSON.stringify(formData.facilities)); // Assuming facilities is an array, stringify it
+    formDataToSend.append("deals", JSON.stringify(formData.deals));
 
     const response = await axios.post(
       "http://localhost:8086/v1/rm/rooms/add-room",
@@ -54,7 +54,7 @@ export const addRoomApi = async (formData) => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
-        //   Authorization: `Bearer ${token}`,
+          //   Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -69,7 +69,6 @@ export const addRoomApi = async (formData) => {
 
 
 export const getRoomByIdApi = async (id) => {
-  console.log(id);
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
@@ -84,6 +83,68 @@ export const getRoomByIdApi = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching facility by ID:", error);
+    throw error;
+  }
+};
+
+export const updateRoomByIdApi = async (id,formData) => {
+  try {
+    // const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const formDataToSend = new FormData();
+    // Append thumbnail
+    formDataToSend.append("thumbnail", formData.thumbnail);
+    // Append gallery files
+    formData.gallery.forEach((file, index) => {
+      formDataToSend.append(`gallery`, file);
+    });
+    //other fields
+    formDataToSend.append("hotel", formData.hotel);
+    formDataToSend.append("category", formData.category);
+    formDataToSend.append("min_people", formData.min_people);
+    formDataToSend.append("max_adults", formData.max_adults);
+    formDataToSend.append("base_Price", formData.base_Price);
+    formDataToSend.append("todays_price", formData.todays_price);
+    formDataToSend.append("max_children", formData.max_children);
+    formDataToSend.append("rooms_stock", formData.rooms_stock);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("facilities", JSON.stringify(formData.facilities)); // Assuming facilities is an array, stringify it
+    formDataToSend.append("deals", JSON.stringify(formData.deals));
+
+    const response = await axios.patch(
+      `http://localhost:8086/v1/rm/rooms/update-room/${id}`,
+      formDataToSend,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching facility by ID:", error);
+    throw error;
+  }
+};
+
+
+
+export const deleteRoomApi = async (id) => {
+  console.log('id in hereeeeeeeeeeeeeeeeee',id)
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(
+      `http://localhost:8086/v1/rm/rooms/delete-room/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting facility:", error);
     throw error;
   }
 };

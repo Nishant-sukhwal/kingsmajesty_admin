@@ -40,6 +40,7 @@ const GenralForm = ({ formFields, onChange }) => {
                       value={fieldConfig.value}
                       placeholder={fieldConfig.placeholder}
                       onChange={handleFieldChange}
+                      defaultVal={fieldConfig.defaultValue}
                       // defaultValue={fieldConfig.value}
                     />
                   </Col>
@@ -112,6 +113,7 @@ const GenralForm = ({ formFields, onChange }) => {
                       value={fieldConfig.value}
                       placeholder={fieldConfig.placeholder}
                       onChange={handleFieldChange}
+                      defaultVal={fieldConfig.defaultValue}
                     />
                   </Col>
                 );
@@ -125,6 +127,7 @@ const GenralForm = ({ formFields, onChange }) => {
                       value={fieldConfig.value}
                       placeholder={fieldConfig.placeholder}
                       onChange={handleFieldChange}
+                      defaultVal={fieldConfig.defaultValue}
                     />
                   </Col>
                 );
@@ -139,6 +142,7 @@ const GenralForm = ({ formFields, onChange }) => {
                       placeholder={fieldConfig.placeholder}
                       onChange={handleFieldChange}
                       options={fieldConfig.options}
+                      defaultVal={fieldConfig.defaultValue}
                     />
                   </Col>
                 );

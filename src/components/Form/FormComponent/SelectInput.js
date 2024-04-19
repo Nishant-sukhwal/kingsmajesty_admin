@@ -16,7 +16,7 @@ const SelectInput = ({
 }) => {
   const [inputError, setInputError] = useState(false);
   const [defaultValue, setDefaultValue] = useState(null);
-  console.log("default Value in --------------->", defaultValue);
+  
   // Set the default value for the Select component
   // const defaultValue = options.find(option => option.value === defaultVal);
 

@@ -11,7 +11,7 @@ import {
     saveRoom,
 } from "../../store/actions";
 import SubHeader from "../../components/Common/SubHeader";
-import { getRoomByIdApi } from "../../services/api/room/roomsApi";
+import { getRoomByIdApi, updateRoomByIdApi } from "../../services/api/room/roomsApi";
 
 const UpdateRoom = () => {
     const location = useLocation();
@@ -63,10 +63,10 @@ const UpdateRoom = () => {
         max_children: "",
         rooms_stock: "",
     });
-    console.log('formData formData formData formData formData formData formData',formData);
+    
 
     const handleFormChange = (fieldName, value) => {
-        console.log(fieldName, value);
+        
         setFormData(formData => ({
             ...formData,
             [fieldName]: value,
@@ -85,7 +85,6 @@ const UpdateRoom = () => {
             try {
                 // Fetch data from your API endpoint
                 const data = await getRoomByIdApi(id)
-                console.log("data.rooms data.rooms data.rooms data.rooms",data.rooms?.facilities);
 
                 setFetchedData(prevData => ({
                     ...prevData,
@@ -96,7 +95,6 @@ const UpdateRoom = () => {
                     description: data.rooms?.description,
                     thumbnail: data.rooms?.thumbnail,
                     gallery: data.rooms?.gallery,
-
                     min_people: data.rooms?.min_people,
                     max_adults: data.rooms?.max_adults,
                     base_Price: data.rooms?.base_Price,
@@ -114,7 +112,6 @@ const UpdateRoom = () => {
                     description: data.rooms?.description,
                     thumbnail: data.rooms?.thumbnail,
                     gallery: data.rooms?.gallery,
-
                     min_people: data.rooms?.min_people,
                     max_adults: data.rooms?.max_adults,
                     base_Price: data.rooms?.base_Price,
@@ -285,7 +282,10 @@ const UpdateRoom = () => {
     };
 
     const handleSubmit = async () => {
-        dispatch(saveRoom(formData));
+        console.log("Update this data in DB", id,formData)
+        const res = updateRoomByIdApi(id, formData)
+        console.log("Api response is here in componet",res);
+        // dispatch(saveRoom(formData));
     };
 
     return (
@@ -296,7 +296,7 @@ const UpdateRoom = () => {
                         <SubHeader value="/rooms" />
                         <GenralForm formFields={formFields} onChange={handleFormChange} />
                         <Button color="primary" type="submit" onClick={handleSubmit}>
-                            Submit
+                            Update
                         </Button>
                     </CardBody>
                 </Card>

@@ -24,6 +24,7 @@ import Maintenance from "../pages/Utils/Maintenance";
 //Hotels
 import ViewHotels from "../pages/Hotels/ViewHotel";
 import CreateHotel from "../pages/Hotels/CreateHotelForm";
+import UpdateHotelForm from "../pages/Hotels/UpdateHotelForm"
 //Room
 import ViewRooms from "../pages/Room/ViewRooms";
 import CreateRoomForm from "../pages/Room/CreateRoomForm";
@@ -57,6 +58,7 @@ const authProtectedRoutes = [
   //Hotel
   { path: "/hotels", exact: true, component: <ViewHotels /> },
   { path: "/hotels/create", exact: true, component: <CreateHotel /> },
+  { path: "/hotel/update", exact: true, component: <UpdateHotelForm /> },
 
   //Paymentmethods
   { path: "/paymentmethods", exact: true, component: <ViewPayment /> },

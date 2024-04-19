@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { saveRoomCategoryReq } from '../../store/roomCategory/actions'
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
+import SubHeader from '../../components/Common/SubHeader'
 
 const CreateRoomCategoryForm = () => {
   // const [hotels, setHotels] = useState([]);
@@ -79,6 +80,7 @@ const CreateRoomCategoryForm = () => {
       <Container fluid={true}>
         <Card>
           <CardBody>
+          <SubHeader value={"/roomcategory"} />
             <GenralForm formFields={formFields} onChange={handleFormChange} />
             <Button color="primary" type="submit" onClick={handleSubmit}>
               Submit

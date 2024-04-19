@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Label, Input, FormFeedback } from "reactstrap";
 
 const EmailInput = ({
   label,
   id,
   fieldName,
-  defaultValue,
+  defaultVal,
   errorMessage,
   value,
   onChange,
   placeholder,
 }) => {
   const [inputError, setInputError] = useState(false);
+  const [inputValue,setInputValue] = useState()
+
+  useEffect(() => {
+    setInputValue(defaultVal);
+  },[defaultVal]);
 
   const handleInputChange = (e) => {
-    const inputValue = e.target.value;
+    const inputVal = e.target.value;
+    setInputValue(inputVal)
     onChange(fieldName, inputValue);
     // Check if the input value is empty and set inputError accordingly
     setInputError(inputValue.trim() === "");
@@ -28,7 +34,7 @@ const EmailInput = ({
       <Col className="col-md-10">
         <Input
           type="email"
-          value={value || defaultValue}
+          value={inputValue}
           placeholder={placeholder}
           onChange={handleInputChange}
           required
