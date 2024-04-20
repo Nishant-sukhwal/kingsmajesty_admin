@@ -19,6 +19,7 @@ const CreateHotel = () => {
   const mediaFormRef = useRef(null);
   const propertyRulesFormRef = useRef(null);
   const facilitiesFormRef = useRef(null);
+  
   const toggleTab = (tab) => {
     if (activeTab !== tab && tab >= 1 && tab <= 5) {
       setActiveTab(tab);

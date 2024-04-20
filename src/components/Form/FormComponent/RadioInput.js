@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
 import { Row, Col, Label, Input, FormFeedback } from "reactstrap";
 
 const RadioButton = ({ fieldName, label, options, value, onChange,defaultVal }) => {
-    console.log(" im radio button",defaultVal)
     const [selectedOption, setSelectedOption] = useState(value);
 
     useEffect(() => {

@@ -7,11 +7,18 @@ import { AddLocationInfoApi } from "../../../services/api/hotel/hotelCreateApi";
 import { useSelector } from "react-redux";
 import { Container } from "reactstrap";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
+import { useLocation } from "react-router-dom";
 
 const LocationForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestedAddresses, setSuggestedAddresses] = useState([]);
+  const hotel = useSelector((state) => state.Hotel.data);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get("id")
+
+
   const [selectedPlaceDetails, setSelectedPlaceDetails] = useState({
     country: "",
     state: "",
@@ -34,11 +41,26 @@ const LocationForm = forwardRef((props, ref) => {
 
   const handleFormChange = (fieldName, value) => {
     console.log(fieldName, value);
-    setFormData({
+    setFormData(formData => ({
       ...formData,
       [fieldName]: value,
-    });
+    }));
   };
+
+
+  useEffect(() => {
+    setFormData(prevData => ({
+      ...prevData,
+      address: hotel?.address,
+      country: hotel?.country,
+      state: hotel?.state,
+      city: hotel?.city,
+      zipcode: hotel?.zipcode,
+      latitude: hotel?.latitude,
+      longitude: hotel?.longitude,
+    }))
+    setSearchTerm(hotel?.address)
+  }, [hotel, id])
 
 
   useEffect(() => {
@@ -69,7 +91,8 @@ const LocationForm = forwardRef((props, ref) => {
 
     if (field === "address" && !value.trim()) {
       // If address field is empty, reset formData
-      setFormData({
+      setFormData(prevData => ({
+        ...prevData,
         address: "",
         country: "",
         state: "",
@@ -77,7 +100,7 @@ const LocationForm = forwardRef((props, ref) => {
         zipcode: "",
         latitude: "",
         longitude: "",
-      });
+      }));
 
       setSuggestedAddresses([]); // Clear suggestions
     } else {
@@ -148,7 +171,8 @@ const LocationForm = forwardRef((props, ref) => {
 
           setSearchTerm(selectedAddress);
 
-          setFormData({
+          setFormData(prevData => ({
+            ...prevData,
             address: selectedAddress,
             country: getAddressComponent("country", addressComponents),
             state: getAddressComponent(
@@ -159,7 +183,7 @@ const LocationForm = forwardRef((props, ref) => {
             zipcode: getAddressComponent("postal_code", addressComponents),
             latitude: geometry.lat(),
             longitude: geometry.lng(),
-          });
+          }));
 
           setSuggestedAddresses([]); // Clear suggestions
         }
@@ -183,12 +207,12 @@ const LocationForm = forwardRef((props, ref) => {
 
   const formFields = {
     form: [
-      { fieldName: "country", label: "Country", type: "text", required: true, errorMessage: "Please Enter Country", placeholder: "Enter Country", },
-      { fieldName: "state", label: "State", type: "text", required: true, errorMessage: "Please Enter State", placeholder: "Enter State", },
-      { fieldName: "city", label: "City", type: "text", required: true, errorMessage: "Please Enter City", placeholder: "Enter City", },
-      { fieldName: "zipcode", label: "Zipcode", type: "text", required: true, errorMessage: "Please Enter Zipcode", placeholder: "Enter Zipcode", },
-      { fieldName: "latitude", label: "Latitude", type: "text", required: true, errorMessage: "Please Enter Latitude", placeholder: "Enter Latitude", },
-      { fieldName: "longitude", label: "Longitude", type: "text", required: true, errorMessage: "Please Enter Longitude", placeholder: "Enter Longitude", },
+      { fieldName: "country", label: "Country", type: "text", required: true, errorMessage: "Please Enter Country", placeholder: "Enter Country", defaultValue: hotel?.country, },
+      { fieldName: "state", label: "State", type: "text", required: true, errorMessage: "Please Enter State", placeholder: "Enter State", defaultValue: hotel?.state, },
+      { fieldName: "city", label: "City", type: "text", required: true, errorMessage: "Please Enter City", placeholder: "Enter City", defaultValue: hotel?.city, },
+      { fieldName: "zipcode", label: "Zipcode", type: "text", required: true, errorMessage: "Please Enter Zipcode", placeholder: "Enter Zipcode", defaultValue: hotel?.zipcode, },
+      { fieldName: "latitude", label: "Latitude", type: "text", required: true, errorMessage: "Please Enter Latitude", placeholder: "Enter Latitude", defaultValue: hotel?.latitude, },
+      { fieldName: "longitude", label: "Longitude", type: "text", required: true, errorMessage: "Please Enter Longitude", placeholder: "Enter Longitude", defaultValue: hotel?.longitude, },
     ],
   };
 
@@ -207,7 +231,7 @@ const LocationForm = forwardRef((props, ref) => {
       toastr.error(`Please ensure all required fields are filled. Missing fields: : ${errorMessages}`);
       return;
     }
-    
+
     try {
       const res = await AddLocationInfoApi(formData, hotelId);
       if (res.status === 200) {

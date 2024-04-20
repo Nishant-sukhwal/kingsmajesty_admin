@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Row, Col, Label, Form, Container } from "reactstrap";
 import ImageViewer from "../../../components/Form/FormComponents/ImageViewer";
 import ChooseFileInput from "../../../components/Form/FormComponents/ChooseFileInput";
@@ -8,9 +8,15 @@ import { useSelector } from "react-redux";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
+import { useLocation } from "react-router-dom";
 
 const MediaForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
+  const hotel = useSelector((state) => state.Hotel.data);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get("id")
+
   const [formData, setFormData] = useState({
     gallery: [],
     thumbnail: "",
@@ -24,6 +30,16 @@ const MediaForm = forwardRef((props, ref) => {
       [fieldName]: value,
     });
   };
+
+  useEffect(() => {
+    setFormData(prevData => ({
+      ...prevData,
+      gallery: hotel?.gallery,
+      thumbnail: hotel?.thumbnail,
+    }))
+    
+  }, [hotel, id])
+
 
   const formFields = {
     form: [

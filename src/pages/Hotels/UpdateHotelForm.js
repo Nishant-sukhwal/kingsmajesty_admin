@@ -76,19 +76,8 @@ const UpdateHotelForm = () => {
         try {
             // Fetch data from your API endpoint
             const data = await getHotelByIdApi(id)
-            dispatch(getHotelById(data.hotel));
+            dispatch(getHotelById(data.hotel,));
             console.log("hotel data in component for update",data.hotel)
-
-            // setFetchedData(prevData => ({
-            //     ...prevData,
-             
-            // }));
-
-            // setFormData(prevData => ({
-            //     ...prevData,
-                
-            // }));
-            // setHotel(data.hotel);
         } catch (error) {
             console.error("Error fetching hotel:", error);
         }

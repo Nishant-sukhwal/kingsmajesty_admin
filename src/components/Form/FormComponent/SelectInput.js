@@ -16,43 +16,21 @@ const SelectInput = ({
 }) => {
   const [inputError, setInputError] = useState(false);
   const [defaultValue, setDefaultValue] = useState(null);
-  
-  // Set the default value for the Select component
-  // const defaultValue = options.find(option => option.value === defaultVal);
-
-  // useEffect(() => {
-
-  //   try {
-  //     if (Array.isArray(defaultVal)) {
-  //       const defaultValue = JSON.parse(defaultVal);
-  //       // If defaultVal is an array, find corresponding options for each value
-  //       const defaultOptions = defaultValue.map(val => options.find(option => option.value === val));
-  //       setDefaultValue(defaultOptions);
-  //     }
-  //     else {
-  //       console.log("8888888888888888888888888888888888888888888888888888888888888888888888888888888888")
-  //       // If defaultVal is a single value, find the corresponding option
-  //       const defaultOption = options.find(option => option.value === defaultVal);
-        
-  //       setDefaultValue(defaultOption);
-  //     }
-  //   } catch (error) {
-  //     //error is running because when delete any element then updates error at that time default value
-  //     // console.error("Error parsing default value:", error); 
-  //   }
-
-  // }, [defaultVal]);
+  console.log("defaultVal defaultVal defaultVal defaultVal defaultVal ",defaultVal)
 
 
   useEffect(() => {
     try {
       if (defaultVal) {
+        console.log("defaultVal inside hooooooooook",defaultVal)
         if (Array.isArray(defaultVal)) {
-          // If defaultVal is an array, find corresponding options for each value
+          console.log("defaultVal inside when array",defaultVal)
+          
           const defaultValue = JSON.parse(defaultVal);
           const defaultOptions = defaultValue.map(val =>
             options.find(option => option.value === val)
           );
+          console.log("defaultVal defaultOptions when after map",defaultOptions)
           setDefaultValue(defaultOptions);
         } else {
           // If defaultVal is a single value, find the corresponding option

@@ -4,10 +4,11 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Col, Label, Row } from "reactstrap";
 
 const CkEditor = ({ initialData, label, onChange, fieldName, id ,defaultVal}) => {
+  const prefilledValue = defaultVal ? defaultVal : '';
 
   const handleEditorChange = (event, editor) => {
     const data = editor.getData();
-    onChange(fieldName, data); // Update the form data with CKEditor content
+    onChange(fieldName, data); 
   };
 
   return (
@@ -17,9 +18,9 @@ const CkEditor = ({ initialData, label, onChange, fieldName, id ,defaultVal}) =>
       </Label>
       <Col>
         <CKEditor
-          value={defaultVal}
+          // value={prefilledValue}
           editor={ClassicEditor}
-          data={defaultVal}
+          data={prefilledValue}
           onChange={handleEditorChange}
         />
       </Col>

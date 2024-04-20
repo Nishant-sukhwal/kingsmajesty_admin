@@ -77,7 +77,10 @@ const SidebarContent = ({ t, router, type, changeLayout, changeSidebarTheme, cha
               )}
             </li>
           ))}
+          
 
+            
+            
 
             <li>
               <Link to="/#" className="waves-effect">
@@ -96,6 +99,37 @@ const SidebarContent = ({ t, router, type, changeLayout, changeSidebarTheme, cha
                 <li><Link to="/form-mask">{t('Form Mask')}</Link></li>
               </ul>
             </li>
+
+
+            <li className="menu-title">{t('Webiste Settings')}</li>
+            
+            {sidebarMenus && sidebarMenus.map((menu, index) => (
+            
+            <li key={index}>
+              {menu.subMenus && menu.subMenus.length > 0 ? (
+                <Link  to={`/${menu.route}`} className="has-arrow waves-effect">
+                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
+                  <span className="ms-1">{t(menu.menu)}</span>
+                </Link>
+              ) : (
+                <Link  to={`/${menu.route}`} className="waves-effect">
+                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
+                  <span className="ms-1">{t(menu.menu)}</span>
+                </Link>
+              )}
+
+              {menu.subMenus && menu.subMenus.length > 0 && (
+                <ul className="sub-menu">
+                  {menu.subMenus.map((subMenu, subIndex) => (
+                    <li key={subIndex}>
+                      <Link to={subMenu.link}>{t(subMenu.menu)}</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+
         </ul>
       </div>
     </>
