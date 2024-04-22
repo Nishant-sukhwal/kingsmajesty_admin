@@ -74,7 +74,7 @@ const UpdateDeals = () => {
     const formFields = {
         backbutton: "/deals",
         form: [
-            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter deal name", placeholder: "Enter deal name",value: fetchedData?.name },
+            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter deal name", placeholder: "Enter deal name",defaultValue: fetchedData?.name },
         ],
     };
 

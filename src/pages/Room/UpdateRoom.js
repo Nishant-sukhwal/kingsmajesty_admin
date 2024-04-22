@@ -47,7 +47,7 @@ const UpdateRoom = () => {
         max_children: "",
         rooms_stock: "",
     });
-
+  console.log(formData)
     const [fetchedData, setFetchedData] = useState({
         hotel: "",
         category: "",
@@ -152,7 +152,7 @@ const UpdateRoom = () => {
                 label: deals.name,
             })),
         ];
-
+   console.log(facilitiesOptions)
     const formFields = {
         backbutton: "/rooms",
         form: [

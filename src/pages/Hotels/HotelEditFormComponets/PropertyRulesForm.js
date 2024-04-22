@@ -36,6 +36,15 @@ const PropertyRulesForm = forwardRef((props, ref) => {
 
 
   useEffect(() => {
+    const data = hotel?.paymentMethods
+    const allOptions = [];
+
+    // data.forEach(method => {
+    //   method.options.forEach(option => {
+    //     allOptions.push(option.label);
+    //   });
+    // });
+   console.log("-00-0-0-0--0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-9578700-",allOptions);
 
     setFormData(prevData => ({
       ...prevData,
@@ -43,7 +52,8 @@ const PropertyRulesForm = forwardRef((props, ref) => {
       ageRestriction: hotel?.ageRestriction,
       checkintime: hotel?.checkintime,
       checkouttime: hotel?.checkouttime,
-      paymentMethods: hotel?.paymentMethods,
+
+      paymentMethods: allOptions,
       petsRules: hotel?.petsRules,
       childRules: hotel?.childRules,
     }))
@@ -85,8 +95,24 @@ const PropertyRulesForm = forwardRef((props, ref) => {
           }
         ];
 
+
+
+
+        // const allOptions = [];
+
+        // formattedOptions.forEach(method => {
+        //   method.options.forEach(option => {
+        //     allOptions.push(option.label);
+        //   });
+        // });
+
+        // const jsonString = (JSON.stringify(allOptions))
+        // const options = (jsonString);
+        // const formattedArray = JSON.stringify([options]);
+
+        // setPaymentOptions(allOptions);
         setPaymentOptions(formattedOptions);
-        // setPaymentOptions(data.paymentMethods)
+
       } catch (error) {
         console.error("Error fetching Payment method data:", error);
       }

@@ -79,7 +79,7 @@ const UpdateRoomCategoryForm = () => {
         type: "text",
         errorMessage: "Enter Room Category",
         placeholder: "Enter Room Category Name",
-        value: fetchedData?.name,
+        defaultValue: fetchedData?.name,
       },
     ],
   };

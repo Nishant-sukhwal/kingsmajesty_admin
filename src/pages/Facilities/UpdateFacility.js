@@ -97,7 +97,7 @@ const UpdateFacility = () => {
   const formFields = {
     backbutton: "/facilities",
     form: [
-      { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Facility", placeholder: "Enter Facility Name", value: fetchedData?.name },
+      { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Facility", placeholder: "Enter Facility Name", defaultValue: fetchedData?.name },
       { fieldName: "media", label: "Media", type: "file", errorMessage: "Select File", value: imageUrl, placeholder: "Select Image...", imageViewer: true, },
     ],
   };

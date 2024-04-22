@@ -72,7 +72,7 @@ const UpdateHotelCategoryForm = () => {
     const formFields = {
         backbutton: "/facilities",
         form: [
-            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Hotel Category", placeholder: "Enter Hotel Category Name",value: fetchedData?.name },
+            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Hotel Category", placeholder: "Enter Hotel Category Name",defaultValue: fetchedData?.name },
         ],
     };
 

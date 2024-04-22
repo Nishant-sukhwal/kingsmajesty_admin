@@ -26,7 +26,7 @@ const SidebarContent = ({ t, router, type, changeLayout, changeSidebarTheme, cha
     state.Login.tokens.token,
   ]);
   
-
+  console.log(sidebarMenus)
   useEffect(() => {
     if(token){      
       dispatch(getSidebarMenus());       
@@ -45,94 +45,89 @@ const SidebarContent = ({ t, router, type, changeLayout, changeSidebarTheme, cha
   }, [router.location.pathname, pathName]);
 
   return (
-    <>
-      <div id="sidebar-menu">
-        <ul className="metismenu list-unstyled" id="side-menu">
+  
+    <div id="sidebar-menu">
 
-        <li className="menu-title">{t('Menu')}</li>
+<div>
+<ul className="metismenu list-unstyled" id="side-menu">
+   <li className="menu-title">{t`Menu`}</li> 
+   {sidebarMenus && sidebarMenus
+     .filter(menuCategoryItem => menuCategoryItem.menuCategory === "Menu")
+     .sort((a, b) => a.priority - b.priority) // Sort by priority
+     .map((menuCategoryItem, index) => (
+       <React.Fragment key={index}>
+         {menuCategoryItem.type === "mainMenu" && (
+           <li>
+             {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 ? (
+               <Link to={`/${menuCategoryItem.route}`} className="has-arrow waves-effect">
+                 <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
+                 <span className="ms-1">{t(menuCategoryItem.menu)}</span>
+               </Link>
+             ) : (
+               <Link to={`/${menuCategoryItem.route}`} className="waves-effect">
+                 <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
+                 <span className="ms-1">{t(menuCategoryItem.menu)}</span>
+               </Link>
+             )}
 
-          {sidebarMenus && sidebarMenus.map((menu, index) => (
-            
-            <li key={index}>
-              {menu.subMenus && menu.subMenus.length > 0 ? (
-                <Link  to={`/${menu.route}`} className="has-arrow waves-effect">
-                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
-                  <span className="ms-1">{t(menu.menu)}</span>
-                </Link>
-              ) : (
-                <Link  to={`/${menu.route}`} className="waves-effect">
-                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
-                  <span className="ms-1">{t(menu.menu)}</span>
-                </Link>
-              )}
+             {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 && (
+               <ul className="sub-menu">
+                 {menuCategoryItem.subMenu.map((subMenuItem, subIndex) => (
+                   <li key={subIndex}>
+                     <Link to={`/${subMenuItem.route}`}>{t(subMenuItem.menu)}</Link>
+                   </li>
+                 ))}
+               </ul>
+             )}
+           </li>
+         )}
+       </React.Fragment>
+     ))}
+ </ul> 
 
-              {menu.subMenus && menu.subMenus.length > 0 && (
-                <ul className="sub-menu">
-                  {menu.subMenus.map((subMenu, subIndex) => (
-                    <li key={subIndex}>
-                      <Link to={subMenu.link}>{t(subMenu.menu)}</Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-          
+ </div>
 
-            
-            
+ <div>
+  <ul className="metismenu list-unstyled" id="side-menu">
+   <li className="menu-title">{t`Settings`}</li> 
+   {sidebarMenus && sidebarMenus
+     .filter(menuCategoryItem => menuCategoryItem.menuCategory === "Settings")
+     .sort((a, b) => a.priority - b.priority) // Sort by priority
+     .map((menuCategoryItem, index) => (
+       <React.Fragment key={index}>
+         {menuCategoryItem.type === "mainMenu" && (
+           <li>
+             {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 ? (
+               <Link to={`/${menuCategoryItem.route}`} className="has-arrow waves-effect">
+                 <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
+                 <span className="ms-1">{t(menuCategoryItem.menu)}</span>
+               </Link>
+             ) : (
+               <Link to={`/${menuCategoryItem.route}`} className="waves-effect">
+                 <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
+                 <span className="ms-1">{t(menuCategoryItem.menu)}</span>
+               </Link>
+             )}
 
-            <li>
-              <Link to="/#" className="waves-effect">
-                <i className="ri-eraser-fill"></i>
-                <span className="badge rounded-pill bg-danger float-end">6</span>
-                <span className="ms-1">{t('Forms')}</span>
-              </Link>
-              <ul className="sub-menu">
-                <li><Link to="/form-elements">{t('Form Elements')}</Link></li>
-                <li><Link to="/form-validation">{t('Form Validation')}</Link></li>
-                <li><Link to="/form-advanced">{t('Form Advanced Plugins')}</Link></li>
-                <li><Link to="/form-editors">{t('Form Editors')}</Link></li>
-                <li><Link to="/form-file-upload">{t('Form File Upload')}</Link></li>
-                <li><Link to="/form-xeditable">{t('Form X-editable')}</Link></li>
-                <li><Link to="/form-wizard">{t('Form Wizard')}</Link></li>
-                <li><Link to="/form-mask">{t('Form Mask')}</Link></li>
-              </ul>
-            </li>
+             {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 && (
+               <ul className="sub-menu">
+                 {menuCategoryItem.subMenu.map((subMenuItem, subIndex) => (
+                   <li key={subIndex}>
+                     <Link to={`/${subMenuItem.route}`}>{t(subMenuItem.menu)}</Link>
+                   </li>
+                 ))}
+               </ul>
+             )}
+           </li>
+         )}
+       </React.Fragment>
+     ))}
+ </ul>  
+</div>
 
+</div>
 
-            <li className="menu-title">{t('Webiste Settings')}</li>
-            
-            {sidebarMenus && sidebarMenus.map((menu, index) => (
-            
-            <li key={index}>
-              {menu.subMenus && menu.subMenus.length > 0 ? (
-                <Link  to={`/${menu.route}`} className="has-arrow waves-effect">
-                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
-                  <span className="ms-1">{t(menu.menu)}</span>
-                </Link>
-              ) : (
-                <Link  to={`/${menu.route}`} className="waves-effect">
-                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
-                  <span className="ms-1">{t(menu.menu)}</span>
-                </Link>
-              )}
-
-              {menu.subMenus && menu.subMenus.length > 0 && (
-                <ul className="sub-menu">
-                  {menu.subMenus.map((subMenu, subIndex) => (
-                    <li key={subIndex}>
-                      <Link to={subMenu.link}>{t(subMenu.menu)}</Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-
-        </ul>
-      </div>
-    </>
+    
   );
 };
 
@@ -153,139 +148,217 @@ export default withRouter(connect(mapStateToProps, {
 
 
 
-//redux setup code
-// import React, { useEffect, useState } from "react";
-// import MetisMenu from "metismenujs";
-// import { Link } from "react-router-dom";
-// import { withTranslation } from 'react-i18next';
-// import { connect, useDispatch } from "react-redux";
-// import {
-//   changeLayout,
-//   changeLayoutWidth,
-//   changeSidebarTheme,
-//   changeSidebarType,
-//   changePreloader,
-//   setSidebarMenus
-// } from "../../store/actions";
-// import withRouter from "../Common/withRouter";
-// import getSidebarMenus from "../../services/api/authentication/sidebarMenuApi";
-
-
-// const SidebarContent = ({ t, router, sidebarMenus, type, changeLayout, changeSidebarTheme, changeSidebarType, changeLayoutWidth, changePreloader, userID }) => {
-//   const [pathName, setPathName] = useState(router.location.pathname);
-//   console.log("sidebarMenus in SidebarContent function inside:  ",sidebarMenus);
-//   const [sidebarMenuss, setSidebarMenuss] = useState([]);
-//   const dispatch = useDispatch();
-  
-//   const token = localStorage.getItem('token');
-  
-//   useEffect(() => {
-//     const fetchSidebarMenus = async () => {
-//       try {
-//         const res = await getSidebarMenus(token , dispatch);
-//         // const token = localStorage.getItem('token');
-//         // const data = await response.json();
-//         if (res.success) {
-//           console.log(res);
-//           // dispatch(setSidebarMenus(res.sidebarMenus));
-//           // setSidebarMenuss(data.sidebarMenuss);
-//         }
-//       } catch (error) {
-//         console.error("Error fetching sidebar menus:", error);
-//       }
-//     };
-//     fetchSidebarMenus();
-//   }, [token]);
-
-//   useEffect(() => {
-//     new MetisMenu("#side-menu");
-//   }, [sidebarMenuss]); // Initialize MetisMenu whenever sidebarMenus change
-
-//   useEffect(() => {
-//     if (router.location.pathname !== pathName) {
-//       setPathName(router.location.pathname);
-//       window.scrollTo({ top: 0, behavior: 'smooth' });
-//     }
-//   }, [router.location.pathname, pathName]);
-
-//   return (
-//     <>
-//       <div id="sidebar-menu">
-//         <ul className="metismenu list-unstyled" id="side-menu">
-
-//         <li className="menu-title">{t('Menu')}</li>
-
-//            {sidebarMenuss.map((menu, index) => (
-            
-//             <li key={index}>
-//               {menu.subMenus && menu.subMenus.length > 0 ? (
-//                 <Link  to={`/${menu.route}`} className="has-arrow waves-effect">
-//                   {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
-//                   <span className="ms-1">{t(menu.menu)}</span>
-//                 </Link>
-//               ) : (
-//                 <Link  to={`/${menu.route}`} className="waves-effect">
-//                   {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
-//                   <span className="ms-1">{t(menu.menu)}</span>
-//                 </Link>
-//               )}
-
-//               {menu.subMenus && menu.subMenus.length > 0 && (
-//                 <ul className="sub-menu">
-//                   {menu.subMenus.map((subMenu, subIndex) => (
-//                     <li key={subIndex}>
-//                       <Link to={subMenu.link}>{t(subMenu.menu)}</Link>
-//                     </li>
-//                   ))}
-//                 </ul>
-//               )}
-//             </li>
-//           ))} 
-
-
-//             <li>
-//               <Link to="/#" className="waves-effect">
-//                 <i className="ri-eraser-fill"></i>
-//                 <span className="badge rounded-pill bg-danger float-end">6</span>
-//                 <span className="ms-1">{t('Forms')}</span>
-//               </Link>
-//               <ul className="sub-menu">
-//                 <li><Link to="/form-elements">{t('Form Elements')}</Link></li>
-//                 <li><Link to="/form-validation">{t('Form Validation')}</Link></li>
-//                 <li><Link to="/form-advanced">{t('Form Advanced Plugins')}</Link></li>
-//                 <li><Link to="/form-editors">{t('Form Editors')}</Link></li>
-//                 <li><Link to="/form-file-upload">{t('Form File Upload')}</Link></li>
-//                 <li><Link to="/form-xeditable">{t('Form X-editable')}</Link></li>
-//                 <li><Link to="/form-wizard">{t('Form Wizard')}</Link></li>
-//                 <li><Link to="/form-mask">{t('Form Mask')}</Link></li>
-//               </ul>
-//             </li>
-//         </ul>
-//       </div>
-//     </>
-//   );
-// };
-
-
-// const mapStateToProps = (state) => {
-//   console.log("sidebarContent component: ",state);
-//   return { ...state.Layout, userID: state.Login.userID , sidebarMenus: state.sidebar.sidebarMenus};
-// };
-
-
-// export default withRouter(connect(mapStateToProps, {
-//   changeLayout,
-//   changeSidebarTheme,
-//   changeSidebarType,
-//   changeLayoutWidth,
-//   changePreloader
-// })(withTranslation()(SidebarContent)));
 
 
 
 
 
-//before redux update code
+
+
+     {/* <div id="sidebar-menu">
+        <ul className="metismenu list-unstyled" id="side-menu">
+
+         <li className="menu-title">{t('Menu')}</li>
+
+          {sidebarMenus && sidebarMenus.map((menu, index) => (
+            <li key={index}>
+              {menu.subMenus && menu.subMenus.length > 0 ? (
+                <Link  to={`/${menu.route}`} className="has-arrow waves-effect">
+                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
+                  <span className="ms-1">{t(menu.menu)}</span>
+                </Link>
+              ) : (
+                <Link  to={`/${menu.route}`} className="waves-effect">
+                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
+                  <span className="ms-1">{t(menu.menu)}</span>
+                </Link>
+              )}
+              {menu.subMenus && menu.subMenus.length > 0 && (
+                <ul className="sub-menu">
+                  {menu.subMenus.map((subMenu, subIndex) => (
+                    <li key={subIndex}>
+                      <Link to={subMenu.link}>{t(subMenu.menu)}</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))} 
+
+        </ul>
+      </div>   */}
+
+
+
+
+
+
+
+{/*
+ <div id="sidebar-menu">
+  <ul className="metismenu list-unstyled" id="side-menu">
+     
+     <li className="menu-title">{t`Menu`}</li> 
+     {sidebarMenus && sidebarMenus.map((menuCategoryItem, index) => (
+      <React.Fragment key={index}>
+        {/* {menuCategoryItem.menuCategory === "Menu" && (
+          <li className="menu-title">{t(menuCategoryItem.menuCategory)}</li>
+        )} 
+
+        {menuCategoryItem.type === "mainMenu" && (
+          <li>
+            {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 ? (
+              <Link to={`/${menuCategoryItem.route}`} className="has-arrow waves-effect">
+                <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
+                <span className="ms-1">{t(menuCategoryItem.menu)}</span>
+              </Link>
+            ) : (
+              <Link to={`/${menuCategoryItem.route}`} className="waves-effect">
+                <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
+                <span className="ms-1">{t(menuCategoryItem.menu)}</span>
+              </Link>
+            )}
+
+            {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 && (
+              <ul className="sub-menu">
+                {menuCategoryItem.subMenu.map((subMenuItem, subIndex) => (
+                  <li key={subIndex}>
+                    <Link to={`/${subMenuItem.route}`}>{t(subMenuItem.menu)}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        )}
+      </React.Fragment>
+    ))}
+  </ul>
+</div>  
+
+*/}
+
+
+
+
+{/* <div id="sidebar-menu">
+  <ul className="metismenu list-unstyled" id="side-menu">
+    <li className="menu-title">{t`Menu`}</li> 
+    {sidebarMenus && sidebarMenus
+      .filter(menuCategoryItem => menuCategoryItem.menuCategory === "Menu")
+      .sort((a, b) => a.priority - b.priority) // Sort by priority
+      .map((menuCategoryItem, index) => (
+        <React.Fragment key={index}>
+          {menuCategoryItem.type === "mainMenu" && (
+            <li>
+              {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 ? (
+                <Link to={`/${menuCategoryItem.route}`} className="has-arrow waves-effect">
+                  <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
+                  <span className="ms-1">{t(menuCategoryItem.menu)}</span>
+                </Link>
+              ) : (
+                <Link to={`/${menuCategoryItem.route}`} className="waves-effect">
+                  <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
+                  <span className="ms-1">{t(menuCategoryItem.menu)}</span>
+                </Link>
+              )}
+
+              {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 && (
+                <ul className="sub-menu">
+                  {menuCategoryItem.subMenu.map((subMenuItem, subIndex) => (
+                    <li key={subIndex}>
+                      <Link to={`/${subMenuItem.route}`}>{t(subMenuItem.menu)}</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          )}
+        </React.Fragment>
+      ))}
+  </ul>
+</div> */}
+
+
+
+
+
+    {/* {sidebarMenus.map(menuItem => (
+      <li key={menuItem._id}>
+        <Link to={`/${menuItem.route}`} className="has-arrow waves-effect">
+          <i className={`ri-${menuItem.icon}`}></i>
+          <span className="ms-1">{t(menuItem.menu)}</span>
+        </Link>
+        
+     
+        {menuItem.type === 'mainMenu' && menuItem.subMenu && (
+          <ul className="sub-menu">
+            {menuItem.subMenu.map(subMenuItem => (
+              <li key={subMenuItem._id}>
+                <Link to={`/${subMenuItem.route}`}>{t(subMenuItem.menu)}</Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    ))} */}
+
+
+      {/* <div id="sidebar-menu">
+        <ul className="metismenu list-unstyled" id="side-menu">
+        <li className="menu-title">{t('Menu')}</li>
+          {sidebarMenus && sidebarMenus.map((menu, index) => (
+            <li key={index}>
+              {menu.subMenus && menu.subMenus.length > 0 ? (
+                <Link  to={`/${menu.route}`} className="has-arrow waves-effect">
+                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
+                  <span className="ms-1">{t(menu.menu)}</span>
+                </Link>
+              ) : (
+                <Link  to={`/${menu.route}`} className="waves-effect">
+                  {menu.menu && <i className={`ri-${menu.icon}-fill`}></i>}
+                  <span className="ms-1">{t(menu.menu)}</span>
+                </Link>
+              )}
+              {menu.subMenus && menu.subMenus.length > 0 && (
+                <ul className="sub-menu">
+                  {menu.subMenus.map((subMenu, subIndex) => (
+                    <li key={subIndex}>
+                      <Link to={subMenu.link}>{t(subMenu.menu)}</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))} 
+        </ul>
+      </div> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import React, { useEffect, useState } from "react";
 // import MetisMenu from "metismenujs";
 // import { Link } from "react-router-dom";
@@ -417,7 +490,7 @@ export default withRouter(connect(mapStateToProps, {
 
 
 
-//last code
+// //last code
 // import React, { useEffect, useState, useCallback } from "react";
 // import MetisMenu from "metismenujs";
 // import { Link } from "react-router-dom";
@@ -496,54 +569,25 @@ export default withRouter(connect(mapStateToProps, {
 
 //   return (
 //     <>
-//       <div id="sidebar-menu">
-//         <ul className="metismenu list-unstyled" id="side-menu">
+      // <div id="sidebar-menu">
+      //   <ul className="metismenu list-unstyled" id="side-menu">
+      //     <li className="menu-title">{t('Pages')}</li>
 
-        
-
-//            {sidebarMenus.map((menu, index) => (
-//             <li key={index}>
-//               {menu.subMenus && menu.subMenus.length > 0 ? (
-//                 <Link to="#" className="has-arrow waves-effect">
-//                   <span className="ms-1">{t(menu.menu)}</span>
-//                 </Link>
-//               ) : (
-//                 <Link to="#" className="waves-effect">
-//                   <span className="ms-1">{t(menu.menu)}</span>
-//                 </Link>
-//               )}
-
-//               {menu.subMenus && menu.subMenus.length > 0 && (
-//                 <ul className="sub-menu">
-//                   {menu.subMenus.map((subMenu, subIndex) => (
-//                     <li key={subIndex}>
-//                       <Link to={subMenu.link}>{t(subMenu.menu)}</Link>
-//                     </li>
-//                   ))}
-//                 </ul>
-//               )}
-//             </li>
-//           ))}
-
-
-//           <li className="menu-title">{t('Pages')}</li>
-
-//           <li>
-//             <Link to="/#" className="has-arrow waves-effect">
-//               <i className="ri-account-circle-line"></i>
-//               <span className="ms-1">{t('Authentication')}</span>
-//             </Link>
+      //     <li>
+      //       <Link to="/#" className="has-arrow waves-effect">
+      //         <i className="ri-account-circle-line"></i>
+      //         <span className="ms-1">{t('Authentication')}</span>
+      //       </Link>
             
-//             <ul className="sub-menu">
-//               <li><Link to="/login">{t('Login')}</Link></li>
-//               <li><Link to="/register">{t('Register')}</Link></li>
-//               <li><Link to="/forgot-password">{t('Recover Password')}</Link></li>
-//               <li><Link to="/lock-screen">{t('Lock Screen')}</Link></li>
-//             </ul>
-//           </li>
-
-//         </ul>
-//       </div>
+      //       <ul className="sub-menu">
+      //         <li><Link to="/login">{t('Login')}</Link></li>
+      //         <li><Link to="/register">{t('Register')}</Link></li>
+      //         <li><Link to="/forgot-password">{t('Recover Password')}</Link></li>
+      //         <li><Link to="/lock-screen">{t('Lock Screen')}</Link></li>
+      //       </ul>
+      //     </li>
+      //   </ul>
+      // </div>
 //     </>
 //   );
 // };

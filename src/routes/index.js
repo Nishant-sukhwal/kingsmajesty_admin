@@ -97,6 +97,7 @@ const authProtectedRoutes = [
   { path: "/activity", exact: true, component: <Maintenance /> },
   { path: "/booking", exact: true, component: <Maintenance /> },
   { path: "/services", exact: true, component: <Maintenance /> },
+  { path: "/role", exact: true, component: <Maintenance /> },
 
   // Forms
   { path: "/form-elements", component: <FormElements /> },

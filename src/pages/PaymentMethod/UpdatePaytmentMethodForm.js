@@ -74,7 +74,7 @@ const UpdatePaymentMethods = () => {
     const formFields = {
         backbutton: "/paymentmethods",
         form: [
-            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Payment Method", placeholder: "Enter Payment Method Name",value: fetchedData?.name },
+            { fieldName: "name", label: "Name", type: "text", errorMessage: "Enter Payment Method", placeholder: "Enter Payment Method Name",defaultValue: fetchedData?.name },
         ],
     };
 

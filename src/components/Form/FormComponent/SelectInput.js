@@ -28,15 +28,18 @@ const SelectInput = ({
           
           const defaultValue = JSON.parse(defaultVal);
           const defaultOptions = defaultValue.map(val =>
-            options.find(option => option.value === val)
+            options.find(option => option.label === val)
           );
           console.log("defaultVal defaultOptions when after map",defaultOptions)
           setDefaultValue(defaultOptions);
         } else {
           // If defaultVal is a single value, find the corresponding option
           const defaultOption = options.find(
-            option => option.value === defaultVal
+            
+            option => option.value === defaultVal,
+            
           );
+          console.log(defaultOption)
           setDefaultValue(defaultOption);
         }
       }
