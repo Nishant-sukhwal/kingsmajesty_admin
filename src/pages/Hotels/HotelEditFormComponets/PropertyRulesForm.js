@@ -36,15 +36,15 @@ const PropertyRulesForm = forwardRef((props, ref) => {
 
 
   useEffect(() => {
-    const data = hotel?.paymentMethods
-    const allOptions = [];
+    // const data = hotel?.paymentMethods
+    // const allOptions = [];
 
     // data.forEach(method => {
     //   method.options.forEach(option => {
     //     allOptions.push(option.label);
     //   });
     // });
-   console.log("-00-0-0-0--0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-9578700-",allOptions);
+  //  console.log("-00-0-0-0--0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-9578700-",allOptions);
 
     setFormData(prevData => ({
       ...prevData,
@@ -53,7 +53,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
       checkintime: hotel?.checkintime,
       checkouttime: hotel?.checkouttime,
 
-      paymentMethods: allOptions,
+      paymentMethods: hotel?.paymentMethods,
       petsRules: hotel?.petsRules,
       childRules: hotel?.childRules,
     }))

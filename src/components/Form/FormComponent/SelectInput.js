@@ -16,28 +16,37 @@ const SelectInput = ({
 }) => {
   const [inputError, setInputError] = useState(false);
   const [defaultValue, setDefaultValue] = useState(null);
-  console.log("defaultVal defaultVal defaultVal defaultVal defaultVal ",defaultVal)
+  console.log("defaultVal defaultVal defaultVal defaultVal defaultVal ", defaultVal)
 
 
   useEffect(() => {
     try {
       if (defaultVal) {
-        console.log("defaultVal inside hooooooooook",defaultVal)
+       
         if (Array.isArray(defaultVal)) {
-          console.log("defaultVal inside when array",defaultVal)
-          
-          const defaultValue = JSON.parse(defaultVal);
-          const defaultOptions = defaultValue.map(val =>
-            options.find(option => option.label === val)
-          );
-          console.log("defaultVal defaultOptions when after map",defaultOptions)
-          setDefaultValue(defaultOptions);
-        } else {
+          console.log("defaultVal is",defaultVal)
+          //JSON.stringify([defaultVal.map(val => val.label)]);
+          const defaultValues = JSON.stringify([defaultVal.map(val => val.label)]);
+          console.log("formatted defaultValue:", defaultValues);
+
+          // const defaultValue = JSON.parse(defaultValues);
+          // const defaultOptions = defaultValue.map(val =>
+          //   options.find(option => option.label === val)
+          // );
+
+          // console.log('defaultOptions defaultOptions defaultOptions defaultOptions',defaultOptions)
+          // setDefaultValue(defaultOptions);
+
+          // const defaultValue = JSON.parse(defaultVal);
+          // const defaultOptions = defaultValue.map(val =>
+          //   options.find(option => option.label === val)
+          // );
+          // setDefaultValue(defaultOptions);
+        }
+        else {
           // If defaultVal is a single value, find the corresponding option
           const defaultOption = options.find(
-            
             option => option.value === defaultVal,
-            
           );
           console.log(defaultOption)
           setDefaultValue(defaultOption);
@@ -50,6 +59,7 @@ const SelectInput = ({
 
 
   const handleSelectChange = (selectedOption) => {
+
     if (Array.isArray(selectedOption)) {
       // Multi-selector input box
       // Extract values from selected options
