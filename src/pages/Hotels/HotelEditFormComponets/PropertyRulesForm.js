@@ -95,22 +95,17 @@ const PropertyRulesForm = forwardRef((props, ref) => {
           }
         ];
 
-
-
-
         // const allOptions = [];
-
         // formattedOptions.forEach(method => {
         //   method.options.forEach(option => {
         //     allOptions.push(option.label);
         //   });
         // });
-
         // const jsonString = (JSON.stringify(allOptions))
         // const options = (jsonString);
         // const formattedArray = JSON.stringify([options]);
-
         // setPaymentOptions(allOptions);
+        
         setPaymentOptions(formattedOptions);
 
       } catch (error) {

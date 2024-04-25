@@ -12,50 +12,66 @@ const SelectInput = ({
   isMulti,
   placeholder,
   defaultVal,
-  categoryVal
+  categoryVal,
+
 }) => {
   const [inputError, setInputError] = useState(false);
   const [defaultValue, setDefaultValue] = useState(null);
   console.log("defaultVal defaultVal defaultVal defaultVal defaultVal ", defaultVal)
+  console.log("options options options options options options options ", options)
 
 
   useEffect(() => {
     try {
       if (defaultVal) {
-       
         if (Array.isArray(defaultVal)) {
-          console.log("defaultVal is",defaultVal)
-          //JSON.stringify([defaultVal.map(val => val.label)]);
-          const defaultValues = JSON.stringify([defaultVal.map(val => val.label)]);
-          console.log("formatted defaultValue:", defaultValues);
-
-          // const defaultValue = JSON.parse(defaultValues);
-          // const defaultOptions = defaultValue.map(val =>
-          //   options.find(option => option.label === val)
-          // );
-
-          // console.log('defaultOptions defaultOptions defaultOptions defaultOptions',defaultOptions)
-          // setDefaultValue(defaultOptions);
-
-          // const defaultValue = JSON.parse(defaultVal);
-          // const defaultOptions = defaultValue.map(val =>
-          //   options.find(option => option.label === val)
-          // );
-          // setDefaultValue(defaultOptions);
+          const defaultValue = JSON.parse(defaultVal);
+          const defaultOptions = defaultValue.map(val =>
+            options.find(option => option.label === val)
+          );
+          setDefaultValue(defaultOptions);
         }
         else {
-          // If defaultVal is a single value, find the corresponding option
-          const defaultOption = options.find(
-            option => option.value === defaultVal,
-          );
-          console.log(defaultOption)
-          setDefaultValue(defaultOption);
+          console.log("im inside here")
+          const defaultValue = JSON.parse(defaultVal);
+          console.log("defaultValue---------------------------->",defaultValue)
         }
+      }else{       
+        const defaultOption = options.find(
+          option => option.value === defaultVal,
+        );
+        setDefaultValue(defaultOption);
       }
     } catch (error) {
       // console.error("Error parsing default value:", error);
     }
   }, [defaultVal]);
+
+  // useEffect(() => {
+  //   try {
+  //     if (defaultVal) {
+  //       if (Array.isArray(defaultVal)) {
+  //         const defaultValue = JSON.parse(defaultVal);
+  //         const defaultOptions = defaultValue.map(val =>
+  //           options.find(option => option.label === val)
+  //         );
+  //         setDefaultValue(defaultOptions);
+  //       }
+  //       else {
+  //         const defaultOption = options.find(
+  //           option => option.value === defaultVal,
+  //         );
+  //         setDefaultValue(defaultOption);
+  //       }
+  //     }else{
+  //       console.log("im inside here")
+  //       const defaultValue = JSON.parse(defaultVal);
+  //       console.log("defaultValue---------------------------->",defaultValue)
+  //     }
+  //   } catch (error) {
+  //     // console.error("Error parsing default value:", error);
+  //   }
+  // }, [defaultVal]);
 
 
   const handleSelectChange = (selectedOption) => {
