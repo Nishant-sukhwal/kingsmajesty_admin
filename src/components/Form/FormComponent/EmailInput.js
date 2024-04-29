@@ -18,13 +18,22 @@ const EmailInput = ({
     setInputValue(defaultVal);
   },[defaultVal]);
 
+
   const handleInputChange = (e) => {
     const inputVal = e.target.value;
-    setInputValue(inputVal)
-    onChange(fieldName, inputValue);
-    // Check if the input value is empty and set inputError accordingly
-    setInputError(inputValue.trim() === "");
+    setInputValue(inputVal); // Update inputValue state with the new input value
+    setInputError(inputVal.trim() === ""); // Check for input validation here if needed
+    onChange(fieldName, inputVal); // Pass the current input value to the parent component
   };
+
+
+  // const handleInputChange = (e) => {
+  //   const inputVal = e.target.value;
+  //   setInputValue(inputVal)
+  //   onChange(fieldName, inputValue);
+  //   // Check if the input value is empty and set inputError accordingly
+  //   setInputError(inputValue.trim() === "");
+  // };
 
   return (
     <Row className="d-flex flex-row mb-3">

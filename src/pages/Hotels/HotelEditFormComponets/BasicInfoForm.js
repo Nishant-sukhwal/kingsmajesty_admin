@@ -34,7 +34,6 @@ const BasicInfoForm = forwardRef((props, ref) => {
 
 
   useEffect(() => {
-    
     setFormData(prevData => ({
       ...prevData,
       name: hotel?.name,

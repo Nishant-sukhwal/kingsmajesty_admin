@@ -17,12 +17,10 @@ const PropertyRulesForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
   const [selectedFacilities, setSelectedFacilities] = useState(null);
   const hotel = useSelector((state) => state.Hotel.data);
-  console.log("hotel hotel hotel hotel hotel", hotel)
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id")
   const [paymentOptions, setPaymentOptions] = useState();
-  console.log("paymentOptions paymentOptions paymentOptions paymentOptions paymentOptions paymentOptions", paymentOptions)
   const [formData, setFormData] = useState({
     paymentPolicy: "",
     ageRestriction: "",
@@ -36,23 +34,12 @@ const PropertyRulesForm = forwardRef((props, ref) => {
 
 
   useEffect(() => {
-    // const data = hotel?.paymentMethods
-    // const allOptions = [];
-
-    // data.forEach(method => {
-    //   method.options.forEach(option => {
-    //     allOptions.push(option.label);
-    //   });
-    // });
-  //  console.log("-00-0-0-0--0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-9578700-",allOptions);
-
     setFormData(prevData => ({
       ...prevData,
       paymentPolicy: hotel?.paymentPolicy,
       ageRestriction: hotel?.ageRestriction,
       checkintime: hotel?.checkintime,
       checkouttime: hotel?.checkouttime,
-
       paymentMethods: hotel?.paymentMethods,
       petsRules: hotel?.petsRules,
       childRules: hotel?.childRules,
@@ -72,8 +59,6 @@ const PropertyRulesForm = forwardRef((props, ref) => {
     const fetchData = async () => {
       try {
         const data = await getPaymentMethodsApi();
-        console.log("data data data data&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", data)
-        // Categorize payment methods into groups
         const formattedOptions = [
           {
             label: "Card",
@@ -94,17 +79,6 @@ const PropertyRulesForm = forwardRef((props, ref) => {
               .map(method => ({ label: method.name, value: method.name }))
           }
         ];
-
-        // const allOptions = [];
-        // formattedOptions.forEach(method => {
-        //   method.options.forEach(option => {
-        //     allOptions.push(option.label);
-        //   });
-        // });
-        // const jsonString = (JSON.stringify(allOptions))
-        // const options = (jsonString);
-        // const formattedArray = JSON.stringify([options]);
-        // setPaymentOptions(allOptions);
         
         setPaymentOptions(formattedOptions);
 
@@ -117,30 +91,6 @@ const PropertyRulesForm = forwardRef((props, ref) => {
     fetchData();
   }, [id]);
 
-
-  // const paymentOptions = [
-  //   {
-  //     label: "Card",
-  //     options: [
-  //       { label: "Visa", value: "Visa" },
-  //       { label: "Master", value: "Master" },
-  //       { label: "Credit", value: "Credit" },
-  //     ],
-  //   },
-  //   {
-  //     label: "Online",
-  //     options: [
-  //       { label: "UPI", value: "UPI" },
-  //       { label: "Paypal", value: "Paypal" },
-  //     ],
-  //   },
-  //   {
-  //     label: "COD",
-  //     options: [
-  //       { label: "Cash On Delivery", value: "swimmingPool" },
-  //     ],
-  //   },
-  // ];
 
   const formFields = {
     form: [

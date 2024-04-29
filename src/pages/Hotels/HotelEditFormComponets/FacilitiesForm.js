@@ -5,13 +5,35 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import MultipleSelector from "../../../components/Form/FormSelectorComponent/MultipleSelector";
 import { useSelector } from "react-redux";
-import { FacilitiesAddApi } from "../../../services/api/hotel/hotelCreateApi";
+import { FacilitiesAddApi, getHotelByIdApi } from "../../../services/api/hotel/hotelCreateApi";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
+import { useLocation } from "react-router-dom";
 
 const FacilitiesForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
+  const hotel = useSelector((state) => state.Hotel.data);
 
+  const hotelFacilities = hotel?.facilities || []; // Ensure hotel.facilities is not null or undefined
+
+  // Extract only the labels from the hotelFacilities array
+  const labels = hotelFacilities.map(item => item.label);
+
+  // Convert the labels array into the desired format as a JSON string inside another array
+  const formattedFacilities = JSON.stringify(labels);
+
+  const facility = [formattedFacilities]
+ 
+  console.log("formattedFacilities formattedFacilities ",facility);
+
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get("id");
+
+  console.log("hotel hotel hotel hotel hotel", hotel);
   const [facilities, setFacilities] = useState([]);
+
+  
 
   useEffect(() => {
     const fetchFacilities = async () => {
@@ -28,13 +50,15 @@ const FacilitiesForm = forwardRef((props, ref) => {
         console.error("Error fetching facilities:", error);
       }
     };
-  
     fetchFacilities();
   }, []);
+
+
 
   const fetchedFacilities = facilities.map((facility) => ({
     label: facility.facilityName,
     value: facility.facilityName,
+
   }));
 
 
@@ -44,7 +68,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
   const [formData, setFormData] = useState({
     facilities: [],
   });
-  console.log(formData);
+  console.log("formData in facility form",formData);
 
   const handleFormChange = (fieldName, value) => {
     console.log(fieldName, value);
@@ -54,9 +78,41 @@ const FacilitiesForm = forwardRef((props, ref) => {
     });
   };
 
+
+
+  useEffect(() => {
+
+ 
+    console.log("id is here",id)
+    const fetchData =  () => {
+
+     const hotelFacilities = hotel?.facilities || []; // Ensure hotel.facilities is not null or undefined
+
+     // Extract only the labels from the hotelFacilities array
+     const labels = hotelFacilities.map(item => item.label);
+ 
+     // Convert the labels array into the desired format as a JSON string inside another array
+     const formattedFacilities = JSON.stringify(labels);
+ 
+ 
+     // Update formData with the formatted facilities
+     setFormData(prevData => ({
+       ...prevData,
+       facilities: [formattedFacilities]
+     }));
+    }
+  
+      
+    fetchData();
+ 
+ },[hotel]);
+
+
+  
+
   const formFields = {
     form: [
-      { fieldName: "facilities", label: "Facilities", type: "select", errorMessage: "Select Facilities", value: formData.facilities, placeholder: "Select Facilities", isMulti: true, options: fetchedFacilities, },
+      { fieldName: "facilities", label: "Facilities", type: "select", errorMessage: "Select Facilities", value: formData.facilities, placeholder: "Select Facilities", isMulti: true, options: fetchedFacilities, defaultValue: facility, },
     ],
   };
 

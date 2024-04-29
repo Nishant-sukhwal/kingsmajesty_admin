@@ -17,35 +17,34 @@ const SelectInput = ({
 }) => {
   const [inputError, setInputError] = useState(false);
   const [defaultValue, setDefaultValue] = useState(null);
-  console.log("defaultVal defaultVal defaultVal defaultVal defaultVal ", defaultVal)
-  console.log("options options options options options options options ", options)
+  // console.log("defaultVal defaultVal defaultVal defaultVal defaultVal ", defaultVal)
+  // console.log("options options options options options options options ", options)
 
+  // console.log("setttttttttttttttt defaultValue ", defaultValue)
 
   useEffect(() => {
     try {
       if (defaultVal) {
         if (Array.isArray(defaultVal)) {
           const defaultValue = JSON.parse(defaultVal);
-          const defaultOptions = defaultValue.map(val =>
+          const defaultOptions = defaultValue.map(val => 
             options.find(option => option.label === val)
           );
           setDefaultValue(defaultOptions);
         }
         else {
-          console.log("im inside here")
-          const defaultValue = JSON.parse(defaultVal);
-          console.log("defaultValue---------------------------->",defaultValue)
+          const defaultOption = options.find(
+            option => option.value === defaultVal,
+          );
+          setDefaultValue(defaultOption);
         }
-      }else{       
-        const defaultOption = options.find(
-          option => option.value === defaultVal,
-        );
-        setDefaultValue(defaultOption);
       }
     } catch (error) {
       // console.error("Error parsing default value:", error);
     }
   }, [defaultVal]);
+
+
 
   // useEffect(() => {
   //   try {

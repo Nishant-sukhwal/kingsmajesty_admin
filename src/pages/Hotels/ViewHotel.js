@@ -31,7 +31,7 @@ const ViewHotels = () => {
 
 
 
-  console.log("hotels List  in viewHotel: ", hotels);
+  // console.log("hotels List  in viewHotel: ", hotels);
 
   const columns = useMemo(
     () => [
@@ -192,7 +192,7 @@ const ViewHotels = () => {
   const handleDeleteConfirm = () => {
     // Handle the delete confirmation
     // Perform your delete logic here
-    console.log("Deleting selected facilities:", selectedFacilities);
+    // console.log("Deleting selected facilities:", selectedFacilities);
 
     // Close the confirmation modal
     setShowDeleteModal(false);

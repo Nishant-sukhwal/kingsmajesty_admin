@@ -156,6 +156,7 @@ const GenralForm = ({ formFields, onChange }) => {
                       value={fieldConfig.value}
                       placeholder={fieldConfig.placeholder}
                       onChange={handleFieldChange}
+                      defaultVal={fieldConfig.defaultValue}
                     />
                   </Col>
                 );
