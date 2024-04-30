@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Label, Input, FormFeedback } from "reactstrap";
 
 const NumberInput = ({
@@ -13,6 +13,12 @@ const NumberInput = ({
 }) => {
   const [inputError, setInputError] = useState(false);
   const [inputValue,setInputValue] = useState()
+
+  
+  useEffect(() => {
+    setInputValue(defaultVal);
+  },[defaultVal]);
+
 
   const handleInputChange = (e) => {
     const inputVal = e.target.value;

@@ -6,7 +6,7 @@ import "toastr/build/toastr.min.css";
 import GenericFormAvfield from "../../../components/Form/GenricForm/GenricFormAvfield";
 import MultipleSelector from "../../../components/Form/FormSelectorComponent/MultipleSelector";
 import { useSelector } from "react-redux";
-import { PropertyRulesAddApi } from "../../../services/api/hotel/hotelCreateApi";
+import { PropertyRulesAddApi, PropertyRulesUpdateApi } from "../../../services/api/hotel/hotelCreateApi";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 import { useLocation } from "react-router-dom";
 import { getPaymentMethodsApi, getPaymentMethodsByIdApi } from "../../../services/api/paymentMethods/paymentMethodsApi";
@@ -119,7 +119,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
 
     // Implement the API call for Property Rules form submission
     try {
-      const res = await PropertyRulesAddApi(formData, hotelId);
+      const res = await PropertyRulesUpdateApi(formData, id);
       console.log(res);
       if (res.status === 200) {
         toastr.success(res.data.message);

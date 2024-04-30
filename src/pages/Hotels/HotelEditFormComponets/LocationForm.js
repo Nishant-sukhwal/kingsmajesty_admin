@@ -3,7 +3,7 @@ import { AvForm, AvField } from "availity-reactstrap-validation";
 import GenericFormAvfield from "../../../components/Form/GenricForm/GenricFormAvfield";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
-import { AddLocationInfoApi } from "../../../services/api/hotel/hotelCreateApi";
+import { AddLocationInfoApi, LocationInfoUpdateApi } from "../../../services/api/hotel/hotelCreateApi";
 import { useSelector } from "react-redux";
 import { Container } from "reactstrap";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
@@ -233,7 +233,7 @@ const LocationForm = forwardRef((props, ref) => {
     }
 
     try {
-      const res = await AddLocationInfoApi(formData, hotelId);
+      const res = await LocationInfoUpdateApi(formData, id);
       if (res.status === 200) {
         toastr.success(res.data.message);
         if (props.onSubmitSuccess) {

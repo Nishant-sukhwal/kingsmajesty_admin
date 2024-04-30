@@ -160,3 +160,122 @@ export const BasicInfoAddApi = async (formData) => {
     }
   };
   
+
+
+  // update APIs
+
+  export const BasicInfoUpdateApi = async (formData,id) => {
+    try {
+      const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+      const response = await axios.put(
+        `http://localhost:8086/v1/ht/hotels/update-basicinfo/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error Update Basic Info:", error);
+      throw error;
+    }
+  };
+
+
+  export const LocationInfoUpdateApi = async (formData,id) => {
+    try {
+      const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+      const response = await axios.put(
+        `http://localhost:8086/v1/ht/hotels/update-locationinfo/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error Update Basic Info:", error);
+      throw error;
+    }
+  };
+
+
+
+  export const MediaUpdateApi = async (formData, id) => {
+    try {
+      const data = new FormData();
+      // Append thumbnail
+      data.append("thumbnail", formData.get("thumbnail"));
+      // Append gallery files
+      for (let [key, value] of formData.entries()) {
+        // Check if the key starts with 'gallery_'
+        if (key.startsWith("gallery_")) {
+          data.append("gallery", value);
+        }
+      }
+      const response = await axios.put(
+        `http://localhost:8086/v1/ht/hotels/update-media/${id}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            // Add any other headers if needed (e.g., Authorization)
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error adding media:", error);
+      throw error;
+    }
+  };
+
+  export const PropertyRulesUpdateApi = async (formData,id) => {
+    try {
+      const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+      const response = await axios.put(
+        `http://localhost:8086/v1/ht/hotels/update-propertyrulesinfo/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error Update Basic Info:", error);
+      throw error;
+    }
+  };
+
+  export const FacilitiesUpdateApi = async (formData,id) => {
+    try {
+      // const formDataToSend = new FormData();
+      // formDataToSend.append(JSON.stringify( formData.facilities)); 
+    
+      const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+      const response = await axios.put(
+        `http://localhost:8086/v1/ht/hotels/update-facilities/${id}`,
+       
+        formData.facilities,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error Update Basic Info:", error);
+      throw error;
+    }
+  };

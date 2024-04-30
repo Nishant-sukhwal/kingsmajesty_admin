@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useMemo } from "react";
 import TableContainer from "../../components/Common/TableContainer";
-import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
+import { Button, Card, CardBody, Col, Container, Label, Row, Input, Badge } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
@@ -12,6 +12,10 @@ const ViewHotels = () => {
   const [hotels, setHotels] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
+
+  const [toggleSwitch, setToggleSwitch] = useState(true); // State for toggle switch
+  const [selectedFile, setSelectedFile] = useState(null); // State for selected file
+
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -30,29 +34,93 @@ const ViewHotels = () => {
   }, []);
 
 
+  const handleToggleActivate = (hotel) => {
+    // Update the 'Activate' property of the selected hotel
+    const updatedHotels = hotels.map((h) =>
+      h._id === hotel._id ? { ...h, Activate: !hotel.Activate } : h
+    );
+    setHotels(updatedHotels);
+  };
 
   // console.log("hotels List  in viewHotel: ", hotels);
+
+  const renderStatusBadge = (status) => {
+    switch (status) {
+      case "Published":
+        return <Badge className="bg-success me-1">Published</Badge>;
+      case "NotPublished":
+        return <Badge className="bg-danger me-1">Not Published</Badge>;
+      default:
+        return <Badge className="bg-dark me-1">{status}</Badge>; // Default badge for unknown statuses
+    }
+  };
+
+  const renderCategory = (value) => {
+    return (
+      <Button
+        color="secondary"
+        size="sm"
+        // className="btn-rounded waves-effect waves-light me-1"
+        className="waves-effect"
+      >
+        {value}
+      </Button>)
+
+  }
+
+  const renderClassStatus = (classStatus) => {
+    if (!isNaN(parseFloat(classStatus))) {
+      const stars = parseFloat(classStatus);
+      const fullStars = Math.floor(stars);
+      const hasHalfStar = stars - fullStars >= 0.5;
+      const starIcons = [];
+
+      // Render full stars
+      for (let i = 0; i < fullStars; i++) {
+        starIcons.push(
+          <i key={`star-${i}`} className="mdi mdi-star text-primary" />
+        );
+      }
+
+      // Render half star if applicable
+      if (hasHalfStar) {
+        starIcons.push(
+          <i key="half-star" className="mdi mdi-star-half text-primary" />
+        );
+      }
+
+      return (
+        <div className="d-flex align-items-center">
+          {starIcons.map((star, index) => (
+            <span key={index}>{star}</span>
+          ))}
+        </div>
+      );
+    } else {
+      return classStatus; // Fallback if classStatus is neither "4star" nor a number
+    }
+  };
 
   const columns = useMemo(
     () => [
       {
         Header: () => (
           <div>
-          <input
-            type="checkbox"
-            onChange={(e) => {
-              const isChecked = e.target.checked;
-            //   const newSelectedFacilities = isChecked
-            //     ? facilities.map((hotels) => hotels._id)
-            //     : [];
-            //   setSelectedFacilities(newSelectedFacilities);
-            // }}
-            // checked={
-            //   selectedFacilities.length === hotels.length &&
-            //   hotels.length !== 0
-            }}
-          />
-           {/* <span> Select All</span>  */}
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                const isChecked = e.target.checked;
+                //   const newSelectedFacilities = isChecked
+                //     ? facilities.map((hotels) => hotels._id)
+                //     : [];
+                //   setSelectedFacilities(newSelectedFacilities);
+                // }}
+                // checked={
+                //   selectedFacilities.length === hotels.length &&
+                //   hotels.length !== 0
+              }}
+            />
+            {/* <span> Select All</span>  */}
           </div>
         ),
         accessor: "_id",
@@ -87,7 +155,7 @@ const ViewHotels = () => {
         accessor: (originalRow, index) => index + 1, // Display serial number
         disableFilters: true,
         filterable: false,
-      }, 
+      },
       // Image
       {
         Header: "Image",
@@ -102,6 +170,7 @@ const ViewHotels = () => {
               src={`http://localhost:8086/v1/img/get-Images/image/${value}`}
               alt="Img" style={{ width: "100%", height: "100%", objectFit: "fit" }} />
           </div>
+
         ),
       },
       // Name
@@ -111,13 +180,8 @@ const ViewHotels = () => {
         disableFilters: true,
         filterable: false,
       },
-      // Category
-      {
-        Header: "Category",
-        accessor: "hotelCategory",
-        disableFilters: true,
-        filterable: false,
-      },
+
+     
       // Address
       {
         Header: "Address",
@@ -132,12 +196,27 @@ const ViewHotels = () => {
         ),
       },
       // Class
+      // {
+      //   Header: "Class",
+      //   accessor: "classStatus",
+      //   disableFilters: true,
+      //   filterable: false,
+
+      // },
+       // Category
+       {
+        Header: "Category",
+        accessor: "hotelCategory",
+        Cell: ({ value }) => renderCategory(value),
+        disableFilters: true,
+        filterable: false,
+      },
       {
         Header: "Class",
         accessor: "classStatus",
         disableFilters: true,
         filterable: false,
-
+        Cell: ({ value }) => renderClassStatus(value),
       },
       // Status
       {
@@ -145,7 +224,30 @@ const ViewHotels = () => {
         accessor: "releaseStatus",
         disableFilters: true,
         filterable: false,
+        Cell: ({ value }) => renderStatusBadge(value),
+      },
+      {
+        Header: "Active",
+        accessor: "Activate",
+        Cell: ({ row }) => (
+          <div className="form-check form-switch mb-3" dir="ltr">
+            <Input
+              type="checkbox"
+              className="form-check-input"
+              id={`customSwitch-${row.original._id}`}
+              checked={row.original.Activate}
+              onChange={() => handleToggleActivate(row.original)}
+            // checked={toggleSwitch}
+            // onChange={() => setToggleSwitch((prev) => !prev)}
+            // onChange={() => setToggleSwitch(!toggleSwitch)}
+            />
+          </div>
+        ),
 
+        disableFilters: true,
+        filterable: false,
+        disableSortBy: true,
+        show: false,
       },
       // Action
       {
@@ -153,7 +255,7 @@ const ViewHotels = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-               to={`/hotel/update?id=${cellProps._id}`}
+              to={`/hotel/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -172,7 +274,7 @@ const ViewHotels = () => {
         disableSortBy: true,
       },
     ],
-    [hotels]
+    [hotels, toggleSwitch, renderStatusBadge]
   );
 
   const breadcrumbItems = [

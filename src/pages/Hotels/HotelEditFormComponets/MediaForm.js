@@ -3,7 +3,7 @@ import { Row, Col, Label, Form, Container } from "reactstrap";
 import ImageViewer from "../../../components/Form/FormComponents/ImageViewer";
 import ChooseFileInput from "../../../components/Form/FormComponents/ChooseFileInput";
 import { AvForm } from "availity-reactstrap-validation";
-import { MediaAddApi } from "../../../services/api/hotel/hotelCreateApi";
+import { MediaAddApi, MediaUpdateApi } from "../../../services/api/hotel/hotelCreateApi";
 import { useSelector } from "react-redux";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 import toastr from "toastr";
@@ -16,6 +16,7 @@ const MediaForm = forwardRef((props, ref) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id")
+
 
   const [formData, setFormData] = useState({
     gallery: [],
@@ -90,7 +91,7 @@ const MediaForm = forwardRef((props, ref) => {
       formData.gallery.forEach((file, index) => {
         formDataToSend.append(`gallery_${index}`, file);
       });
-      const res = await MediaAddApi(formDataToSend, hotelId);
+      const res = await MediaUpdateApi(formDataToSend, id);
       toastr.success(res.data.message);
       if (props.onSubmitSuccess) {
         props.onSubmitSuccess();

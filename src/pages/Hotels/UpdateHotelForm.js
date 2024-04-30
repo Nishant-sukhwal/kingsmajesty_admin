@@ -39,7 +39,7 @@ const UpdateHotelForm = () => {
   const nextButtonText = isLastTab
     ? "Submit"
     : isSaveAndNext
-      ? "Save & Next"
+      ? "Update & Next"
       : "Next";
 
   const handleSubmit = async () => {

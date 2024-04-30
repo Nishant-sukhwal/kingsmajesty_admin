@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { Container } from "reactstrap";
+import { Card, CardBody, Col, Container, Label, Row ,Input} from "reactstrap";
 import toastr from "toastr";
-import { BasicInfoAddApi, getHotelByIdApi } from "../../../services/api/hotel/hotelCreateApi";
+import { BasicInfoAddApi, BasicInfoUpdateApi, getHotelByIdApi } from "../../../services/api/hotel/hotelCreateApi";
 import GenericFormAvfield from "../../../components/Form/GenricForm/GenricFormAvfield";
 import { useDispatch, useSelector } from "react-redux";
 import { getHotelById, getHotelId } from "../../../store/hotel/actions";
@@ -10,9 +10,16 @@ import "toastr/build/toastr.min.css";
 import { getHotelCategoriesApi } from "../../../services/api/hotelCategory/hotelCategorysApi";
 import { useLocation } from "react-router-dom";
 
+
+
 const BasicInfoForm = forwardRef((props, ref) => {
   const hotel = useSelector((state) => state.Hotel.data);
   const dispatch = useDispatch();
+  
+  const [toggleSwitch, setToggleSwitch] = useState(true); // State for toggle switch
+  const [selectedFile, setSelectedFile] = useState(null); // State for selected file
+
+
   const [formData, setFormData] = useState({
     name: "",
     tag: "",
@@ -45,7 +52,7 @@ const BasicInfoForm = forwardRef((props, ref) => {
       description: hotel?.description,
       hotelCategory: hotel?.hotelCategory,
     }))
-  }, [hotel,id])
+  }, [hotel, id])
 
 
 
@@ -102,7 +109,7 @@ const BasicInfoForm = forwardRef((props, ref) => {
       return;
     }
     try {
-      const res = await BasicInfoAddApi(formData);
+      const res = await BasicInfoUpdateApi(formData, id);
       dispatch(getHotelId(res.data.basicInfo._id));
       if (res.status === 201) {
         toastr.success(res.data.message);
@@ -125,6 +132,66 @@ const BasicInfoForm = forwardRef((props, ref) => {
     <div>
       <Container fluid={true}>
         <GenralForm formFields={formFields} onChange={handleFormChange} />
+       
+        <Row>
+      <Col lg={6}>
+        <Card>
+          <CardBody>
+            <h4 className="card-title">Switches</h4>
+            <p className="card-title-desc">
+              A switch has the markup of a custom checkbox but uses the <code>.custom-switch</code> className to render a
+              toggle switch. Switches also support the <code>disabled</code> attribute.
+            </p>
+
+            <div className="form-check form-switch mb-3" dir="ltr">
+              <Input
+                type="checkbox"
+                className="form-check-input"
+                id="customSwitch1"
+                checked={toggleSwitch}
+                onChange={() => setToggleSwitch(!toggleSwitch)}
+              />
+              <Label className="form-check-label" htmlFor="customSwitch1">
+                Toggle this switch element
+              </Label>
+            </div>
+            
+            <div className="form-check form-switch" dir="ltr">
+              <Input type="checkbox" className="form-check-input" disabled id="customSwitch2" />
+              <Label className="form-check-label" htmlFor="customSwitch2">
+                Disabled switch element
+              </Label>
+            </div>
+          </CardBody>
+        </Card>
+      </Col>
+
+      <Col lg={6}>
+        <Card>
+          <CardBody>
+            <h4 className="card-title">File browser</h4>
+            <p className="card-title-desc">
+              The file input is the most gnarly of the bunch and requires additional JavaScript if you’d like to hook
+              them up with functional <em>Choose file…</em> and selected file name text.
+            </p>
+            <div className="input-group">
+              <input
+                type="file"
+                className="form-control"
+                id="customFile"
+                onChange={(e) => setSelectedFile(e.target.files[0])}
+              />
+            </div>
+            {selectedFile && (
+              <p className="mt-2">
+                Selected file: <strong>{selectedFile.name}</strong>
+              </p>
+            )}
+          </CardBody>
+        </Card>
+      </Col>
+    </Row>
+      
       </Container>
     </div>
   );

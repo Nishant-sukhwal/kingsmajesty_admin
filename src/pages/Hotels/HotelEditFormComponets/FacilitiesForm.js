@@ -5,7 +5,7 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import MultipleSelector from "../../../components/Form/FormSelectorComponent/MultipleSelector";
 import { useSelector } from "react-redux";
-import { FacilitiesAddApi, getHotelByIdApi } from "../../../services/api/hotel/hotelCreateApi";
+import { FacilitiesAddApi, FacilitiesUpdateApi, getHotelByIdApi } from "../../../services/api/hotel/hotelCreateApi";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 import { useLocation } from "react-router-dom";
 
@@ -22,8 +22,8 @@ const FacilitiesForm = forwardRef((props, ref) => {
   const formattedFacilities = JSON.stringify(labels);
 
   const facility = [formattedFacilities]
- 
-  console.log("formattedFacilities formattedFacilities ",facility);
+
+  console.log("formattedFacilities formattedFacilities ", facility);
 
 
   const location = useLocation();
@@ -33,7 +33,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
   console.log("hotel hotel hotel hotel hotel", hotel);
   const [facilities, setFacilities] = useState([]);
 
-  
+
 
   useEffect(() => {
     const fetchFacilities = async () => {
@@ -68,7 +68,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
   const [formData, setFormData] = useState({
     facilities: [],
   });
-  console.log("formData in facility form",formData);
+  console.log("formData in facility form", formData);
 
   const handleFormChange = (fieldName, value) => {
     console.log(fieldName, value);
@@ -82,37 +82,37 @@ const FacilitiesForm = forwardRef((props, ref) => {
 
   useEffect(() => {
 
- 
-    console.log("id is here",id)
-    const fetchData =  () => {
 
-     const hotelFacilities = hotel?.facilities || []; // Ensure hotel.facilities is not null or undefined
+    console.log("id is here", id)
+    const fetchData = () => {
 
-     // Extract only the labels from the hotelFacilities array
-     const labels = hotelFacilities.map(item => item.label);
- 
-     // Convert the labels array into the desired format as a JSON string inside another array
-     const formattedFacilities = JSON.stringify(labels);
- 
- 
-     // Update formData with the formatted facilities
-     setFormData(prevData => ({
-       ...prevData,
-       facilities: [formattedFacilities]
-     }));
+      const hotelFacilities = hotel?.facilities || []; // Ensure hotel.facilities is not null or undefined
+
+      // Extract only the labels from the hotelFacilities array
+      const labels = hotelFacilities.map(item => item.label);
+
+      // Convert the labels array into the desired format as a JSON string inside another array
+      const formattedFacilities = JSON.stringify(labels);
+
+
+      // Update formData with the formatted facilities
+      setFormData(prevData => ({
+        ...prevData,
+        facilities: [formattedFacilities]
+      }));
     }
-  
-      
+
+
     fetchData();
- 
- },[hotel]);
+
+  }, [hotel]);
 
 
-  
+
 
   const formFields = {
     form: [
-      { fieldName: "facilities", label: "Facilities", type: "select", errorMessage: "Select Facilities", value: formData.facilities, placeholder: "Select Facilities", isMulti: true, options: fetchedFacilities, defaultValue: facility, },
+      { fieldName: "facilities", label: "Facilities", type: "select", errorMessage: "Select Facilities", value: formData.facilities, placeholder: "Select Facilities", isMulti: true, options: fetchedFacilities, defaultValue: facility},
     ],
   };
 
@@ -120,24 +120,19 @@ const FacilitiesForm = forwardRef((props, ref) => {
 
 
   const submitForm = async () => {
-
     // Check if at least one facility is selected
     if (formData.facilities.length === 0) {
       toastr.error("Please select at least one facility");
       return;
     }
-
     try {
-
-      const res = await FacilitiesAddApi(formData, hotelId);
+      const res = await FacilitiesUpdateApi(formData, id);
       console.log(res);
       if (res.status === 200) {
         toastr.success(res.data.message);
-
       } else {
         toastr.error("something went wrong!");
       }
-
     } catch (error) {
       console.error(error);
       toastr.error("Failed to create Property Rules");

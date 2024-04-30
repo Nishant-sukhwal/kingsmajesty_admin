@@ -94,7 +94,6 @@ const SelectInput = ({
       setInputError(!selectedOption);
       // Update the defaultValue state with the single selected option
       setDefaultValue(selectedOption);
-
     }
   };
 
