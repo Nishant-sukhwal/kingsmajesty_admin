@@ -50,6 +50,12 @@ import UpdateDeals from "../pages/Deals/UpdateDeals";
 import ViewDeals from "../pages/Deals/ViewDeals";
 import CreateDeals from "../pages/Deals/CreateDeals";
 import UpdateRoom from "../pages/Room/UpdateRoom";
+import ViewRole from "../pages/Role/ViewRole";
+import CreateRoleForm from "../pages/Role/CreateRoleForm";
+import UpdateRoleForm from "../pages/Role/UpdateRoleForm";
+import ViewTeam from "../pages/Team/ViewTeam";
+import CreateTeamForm from "../pages/Team/CreateTeamForm";
+import UpdateTeamForm from "../pages/Team/UpdateTeamForm";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -92,12 +98,22 @@ const authProtectedRoutes = [
   { path: "/roomcategory/create", exact: true, component: <CreateRoomCategoryForm /> },
   { path: "/roomcategories/update", exact: true, component: <UpdateRoomCategoryForm /> },
 
+  //Role
+  { path: "/role", exact: true, component: <ViewRole /> },
+  { path: "/role/create", exact: true, component: <CreateRoleForm /> },
+  { path: "/role/update", exact: true, component: <UpdateRoleForm /> },
+
+  //Team
+  { path: "/team", exact: true, component: <ViewTeam /> },
+  { path: "/team/create", exact: true, component: <CreateTeamForm /> },
+  { path: "/team/update", exact: true, component: <UpdateTeamForm /> },
+
   //Packages
   { path: "/packages", exact: true, component: <Maintenance /> },
   { path: "/activity", exact: true, component: <Maintenance /> },
   { path: "/booking", exact: true, component: <Maintenance /> },
   { path: "/services", exact: true, component: <Maintenance /> },
-  { path: "/role", exact: true, component: <Maintenance /> },
+
 
   // Forms
   { path: "/form-elements", component: <FormElements /> },

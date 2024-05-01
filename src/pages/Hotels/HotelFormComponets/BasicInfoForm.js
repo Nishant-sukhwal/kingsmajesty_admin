@@ -22,7 +22,7 @@ const BasicInfoForm = forwardRef((props, ref) => {
     hotelCategory: "",
   });
   const[hotelCategories, setHotelCategories] = useState([]);
-  console.log(hotelCategories);
+  console.log("hotelCategories +++++++++++++++++",hotelCategories);
   useEffect( ()=> {
 
   
