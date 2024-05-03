@@ -7,6 +7,7 @@ import { Button, Card, CardBody, Col, Container, Label, Row, Input, Badge } from
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
+import getHotels from "../../services/api/hotel/hotelCreateApi";
 
 const ViewHotels = () => {
   const [hotels, setHotels] = useState([]);
@@ -16,15 +17,13 @@ const ViewHotels = () => {
   const [toggleSwitch, setToggleSwitch] = useState(true); // State for toggle switch
   const [selectedFile, setSelectedFile] = useState(null); // State for selected file
 
-
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8086/v1/ht/hotels/get-hotels"
-        );
-        const data = await response.json();
-        setHotels(data.hotels);
+        const response = await getHotels();
+        console.log(response)
+        // const data = await response.json();
+        // setHotels(data.hotels);
       } catch (error) {
         console.error("Error fetching facilities:", error);
       }
@@ -32,6 +31,23 @@ const ViewHotels = () => {
 
     fetchHotels();
   }, []);
+
+
+  // useEffect(() => {
+  //   const fetchHotels = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "http://localhost:8086/v1/ht/hotels/get-hotels"
+  //       );
+  //       const data = await response.json();
+  //       setHotels(data.hotels);
+  //     } catch (error) {
+  //       console.error("Error fetching facilities:", error);
+  //     }
+  //   };
+
+  //   fetchHotels();
+  // }, []);
 
 
   const handleToggleActivate = (hotel) => {

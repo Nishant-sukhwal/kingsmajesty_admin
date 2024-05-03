@@ -1,5 +1,24 @@
 import axios from "axios";
 
+const getHotels = async () => {
+  const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+  try {
+    const response = await axios.get("http://localhost:8086/v1/ht/hotels/get-hotels", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching sidebar menus:", error);
+    throw error;
+  }
+};
+
+export default getHotels;
+
+
 export const BasicInfoAddApi = async (formData) => {
     
     try {
