@@ -164,7 +164,7 @@ export const BasicInfoAddApi = async (formData) => {
     try {
       const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
       const response = await axios.get(
-        `http://localhost:8086/v1/ht/hotels/get-hotels/${id}`,
+        `http://localhost:8086/v1/ht/hotels/get-hotel/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

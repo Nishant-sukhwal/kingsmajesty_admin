@@ -7,7 +7,7 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getDeals } from "../../store/actions";
-import { deleteDealsApi, getDealsApi } from "../../services/api/deals/dealsApi";
+import { deleteDealsApi, getDealsApi, getDealsByIdApi } from "../../services/api/deals/dealsApi";
 
 const ViewDeals = () => {
 
@@ -15,7 +15,6 @@ const ViewDeals = () => {
 
 
   const [deals, setDeals] = useState([]);
-  console.log(deals);
 
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
@@ -24,20 +23,15 @@ const ViewDeals = () => {
   useEffect(() => {
     const fetchDeals = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8086/v1/dl/deals/get-deals"
-        );
-        const data = await response.json();
-        const filteredData = data.deals.filter(
+        const response = await getDealsApi();
+        const filteredData = response.data.deals.filter(
           (item) => !item.deleted
         );
-
         setDeals(filteredData);
       } catch (error) {
         console.error("Error fetching facilities:", error);
       }
     };
-
     fetchDeals();
   }, []);
 
@@ -47,18 +41,13 @@ const ViewDeals = () => {
     setSelectedFacilities([id]);
   };
 
-   //This is for delete
-   const fetchDeals = async () => {
+  //This is for delete
+  const fetchDeals = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8086/v1/dl/deals/get-deals"
-      );
-      const data = await response.json();
-      console.log(data);
-      const filteredData = data.deals.filter(
+      const response = await getDealsApi();
+      const filteredData = response.data.deals.filter(
         (item) => !item.deleted
       );
-      // setFacilities(filteredFacilities);
       return filteredData;
     } catch (error) {
       console.error("Error fetching facilities:", error);
@@ -70,13 +59,9 @@ const ViewDeals = () => {
       for (const Id of selectedFacilities) {
         await deleteDealsApi(Id);
       }
-
       const updateDeals = await fetchDeals();
-
       setDeals(updateDeals);
       setSelectedFacilities([]);
-
-
       setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting deal:", error);

@@ -8,25 +8,59 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import SubHeader from '../../components/Common/SubHeader'
 import { Link } from "react-router-dom";
+import { getAllPermissionApi, getAllSidebarMenu } from '../../services/api/authentication/authApi'
+
 
 const CreateRoleForm = () => {
-  // const [hotels, setHotels] = useState([]);
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen1, setIsOpen1] = useState(false);
-  const [sq1, setSq1] = useState(false);
-  const [menuItems, setMenuItems] = useState([]);
-  const dummyMenuItems = [
-    { id: 1, name: 'Dashboard', enabled: true },
-    { id: 2, name: 'Orders', enabled: true },
-    { id: 3, name: 'Customers', enabled: false },
-    { id: 4, name: 'Inventory', enabled: true },
-    { id: 5, name: 'Reports', enabled: false },
+  const [modules, setModuels] = useState([]);
+  const [permission, setPermission] = useState([]);
+  console.log("modules in component ", modules);
+  console.log("permission permission ",permission);
+  const [selectedModuleIds, setSelectedModuleIds] = useState([]);
+  console.log("selectedModuleId is ", selectedModuleIds)
+  const [formData, setFormData] = useState({
+    name: '',
+  });
+  console.log(formData);
 
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // First API call
+        const response = await getAllSidebarMenu();
+        console.log(response.sidebarMenus)
+        setModuels(response.sidebarMenus);
 
-  const handleToggleSq1 = () => {
-    setSq1(!sq1);
+        // Second API call (waits for the first one to finish)
+        const res = await getAllPermissionApi();
+        // console.log(res.permissions)
+        setPermission(res.permissions)
+        // setData2(response2.data);
+
+        // Continue with more API calls if needed...
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // Handle errors as needed
+      }
+    };
+
+    fetchData();
+
+  }, []);
+
+  const handleToggleMenuItem = (moduleId) => {
+    const isSelected = selectedModuleIds.includes(moduleId);
+
+    if (isSelected) {
+      // Module is already selected, so remove it from the array
+      setSelectedModuleIds(selectedModuleIds.filter(id => id !== moduleId));
+    } else {
+      // Module is not selected, so add it to the array
+      setSelectedModuleIds([...selectedModuleIds, moduleId]);
+    }
   };
 
   const toggleCollapse = () => {
@@ -35,56 +69,6 @@ const CreateRoleForm = () => {
   const toggleCollapse1 = () => {
     setIsOpen1(!isOpen1);
   };
-
-
-
-  const [formData, setFormData] = useState({
-    name: '',
-  });
-  console.log(formData);
-
-  const [hotelsEnabled, setHotelsEnabled] = useState(false);
-  const [roomsEnabled, setRoomsEnabled] = useState(false);
-  const [roomCategoryEnabled, setRoomCategoryEnabled] = useState(false);
-  const [hotelCategoryEnabled, setHotelCategoryEnabled] = useState(false);
-  const [activityEnabled, setActivityEnabled] = useState(false);
-  const [serviceEnabled, setServiceEnabled] = useState(false);
-  const [dealsEnabled, setDealsEnabled] = useState(false);
-  const [paymentOptionEnabled, setPaymentOptionEnabled] = useState(false);
-  const [dashboardEnabled, setDashboardEnabled] = useState(false);
-  const [roleEnabled, setRoleEnabled] = useState(false);
-  const [teamEnabled, setTeamEnabled] = useState(false);
-  const [settingsEnabled, setSettingsEnabled] = useState(false);
-
-  const handleToggle = (setter) => {
-    setter((prev) => !prev);
-  };
-
-
-  // useEffect(() => {
-  //   const fetchHotels = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "http://localhost:8086/v1/ht/hotels/get-hotels"
-  //       );
-  //       const data = await response.json();
-  //       setHotels(data.hotels);
-  //     } catch (error) {
-  //       console.error("Error fetching facilities:", error);
-  //     }
-  //   };
-
-  //   fetchHotels();
-  // }, []);
-  // console.log(hotels);
-
-
-  // Dynamically generate options based on the hotels data
-  // const options = hotels.map(hotel => ({
-  //   value: hotel.name,
-  //   label: hotel.name,
-  // }));
-
 
   const handleFormChange = (fieldName, value) => {
     setFormData({
@@ -122,28 +106,12 @@ const CreateRoleForm = () => {
       }
     ]
   }
-  const [menuItemEnabled, setMenuItemEnabled] = useState({});
+
+
   const handleSubmit = () => {
     dispatch(saveRoomCategoryReq(formData));
     toastr.success("Category Saved Successfully!");
   }
-
-  // const handleToggleMenuItem = (id) => {
-  //   const updatedMenuItems = menuItems.map((item) =>
-  //     item.id === id ? { ...item, enabled: !item.enabled } : item
-  //   );
-  //   setMenuItems(updatedMenuItems);
-  //   // Add API call here to update menuItem.enabled on the backend
-  // };
-
-  const handleToggleMenuItem = (id) => {
-    setMenuItemEnabled((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-
 
   // State variables for permission toggles
   const [permissions, setPermissions] = useState({
@@ -174,20 +142,16 @@ const CreateRoleForm = () => {
 
 
   // Simulated API response with module data
-  const modules = [
-    { name: 'Hotels', key: 'hotels' },
-    { name: 'Rooms', key: 'rooms' },
-    { name: 'Room Category', key: 'roomCategory' },
-    { name: 'Hotel Category', key: 'hotelCategory' },
-    { name: 'Payment Option', key: 'payment' },
-    { name: 'Activity', key: 'activity' },
-    { name: 'Services', key: 'service' },
-    { name: 'Booking', key: 'book' },
-    { name: 'Deals', key: 'deals' },
-    { name: 'Roles', key: 'roles' },
-    { name: 'Team', key: 'team' },
-    // Add more modules here based on API response
-  ];
+  // const modules = [
+  //   {
+  //     "_id": "659501b4bde1213351e1f2de",
+  //     "menu": "Dashboard"
+  //   },
+  //   {
+  //     "_id": "659502a1bde1213351e1f2e3",
+  //     "menu": "Hotels"
+  //   },
+  // ];
 
 
   return (
@@ -198,7 +162,7 @@ const CreateRoleForm = () => {
             <SubHeader value={"/role"} />
             <GenralForm formFields={formFields} onChange={handleFormChange} />
 
-            {/* <Col xl={12}>
+            <Col xl={12}>
               <Card>
                 <CardBody>
                   <h4
@@ -219,18 +183,18 @@ const CreateRoleForm = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {dummyMenuItems.map((menuItem, index) => (
-                          <tr key={index}>
-                            <td>{menuItem.name}</td>
+                        {modules.map((module) => (
+                          <tr key={module._id}>
+                            <td>{module.menu}</td>
                             <td>
                               <input
                                 type="checkbox"
-                                id={`square-switch${menuItem.id}`}
+                                id={`square-switch${module._id}`}
                                 switch="none"
-                                checked={menuItemEnabled[menuItem.id]}
-                                onChange={() => handleToggleMenuItem(menuItem.id)}
+                                checked={selectedModuleIds.includes(module._id)}
+                                onChange={() => handleToggleMenuItem(module._id)}
                               />
-                              <label htmlFor={`square-switch${menuItem.id}`} data-on-label="Yes" data-off-label="No" />
+                              <label htmlFor={`square-switch${module._id}`} data-on-label="Yes" data-off-label="No" />
                             </td>
                           </tr>
                         ))}
@@ -239,24 +203,23 @@ const CreateRoleForm = () => {
                   </Collapse>
                 </CardBody>
               </Card>
-            </Col> */}
+            </Col>
 
 
             <Col xl={12}>
               <Card>
                 <CardBody>
                   <h4 className="card-title" onClick={toggleCollapse1} style={{ cursor: "pointer" }}>
-                    Sidebar & Permission Menu<span style={{ cursor: "pointer", fontSize: 'x-large', marginLeft: '15px', fontWeight: 'bold' }}>+</span>
+                   Permission Menu<span style={{ cursor: "pointer", fontSize: 'x-large', marginLeft: '15px', fontWeight: 'bold' }}>+</span>
                   </h4>
                   <p className="card-title-desc">Select Permission for role</p>
-
                   <Collapse isOpen={isOpen1}>
                     <div className="card card-body mb-0">
                       <table className="table">
                         <thead>
                           <tr>
                             <th>Module</th>
-                            <th>Active</th>
+                           
                             <th>View</th>
                             <th>Create</th>
                             <th>Edit</th>
@@ -264,19 +227,20 @@ const CreateRoleForm = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {modules.map((module) => (
-                            <tr>
-                              <td>{module.name}</td>
+                          {permission.map((permission) => (
+                            <tr key={permission._id}>
+                               <td>{permission.module_name}</td>
+                              {/*
                               <td>
                                 <input
                                   type="checkbox"
-                                  id={`square-switch${module.key}`}
+                                  id={`square-switch${module._id}`}
                                   switch="none"
-                                  checked={menuItemEnabled[module.key]}
-                                  onChange={() => handleToggleMenuItem(module.key)}
+                                  checked={selectedModuleIds.includes(module._id)}
+                                  onChange={() => handleToggleMenuItem(module._id)}
                                 />
-                                <label htmlFor={`square-switch${module.key}`} data-on-label="Yes" data-off-label="No" />
-                              </td>
+                                <label htmlFor={`square-switch${module._id}`} data-on-label="Yes" data-off-label="No" />
+                              </td> */}
                               <td>
                                 <input
                                   type="checkbox"

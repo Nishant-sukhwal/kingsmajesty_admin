@@ -17,7 +17,7 @@ export const login = async (formData) => {
       }
     );
     return response.data;
-    
+
   } catch {
     console.log('Error in API call:');
     // throw error;
@@ -37,4 +37,39 @@ export const logout = async (token) => {
     console.log("Logout Failed!");
   }
 }
+
+export const getAllSidebarMenu = async () => {
+  try {
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const response = await axios.get("http://localhost:8086/v1/api/admin/auth/sidebar-menu", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching sidebar menus:", error);
+    throw error;
+  }
+}
+
+
+
+export const getAllPermissionApi = async () => {
+  try {
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const response = await axios.get("http://localhost:8086/v1/pm/permission/get-permission", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in Permission access", error);
+    throw error;
+  }
+}
+
 

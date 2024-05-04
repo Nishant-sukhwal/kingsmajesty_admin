@@ -28,7 +28,7 @@ export const addDealsApi = async (formData) => {
 
 export const getDealsApi = async () => {
   try {
-    //   const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+      const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     //   const data = new FormData();
     //   data.append("facilityName", formData.name);
     //   data.append("image", formData.media);
@@ -40,7 +40,7 @@ export const getDealsApi = async () => {
         headers: {
           'Content-Type': 'application/json',
           // "Content-Type": "multipart/form-data",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -96,7 +96,7 @@ export const DealsUpdateApi = async (formData, id) => {
 
 export const deleteDealsApi = async (id) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.delete(
       `http://localhost:8086/v1/dl/deals/delete-deals/${id}`,
       {

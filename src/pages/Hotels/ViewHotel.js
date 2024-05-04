@@ -21,14 +21,12 @@ const ViewHotels = () => {
     const fetchHotels = async () => {
       try {
         const response = await getHotels();
-        console.log(response)
-        // const data = await response.json();
-        // setHotels(data.hotels);
+        console.log(response.hotels)
+        setHotels(response.hotels);
       } catch (error) {
         console.error("Error fetching facilities:", error);
       }
     };
-
     fetchHotels();
   }, []);
 
@@ -197,7 +195,7 @@ const ViewHotels = () => {
         filterable: false,
       },
 
-     
+
       // Address
       {
         Header: "Address",
@@ -219,8 +217,8 @@ const ViewHotels = () => {
       //   filterable: false,
 
       // },
-       // Category
-       {
+      // Category
+      {
         Header: "Category",
         accessor: "hotelCategory",
         Cell: ({ value }) => renderCategory(value),
