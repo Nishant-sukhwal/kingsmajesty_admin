@@ -17,43 +17,48 @@ const CreateRoleForm = () => {
   const [isOpen1, setIsOpen1] = useState(false);
   const [modules, setModuels] = useState([]);
   const [permission, setPermission] = useState([]);
-  console.log("modules in component ", modules);
-  console.log("permission permission ",permission);
+
+  const [selectedPermissionIds, setSelectedPermissionIds] = useState([]);
   const [selectedModuleIds, setSelectedModuleIds] = useState([]);
-  console.log("selectedModuleId is ", selectedModuleIds)
-  const [formData, setFormData] = useState({
+  const [roleName, setRoleName] = useState({
     name: '',
   });
-  console.log(formData);
+
+  console.log(roleName);
+  console.log("modules in component ", modules);
+  console.log("permission permission ", permission);
+  console.log("selectedModuleId is ", selectedModuleIds)
+  console.log("selectedPermissions selectedPermissions selectedPermissions", selectedPermissionIds);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // First API call
         const response = await getAllSidebarMenu();
         console.log(response.sidebarMenus)
         setModuels(response.sidebarMenus);
-
         // Second API call (waits for the first one to finish)
         const res = await getAllPermissionApi();
         // console.log(res.permissions)
         setPermission(res.permissions)
-        // setData2(response2.data);
-
-        // Continue with more API calls if needed...
+        // setData2(response2.data);        
       } catch (error) {
         console.error('Error fetching data:', error);
         // Handle errors as needed
       }
     };
-
     fetchData();
-
   }, []);
+
+  const handleFormChange = (fieldName, value) => {
+    setRoleName({
+      ...roleName,
+      [fieldName]: value,
+    });
+  };
+
 
   const handleToggleMenuItem = (moduleId) => {
     const isSelected = selectedModuleIds.includes(moduleId);
-
     if (isSelected) {
       // Module is already selected, so remove it from the array
       setSelectedModuleIds(selectedModuleIds.filter(id => id !== moduleId));
@@ -70,12 +75,45 @@ const CreateRoleForm = () => {
     setIsOpen1(!isOpen1);
   };
 
-  const handleFormChange = (fieldName, value) => {
-    setFormData({
-      ...formData,
-      [fieldName]: value,
-    });
+
+  // Organize permissions data by module and type
+  const permissionData = {};
+  permission.forEach((perm) => {
+    const { module_name, type } = perm;
+    if (!permissionData[module_name]) {
+      permissionData[module_name] = {};
+    }
+    if (!permissionData[module_name][type]) {
+      permissionData[module_name][type] = [];
+    }
+    permissionData[module_name][type].push(perm);
+  });
+
+  const handleSelect = (permissionId) => {
+    const isSelected = selectedPermissionIds.includes(permissionId);
+    // Create a new array with updated selected permission IDs
+    let updatedSelectedIds;
+    if (isSelected) {
+      updatedSelectedIds = selectedPermissionIds.filter((id) => id !== permissionId);
+    } else {
+      updatedSelectedIds = [...selectedPermissionIds, permissionId];
+    }
+    // Update the selectedPermissionIds state with the new array
+    setSelectedPermissionIds(updatedSelectedIds);
   };
+
+  const handleSubmit = () => {
+
+    const formDataToSend = {
+    roleName: roleName.name, // Assuming 'name' is the role name field
+    sidebarMenus: selectedModuleIds,
+    permissions: selectedPermissionIds,
+  };
+
+  console.log("Submit --------------->",formDataToSend)
+    // dispatch(saveRoomCategoryReq(formData));
+    // toastr.success("Category Saved Successfully!");
+  }
 
   const formFields = {
     backbutton: '/role',
@@ -90,69 +128,22 @@ const CreateRoleForm = () => {
       // },
       {
         fieldName: 'name',
-        label: 'Role',
+        label: 'Role Name',
         type: 'text',
         errorMessage: 'Enter Role Name',
         value: '',
         placeholder: 'Enter Role Name'
       },
-      {
-        fieldName: 'description',
-        label: 'Description',
-        type: 'text',
-        errorMessage: 'Enter Description',
-        value: '',
-        placeholder: 'Enter Description'
-      }
+      // {
+      //   fieldName: 'description',
+      //   label: 'Description',
+      //   type: 'text',
+      //   errorMessage: 'Enter Description',
+      //   value: '',
+      //   placeholder: 'Enter Description'
+      // }
     ]
   }
-
-
-  const handleSubmit = () => {
-    dispatch(saveRoomCategoryReq(formData));
-    toastr.success("Category Saved Successfully!");
-  }
-
-  // State variables for permission toggles
-  const [permissions, setPermissions] = useState({
-    hotels: false,
-    rooms: false,
-    roomCategory: false,
-    hotelCategory: false,
-    activity: false,
-    service: false,
-    deals: false,
-    paymentOption: false,
-    dashboard: false,
-    role: false,
-    team: false,
-    settings: false
-  });
-
-  // Function to toggle permissions
-  const handleToggles = (moduleName, action) => {
-    setPermissions((prevPermissions) => ({
-      ...prevPermissions,
-      [moduleName]: {
-        ...prevPermissions[moduleName],
-        [action]: !prevPermissions[moduleName][action]
-      }
-    }));
-  };
-
-
-  // Simulated API response with module data
-  // const modules = [
-  //   {
-  //     "_id": "659501b4bde1213351e1f2de",
-  //     "menu": "Dashboard"
-  //   },
-  //   {
-  //     "_id": "659502a1bde1213351e1f2e3",
-  //     "menu": "Hotels"
-  //   },
-  // ];
-
 
   return (
     <div className="page-content">
@@ -161,20 +152,17 @@ const CreateRoleForm = () => {
           <CardBody>
             <SubHeader value={"/role"} />
             <GenralForm formFields={formFields} onChange={handleFormChange} />
-
+            {/* Sidebar Menu */}
             <Col xl={12}>
               <Card>
                 <CardBody>
                   <h4
                     className="card-title"
                     onClick={toggleCollapse}
-                    style={{ cursor: "pointer" }}
-                  >Sidebar Menu <span style={{ cursor: "pointer", fontSize: 'x-large', marginLeft: '15px', fontWeight: 'bold' }}>+</span></h4>
-                  <p className="card-title-desc">Select sidebar menu for role</p>
-
-
+                    style={{ cursor: "pointer" }}>
+                    Sidebar Menu <span style={{ cursor: "pointer", fontSize: 'x-large', marginLeft: '15px', fontWeight: 'bold' }}>+</span></h4>
+                  <p className="card-title-desc">Select the specific sidebar menus to be accessible for this role.</p>
                   <Collapse isOpen={isOpen}>
-
                     <Table responsive>
                       <thead>
                         <tr>
@@ -204,81 +192,56 @@ const CreateRoleForm = () => {
                 </CardBody>
               </Card>
             </Col>
-
-
+            {/* permission menu */}
             <Col xl={12}>
               <Card>
                 <CardBody>
                   <h4 className="card-title" onClick={toggleCollapse1} style={{ cursor: "pointer" }}>
-                   Permission Menu<span style={{ cursor: "pointer", fontSize: 'x-large', marginLeft: '15px', fontWeight: 'bold' }}>+</span>
+                    Permission Menu<span style={{ cursor: "pointer", fontSize: 'x-large', marginLeft: '15px', fontWeight: 'bold' }}>+</span>
                   </h4>
-                  <p className="card-title-desc">Select Permission for role</p>
+                  <p className="card-title-desc">Customize role permissions to define specific access rights and privileges for user roles.</p>
                   <Collapse isOpen={isOpen1}>
                     <div className="card card-body mb-0">
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th>Module</th>
-                           
-                            <th>View</th>
-                            <th>Create</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {permission.map((permission) => (
-                            <tr key={permission._id}>
-                               <td>{permission.module_name}</td>
-                              {/*
-                              <td>
-                                <input
-                                  type="checkbox"
-                                  id={`square-switch${module._id}`}
-                                  switch="none"
-                                  checked={selectedModuleIds.includes(module._id)}
-                                  onChange={() => handleToggleMenuItem(module._id)}
-                                />
-                                <label htmlFor={`square-switch${module._id}`} data-on-label="Yes" data-off-label="No" />
-                              </td> */}
-                              <td>
-                                <input
-                                  type="checkbox"
-                                  checked={permissions[module.key]?.view}
-                                  onChange={() => handleToggles(module.key, 'view')}
-                                />
-                              </td>
-                              <td>
-                                <input
-                                  type="checkbox"
-                                  checked={permissions[module.key]?.create}
-                                  onChange={() => handleToggles(module.key, 'create')}
-                                />
-                              </td>
-                              <td>
-                                <input
-                                  type="checkbox"
-                                  checked={permissions[module.key]?.edit}
-                                  onChange={() => handleToggles(module.key, 'edit')}
-                                />
-                              </td>
-                              <td>
-                                <input
-                                  type="checkbox"
-                                  checked={permissions[module.key]?.delete}
-                                  onChange={() => handleToggles(module.key, 'delete')}
-                                />
-                              </td>
+                      <div className="permissions-table-container">
+                        <table className="table permissions-table">
+                          <thead >
+                            <tr >
+                              <th className="permissions-column">Module</th>
+                              <th className="permissions-column">Permissions</th> {/* New column for permissions */}
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {Object.entries(permissionData).map(([moduleName, modulePermissions]) => (
+                              <tr key={moduleName}>
+                                <td>{moduleName}</td>
+                                <td className="permissions-column">
+                                  {Object.entries(modulePermissions).map(([type, permissionsArray]) => (
+                                    <div className='d-flex align-items-center' key={type}>
+                                      {permissionsArray.map((perm) => (
+                                        <label className='d-flex align-items-center' key={perm._id}>
+                                          <input
+                                            type="checkbox"
+                                            checked={selectedPermissionIds.includes(perm._id)}
+                                            onChange={() => handleSelect(perm._id)}
+                                          />{' '}
+                                          <span className='mx-2'>{perm?.type?.charAt(0).toUpperCase() + perm?.type?.slice(1)} </span>
+                                        </label>
+                                      ))}
+                                      <br />
+                                    </div>
+                                  ))}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </Collapse>
                 </CardBody>
               </Card>
             </Col>
-
+            {/* Submit Button*/}
             <Button color="primary" type="submit" onClick={handleSubmit}>
               Submit
             </Button>

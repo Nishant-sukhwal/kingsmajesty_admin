@@ -1820,3 +1820,37 @@ $kbd-bg: var(--#{$prefix}body-color);
 $nested-kbd-font-weight: null; // Deprecated in v5.2.0, removing in v6
 
 $pre-color: $gray-900;
+
+
+
+
+
+// table css
+
+
+.permissions-table-container {
+  width: 60%; /* Set the width of the table container */
+  margin: 0; /* Remove default margin */
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
+
+.permissions-table {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-collapse: collapse; /* Collapse borders between cells */
+}
+
+.permissions-table th,
+.permissions-table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.permissions-table .permissions-column {
+  border-left: 1px solid #ccc; /* Add border between Module and Permissions columns */
+  padding-left: 40px; /* Add padding for clarity */
+}
+
+.permissions-table label {
+  margin-right: 10px; /* Add space between checkbox and label text */
+}
