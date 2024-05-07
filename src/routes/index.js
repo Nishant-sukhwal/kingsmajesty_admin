@@ -18,7 +18,6 @@ import FormMask from "../pages/Forms/FormMask";
 import FormUpload from "../pages/Forms/FormUpload";
 import FormWizard from "../pages/Forms/FormWizard";
 import FormXeditable from "../pages/Forms/FormXeditable";
-
 import CommingSoon from "../pages/Utils/CommingSoon";
 import Maintenance from "../pages/Utils/Maintenance";
 //Hotels
@@ -49,13 +48,18 @@ import UpdateHotelCategoryForm from "../pages/HotelCategory/UpdateHotelCategoryF
 import UpdateDeals from "../pages/Deals/UpdateDeals";
 import ViewDeals from "../pages/Deals/ViewDeals";
 import CreateDeals from "../pages/Deals/CreateDeals";
+
 import UpdateRoom from "../pages/Room/UpdateRoom";
+//Role
 import ViewRole from "../pages/Role/ViewRole";
 import CreateRoleForm from "../pages/Role/CreateRoleForm";
 import UpdateRoleForm from "../pages/Role/UpdateRoleForm";
+//Team
 import ViewTeam from "../pages/Team/ViewTeam";
 import CreateTeamForm from "../pages/Team/CreateTeamForm";
 import UpdateTeamForm from "../pages/Team/UpdateTeamForm";
+import ViewServices from "../pages/Services/ViewServices";
+import CreateServices from "../pages/Services/CreateServices";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -108,11 +112,15 @@ const authProtectedRoutes = [
   { path: "/team/create", exact: true, component: <CreateTeamForm /> },
   { path: "/team/update", exact: true, component: <UpdateTeamForm /> },
 
+  //Services
+  { path: "/services", exact: true, component: <ViewServices /> },
+  { path: "/services/create", exact: true, component: <CreateServices /> },
+
   //Packages
   { path: "/packages", exact: true, component: <Maintenance /> },
   { path: "/activity", exact: true, component: <Maintenance /> },
   { path: "/booking", exact: true, component: <Maintenance /> },
-  { path: "/services", exact: true, component: <Maintenance /> },
+  
 
 
   // Forms

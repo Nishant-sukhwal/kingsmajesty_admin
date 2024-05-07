@@ -1,5 +1,3 @@
-
-
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useMemo } from "react";
 import TableContainer from "../../components/Common/TableContainer";
@@ -7,20 +5,19 @@ import { Button, Card, CardBody, Col, Container, Label, Row, Input, Badge } from
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
-import getHotels from "../../services/api/hotel/hotelCreateApi";
+import getHotelsApi from "../../services/api/hotel/hotelCreateApi";
 
 const ViewHotels = () => {
   const [hotels, setHotels] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
-
   const [toggleSwitch, setToggleSwitch] = useState(true); // State for toggle switch
   const [selectedFile, setSelectedFile] = useState(null); // State for selected file
 
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const response = await getHotels();
+        const response = await getHotelsApi();
         console.log(response.hotels)
         setHotels(response.hotels);
       } catch (error) {

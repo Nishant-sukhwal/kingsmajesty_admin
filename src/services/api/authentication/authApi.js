@@ -41,7 +41,7 @@ export const logout = async (token) => {
 export const getAllSidebarMenu = async () => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
-    const response = await axios.get("http://localhost:8086/v1/api/admin/auth/sidebar-menu", {
+    const response = await axios.get("http://localhost:8086/v1/sidemenu/sidebar-menu", {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
