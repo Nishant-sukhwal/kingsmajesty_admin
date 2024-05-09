@@ -4,6 +4,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Col, Label } from "reactstrap";
 
 const CkEditor = ({ initialData, label, id, onChange }) => {
+  
   const handleEditorChange = (event, editor) => {
     const data = editor.getData();
     onChange(id, data); // Update the form data with CKEditor content

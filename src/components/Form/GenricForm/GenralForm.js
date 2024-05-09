@@ -160,6 +160,20 @@ const GenralForm = ({ formFields, onChange }) => {
                     />
                   </Col>
                 );
+                case "date":
+                return (
+                  <Col key={fieldConfig.fieldName} lg="6">
+                    <TimeInput
+                      label={fieldConfig.label}
+                      fieldName={fieldConfig.fieldName}
+                      errorMessage={fieldConfig.errorMessage}
+                      value={fieldConfig.value}
+                      placeholder={fieldConfig.placeholder}
+                      onChange={handleFieldChange}
+                      defaultVal={fieldConfig.defaultValue}
+                    />
+                  </Col>
+                );
               default:
                 return null; // Return null for the default case
             }

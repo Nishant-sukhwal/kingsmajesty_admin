@@ -89,7 +89,7 @@ const ViewServices = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={`/roomcategories/update?id=${cellProps._id}`}
+              to={`/services/edit?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>

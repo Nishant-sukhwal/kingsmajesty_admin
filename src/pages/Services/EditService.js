@@ -15,8 +15,7 @@ import DateInput from '../../components/Form/FormComponent/DateInput';
 import RadioButton from '../../components/Form/FormComponent/RadioInput';
 import NumberInput from '../../components/Form/FormComponent/NumberInput';
 
-
-const CreateServices = () => {
+const EditService = () => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         name: '',
@@ -86,7 +85,6 @@ const CreateServices = () => {
         <div className="page-content">
             <Card>
                 <CardBody>
-                    <SubHeader value={"/services"} />
                     <Container fluid={true}>
 
                         <Row>
@@ -225,4 +223,4 @@ const CreateServices = () => {
     )
 }
 
-export default CreateServices
+export default EditService

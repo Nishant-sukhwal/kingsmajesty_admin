@@ -60,6 +60,15 @@ import CreateTeamForm from "../pages/Team/CreateTeamForm";
 import UpdateTeamForm from "../pages/Team/UpdateTeamForm";
 import ViewServices from "../pages/Services/ViewServices";
 import CreateServices from "../pages/Services/CreateServices";
+import EditService from "../pages/Services/EditService";
+import ViewActivity from "../pages/Activity/ViewActivity";
+import CreateActivityForm from "../pages/Activity/CreateActivityForm";
+import ViewBooking from "../pages/Booking/ViewBooking";
+import CreateBookingForm from "../pages/Booking/CreateBookingForm";
+import EditBookingForm from "../pages/Booking/EditBookingForm";
+import ViewTexes from "../pages/Taxes/ViewTexes";
+import CreateTaxForm from "../pages/Taxes/CreateTaxForm";
+import EditTaxForm from "../pages/Taxes/EditTaxForm";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -115,12 +124,28 @@ const authProtectedRoutes = [
   //Services
   { path: "/services", exact: true, component: <ViewServices /> },
   { path: "/services/create", exact: true, component: <CreateServices /> },
+  { path: "/services/edit", exact: true, component: <EditService /> },
+
+  //Activity 
+  { path: "/activity", exact: true, component: <ViewActivity /> },
+  { path: "/activity/create", exact: true, component: <CreateActivityForm /> },
+  { path: "/activity/edit", exact: true, component: <ViewServices /> },
+
+  //Booking 
+  { path: "/booking", exact: true, component: <ViewBooking /> },
+  { path: "/booking/create", exact: true, component: <CreateBookingForm /> },
+  { path: "/booking/edit", exact: true, component: <EditBookingForm /> },
+
+  //Taxes 
+  { path: "/tax", exact: true, component: <ViewTexes /> },
+  { path: "/tax/create", exact: true, component: <CreateTaxForm /> },
+  { path: "/tax/edit", exact: true, component: <EditTaxForm /> },
 
   //Packages
   { path: "/packages", exact: true, component: <Maintenance /> },
-  { path: "/activity", exact: true, component: <Maintenance /> },
-  { path: "/booking", exact: true, component: <Maintenance /> },
   
+  ,
+
 
 
   // Forms

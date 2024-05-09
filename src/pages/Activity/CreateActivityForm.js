@@ -14,21 +14,26 @@ import SelectInput from '../../components/Form/FormComponent/SelectInput';
 import DateInput from '../../components/Form/FormComponent/DateInput';
 import RadioButton from '../../components/Form/FormComponent/RadioInput';
 import NumberInput from '../../components/Form/FormComponent/NumberInput';
+import CkEditor from '../../components/Form/FormComponent/CkEditor';
 
+// import CkEditor from "../FormComponent/CkEditor";
 
-const CreateServices = () => {
+const CreateActivityForm = () => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
-        name: '',
+        title: '',
+        subtitle: '',
         description: '',
-        priceType: null,
-        price: '',
-        tax: null,
-        startDate: null,
-        endDate: null,
-        mandatory: false,
+        maxchildren: '',
+        maxadults: '',
+        maxpeople: '',
+        price_per_person: '',
+        hotels: [],
+        duration: '',
+        duration_unit: '',
+        homepage: false,
         release: '',
-        room: null
+        
         // Add other form fields as needed
     });
     console.log("formData update ", formData);
@@ -86,91 +91,130 @@ const CreateServices = () => {
         <div className="page-content">
             <Card>
                 <CardBody>
-                    <SubHeader value={"/services"} />
+                    <SubHeader value={"/activity"} />
                     <Container fluid={true}>
 
                         <Row>
-                            <Col key="name" lg="6">
+                            <Col key="title" lg="6">
                                 <TextInput
-                                    label="Name"
-                                    fieldName="name"
+                                    label="Title"
+                                    fieldName="title"
                                     errorMessage="Enter name"
                                     value={formData.name}
                                     placeholder="Enter Name"
                                     onChange={handleFieldChange}
-                                    defaultVal={formData.name}
+                                    // defaultVal={formData.name}
                                 />
                             </Col>
-                            <Col key="description" lg="6">
+                            <Col key="subtitle" lg="6">
                                 <TextInput
-                                    label="Description"
-                                    fieldName="description"
-                                    errorMessage="Enter description"
+                                    label="Subtitle"
+                                    fieldName="subtitle"
+                                    errorMessage="Enter Subtitle"
                                     value={formData.name}
-                                    placeholder="Enter description"
+                                    placeholder="Enter Subtitle"
                                     onChange={handleFieldChange}
-                                    defaultVal={formData.description}
+                                    // defaultVal={formData.description}
                                 />
                             </Col>
                         </Row>
 
                         <Row>
-                            <Col key="price" lg="6">
-                                <NumberInput
-                                    label="Price"
-                                    fieldName="price"
-                                    errorMessage="Enter price"
-                                    value={formData.name}
-                                    placeholder="Enter price"
+                            <Col key="description" lg="12">
+                                <CkEditor
+                                    label="Description"
+                                    fieldName="description"
                                     onChange={handleFieldChange}
-                                    defaultVal={formData.description}
-                                />
-                            </Col>
-                            <Col key="priceType" lg="6">
-                                <SelectInput
-                                    label="Price Type"
-                                    fieldName="priceType"
-                                    options={options}
-                                    onChange={handleFieldChange}
-                                    errorMessage="Please Select Price Type"
-                                    placeholder="Select Price Type"
                                 // defaultVal={fieldConfig.defaultValue}
                                 />
                             </Col>
                         </Row>
 
                         <Row>
-                            <Col key="startDate" lg="6">
-                                <DateInput
-                                    label="Start Date"
-                                    id="startDate"
-                                    fieldName="startDate"
-                                    errorMessage="Please select a start date"
-                                    placeholder="dd M, yyyy"
-                                    defaultVal={formData.startDate}
+                            <Col key="maxchildren" lg="6">
+                                <NumberInput
+                                    label="Max children"
+                                    fieldName="maxchildren"
+                                    errorMessage="Enter Max children"
+                                    value={formData.name}
+                                    placeholder="Enter Max children"
                                     onChange={handleFieldChange}
+                                    // defaultVal={formData.description}
                                 />
                             </Col>
-                            <Col key="endDate" lg="6">
-                                <DateInput
-                                    label="End Date"
-                                    id="endDate"
-                                    fieldName="endDate"
-                                    errorMessage="Please select a start date"
-                                    placeholder="dd M, yyyy"
-                                    defaultVal={formData.endDate}
+                            <Col key="maxadults" lg="6">
+                                <NumberInput
+                                    label="Max adults"
+                                    fieldName="maxadults"
+                                    errorMessage="Enter Max adults"
+                                    value={formData.maxadults}
+                                    placeholder="Enter Max adults"
                                     onChange={handleFieldChange}
+                                    // defaultVal={formData.description}
                                 />
                             </Col>
                         </Row>
 
                         <Row>
-                            <Col key="mandatory" lg="6">
+                            <Col key="maxpeople" lg="6">
+                                <NumberInput
+                                    label="Max people"
+                                    fieldName="maxpeople"
+                                    errorMessage="Enter Max people"
+                                    value={formData.maxpeople}
+                                    placeholder="Enter Max people"
+                                    onChange={handleFieldChange}
+                                    // defaultVal={formData.description}
+                                />
+                            </Col>
+
+                            <Col key="price_per_person" lg="6">
+                                <NumberInput
+                                    label="Price / person"
+                                    fieldName="price_per_person"
+                                    errorMessage="Enter price per person"
+                                    value={formData.price_per_person}
+                                    placeholder="Enter price per person"
+                                    onChange={handleFieldChange}
+                                    // defaultVal={formData.description}
+                                />
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col key="duration" lg="6">
+                                <NumberInput
+                                    label="Duration "
+                                    fieldName="duration"
+                                    errorMessage="Enter Duration "
+                                    value={formData.duration}
+                                    placeholder="Enter Duration"
+                                    onChange={handleFieldChange}
+                                    // defaultVal={formData.description}
+                                />
+                            </Col>
+
+                            <Col key="duration_unit" lg="6">
+                                <TextInput
+                                    label="Duration unit"
+                                    fieldName="duration_unit"
+                                    errorMessage="Enter duration unit"
+                                    value={formData.duration_unit}
+                                    placeholder="Enter duration unit"
+                                    onChange={handleFieldChange}
+                                    // defaultVal={formData.description}
+                                />
+                            </Col>
+                        </Row>
+
+                          
+                        <Row>
+                            <Col key="homepage" lg="6">
                                 <RadioButton
-                                    label="Mandatory"
-                                    fieldName="mandatory"
+                                    label="Homepage"
+                                    fieldName="homepage"
                                     errorMessage="Select option"
-                                    value={formData.mandatory}
+                                    value={formData.homepage}
                                     placeholder="Please Select option"
                                     onChange={handleFieldChange}
                                     options={mandatoryOptions}
@@ -192,29 +236,31 @@ const CreateServices = () => {
                         </Row>
 
                         <Row>
-                            <Col key="tax" lg="6">
+                            <Col key="hotels" lg="6">
                                 <SelectInput
-                                    label="Tax"
-                                    fieldName="tax"
-                                    options={taxOptions}
-                                    onChange={handleFieldChange}
-                                    errorMessage="Please Select tax type"
-                                    placeholder="Select tax type"
-                                // defaultVal={fieldConfig.defaultValue}
-                                />
-                            </Col>
-                            <Col key="room" lg="6">
-                                <SelectInput
-                                    label="Room"
-                                    fieldName="room"
+                                    label="Price Type"
+                                    fieldName="hotels"
                                     options={options}
                                     onChange={handleFieldChange}
-                                    errorMessage="Please Select room"
-                                    placeholder="Select room"
+                                    errorMessage="Please Select hotels"
+                                    placeholder="Select hotels"
+                                    isMulti='true'
                                 // defaultVal={fieldConfig.defaultValue}
                                 />
                             </Col>
+                            {/* <Col key="price" lg="6">
+                                <NumberInput
+                                    label="Price"
+                                    fieldName="price"
+                                    errorMessage="Enter price"
+                                    value={formData.name}
+                                    placeholder="Enter price"
+                                    onChange={handleFieldChange}
+                                    defaultVal={formData.description}
+                                />
+                            </Col> */}
                         </Row>
+
                         <Button type="submit" color="primary" className="me-1" onClick={handleSubmit}>
                             Submit
                         </Button>
@@ -225,4 +271,4 @@ const CreateServices = () => {
     )
 }
 
-export default CreateServices
+export default CreateActivityForm
