@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Row, Col, Card, CardBody, FormGroup, Button, Label, Input, Container, InputGroup, Form, FormFeedback, Collapse } from "reactstrap";
+import { Row, Col, Card, CardBody, FormGroup, Button, Label, Input, Container, InputGroup, Form, FormFeedback } from "reactstrap";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import { useDispatch } from 'react-redux'
 import { saveRoomCategoryReq } from '../../store/roomCategory/actions'
@@ -21,7 +21,6 @@ import AddressInput from '../../components/Form/FormComponent/AddressInput';
 
 const CreateBookingForm = () => {
     const dispatch = useDispatch();
-    const [isOpen, setIsOpen] = useState(false);
     const [formData, setFormData] = useState({
         hotel: '',
         checkInDate: '',
@@ -55,9 +54,7 @@ const CreateBookingForm = () => {
     console.log("formData update ", formData);
 
 
-    const toggleCollapse = () => {
-        setIsOpen(!isOpen);
-    };
+
 
     const handleFieldChange = (fieldName, value) => {
         setFormData({
@@ -333,13 +330,7 @@ const CreateBookingForm = () => {
                                 />
                             </Col>
                         </Row>
-                        <hr style={{
-                            width: '100%',
-                            margin: 'auto',
-                            borderTop: '1px solid gray',
-                            marginTop: '5px',
-                            marginBottom: '15px'
-                        }} />
+
                         <Row>
                             {/* <Col key="hotel" lg="6">
                                 <SelectInput
@@ -504,10 +495,8 @@ const CreateBookingForm = () => {
                         <Card>
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
-                                    <div
-                                        onClick={toggleCollapse}
-                                        style={{ fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}>Rooms</div>
-                                    <Button type="submit" color="primary" className="ms-3 " style={{ width: '10%', minWidth: '50px', marginBottom: '5px' }} onClick={handleAddRoom}>
+                                    <div style={{ fontWeight: 'bold', fontSize: '20px' }}>Rooms</div>
+                                    <Button type="submit" color="primary" className="ms-3" style={{ width: '10%', minWidth: '50px' }} onClick={handleAddRoom}>
                                         + <span>Add Room</span>
                                     </Button>
                                 </div>
@@ -518,86 +507,88 @@ const CreateBookingForm = () => {
                                     marginTop: '5px',
                                     marginBottom: '10px'
                                 }} />
-                                <Collapse isOpen={isOpen}>
-                                    {formData.room.map((room, index) => (
-                                        <div key={`room-${index}`}>
-                                            <Row>
-                                                <Col key="hotel" lg="6">
-                                                    <SelectInput
-                                                        label="Hotel"
-                                                        fieldName="hotel"
-                                                        options={options}
-                                                        // value={room.hotel}
-                                                        onChange={(value) => handleNestedFieldChange(index, 'hotel', value)}
-                                                        errorMessage="Please Select hotel"
-                                                        placeholder="Select hotel"
-                                                    // defaultVal={fieldConfig.defaultValue}
-                                                    />
-                                                </Col>
-                                                <Col key="room" lg="6">
-                                                    <SelectInput
-                                                        label="Room"
-                                                        fieldName="room"
-                                                        options={options}
-                                                        onChange={handleFieldChange}
-                                                        errorMessage="Please select room"
-                                                        placeholder="Select room"
-                                                    />
-                                                </Col>
-                                                <Col key="adults" lg="6">
-                                                    <NumberInput
-                                                        label="Adults"
-                                                        fieldName="adults"
-                                                        errorMessage="Enter adults "
-                                                        // value={formData.}
-                                                        placeholder="Enter adults"
-                                                        onChange={handleFieldChange}
-                                                    // defaultVal={formData.description}
-                                                    />
-                                                </Col>
-                                                <Col key="children" lg="6">
-                                                    <NumberInput
-                                                        label="Children"
-                                                        fieldName="children"
-                                                        errorMessage="Enter childrens"
-                                                        // value={formData.}
-                                                        placeholder="Enter childrens"
-                                                        onChange={handleFieldChange}
-                                                    // defaultVal={formData.description}
-                                                    />
-                                                </Col>
-                                                <Col key="taxrate" lg="6">
-                                                    <NumberInput
-                                                        label="Tax Rate"
-                                                        fieldName="taxrate"
-                                                        errorMessage="Enter Tax Rate"
-                                                        value={formData.nights}
-                                                        placeholder="Enter Tax Rate"
-                                                        onChange={handleFieldChange}
-                                                    />
-                                                </Col>
-                                                <Col key="amount" lg="6">
-                                                    <NumberInput
-                                                        label="Amount"
-                                                        fieldName="amount"
-                                                        errorMessage="Enter amount"
-                                                        value={formData.adults}
-                                                        placeholder="Enter amount"
-                                                        onChange={handleFieldChange}
-                                                    />
-                                                </Col>
-                                                <Col>
-                                                    <Button type="button" color="danger" onClick={() => handleDeleteRoom(index)}>
-                                                        Delete
-                                                    </Button>
-                                                </Col>
-                                            </Row>
-                                            <hr /> {/* Optional: Add a line to separate room forms */}
-                                        </div>
-                                    ))}
-                                </Collapse>
+                                {formData.room.map((room, index) => (
+                                    <div key={`room-${index}`}>
+                                        <Row>
+                                            <Col key="hotel" lg="6">
+                                                <SelectInput
+                                                    label="Hotel"
+                                                    fieldName="hotel"
+                                                    options={options}
+                                                    // value={room.hotel}
+                                                    onChange={(value) => handleNestedFieldChange(index, 'hotel', value)}
+                                                    errorMessage="Please Select hotel"
+                                                    placeholder="Select hotel"
+                                                // defaultVal={fieldConfig.defaultValue}
+                                                />
+                                            </Col>
+                                            <Col key="room" lg="6">
+                                                <SelectInput
+                                                    label="Room"
+                                                    fieldName="room"
+                                                    options={options}
+                                                    onChange={handleFieldChange}
+                                                    errorMessage="Please select room"
+                                                    placeholder="Select room"
+                                                />
+                                            </Col>
+                                            <Col key="adults" lg="6">
+                                                <NumberInput
+                                                    label="Adults"
+                                                    fieldName="adults"
+                                                    errorMessage="Enter adults "
+                                                    // value={formData.}
+                                                    placeholder="Enter adults"
+                                                    onChange={handleFieldChange}
+                                                // defaultVal={formData.description}
+                                                />
+                                            </Col>
+                                            <Col key="children" lg="6">
+                                                <NumberInput
+                                                    label="Children"
+                                                    fieldName="children"
+                                                    errorMessage="Enter childrens"
+                                                    // value={formData.}
+                                                    placeholder="Enter childrens"
+                                                    onChange={handleFieldChange}
+                                                // defaultVal={formData.description}
+                                                />
+                                            </Col>
+                                            <Col key="taxrate" lg="6">
+                                                <NumberInput
+                                                    label="Tax Rate"
+                                                    fieldName="taxrate"
+                                                    errorMessage="Enter Tax Rate"
+                                                    value={formData.nights}
+                                                    placeholder="Enter Tax Rate"
+                                                    onChange={handleFieldChange}
+                                                />
+                                            </Col>
+                                            <Col key="amount" lg="6">
+                                                <NumberInput
+                                                    label="Amount"
+                                                    fieldName="amount"
+                                                    errorMessage="Enter amount"
+                                                    value={formData.adults}
+                                                    placeholder="Enter amount"
+                                                    onChange={handleFieldChange}
+                                                />
+                                            </Col>
+                                            <Col>
+                                                <Button type="button" color="danger" onClick={() => handleDeleteRoom(index)}>
+                                                    Delete
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                        <hr /> {/* Optional: Add a line to separate room forms */}
+                                    </div>
+                                ))}
                             </CardBody>
                         </Card>
+
+
+
+
 
                         <Button type="submit" color="primary" className="me-1" onClick={handleSubmit}>
                             Submit

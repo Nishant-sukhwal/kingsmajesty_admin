@@ -15,7 +15,6 @@ import DateInput from '../../components/Form/FormComponent/DateInput';
 import RadioButton from '../../components/Form/FormComponent/RadioInput';
 import NumberInput from '../../components/Form/FormComponent/NumberInput';
 
-
 const CreateServices = () => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
@@ -32,9 +31,6 @@ const CreateServices = () => {
         // Add other form fields as needed
     });
     console.log("formData update ", formData);
-
-
-
 
     const handleFieldChange = (fieldName, value) => {
         setFormData({
@@ -84,7 +80,7 @@ const CreateServices = () => {
 
     return (
         <div className="page-content">
-            <Card>
+            <Card>  
                 <CardBody>
                     <SubHeader value={"/services"} />
                     <Container fluid={true}>
@@ -215,6 +211,7 @@ const CreateServices = () => {
                                 />
                             </Col>
                         </Row>
+
                         <Button type="submit" color="primary" className="me-1" onClick={handleSubmit}>
                             Submit
                         </Button>
