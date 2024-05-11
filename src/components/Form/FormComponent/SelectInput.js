@@ -13,6 +13,8 @@ const SelectInput = ({
   placeholder,
   defaultVal,
   categoryVal,
+  index,
+  arrayName
 
 }) => {
   const [inputError, setInputError] = useState(false);
@@ -89,7 +91,7 @@ const SelectInput = ({
     } else {
       // Single selector input box
       // Pass the single selected value to the parent component
-      onChange(fieldName, selectedOption ? selectedOption.value : null);
+      onChange(fieldName, selectedOption ? selectedOption.value : null,index,arrayName);
       // Set input error based on whether the option is selected or not
       setInputError(!selectedOption);
       // Update the defaultValue state with the single selected option
