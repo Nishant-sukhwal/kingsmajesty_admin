@@ -66,7 +66,7 @@ const CreateBookingForm = () => {
 
         return [isOpen, toggle];
     };
-    const [isOpen, toggleIsOpen] = useToggle(false);
+    const [isOpen, toggleIsOpen] = useToggle(true);
     const [isOpen1, toggleIsOpen1] = useToggle(false);
     const [isOpen2, toggleIsOpen2] = useToggle(false);
     const [isOpen3, toggleIsOpen3] = useToggle(false);
@@ -153,9 +153,14 @@ const CreateBookingForm = () => {
 
 
     const handleDeleteRoom = (index) => {
-        const updatedFormData = { ...formData };
-        updatedFormData.room.splice(index, 1);
-        setFormData(updatedFormData);
+        // const updatedFormData = { ...formData };
+        // updatedFormData.room.splice(index, 1);
+        // setFormData(updatedFormData);
+        if (formData.room.length > 1) {
+            const updatedFormData = { ...formData };
+            updatedFormData.room.splice(index, 1);
+            setFormData(updatedFormData);
+        }
     };
 
     const handleAddBooking = () => {
@@ -512,7 +517,6 @@ const CreateBookingForm = () => {
                             </Col>
                         </Row>
 
-
                         <Card>
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
@@ -522,7 +526,9 @@ const CreateBookingForm = () => {
                                     >
                                         Rooms
                                     </div>
-                                    <Button
+
+
+                                    {/* <Button
                                         type="button"
                                         color="primary"
                                         className="ms-3"
@@ -530,7 +536,7 @@ const CreateBookingForm = () => {
                                         onClick={handleAddRoom}
                                     >
                                         + <span>Add Room</span>
-                                    </Button>
+                                    </Button> */}
                                 </div>
                                 <hr style={{
                                     width: '100%',
@@ -541,7 +547,7 @@ const CreateBookingForm = () => {
                                 }} />
                                 <Collapse isOpen={isOpen}>
                                     <Table responsive>
-                                        <thead>
+                                        <thead style={{ textAlign: 'center' }} >
                                             <tr>
                                                 <th>#</th>
                                                 <th>Hotel</th>
@@ -557,8 +563,7 @@ const CreateBookingForm = () => {
                                             {formData.room.map((room, index) => (
                                                 <tr key={`room-${index}`}>
                                                     <th scope="row">{index + 1}</th>
-                                                    <td>
-                                                        
+                                                    <td style={{ width: '20%' }}>
                                                         <SelectInput
                                                             fieldName="hotel"
                                                             options={options}
@@ -566,10 +571,10 @@ const CreateBookingForm = () => {
                                                             onChange={(e) => handleNestedFieldChange(e, index, 'room', 'hotel')}
                                                             errorMessage="Please select hotel"
                                                             placeholder="Select hotel"
+
                                                         />
-                                                     
                                                     </td>
-                                                    <td>
+                                                    <td style={{ width: '20%' }}>
                                                         <SelectInput
                                                             fieldName="room"
                                                             options={options}
@@ -615,9 +620,12 @@ const CreateBookingForm = () => {
                                                             placeholder="Enter amount"
                                                         />
                                                     </td>
-                                                    <td>
-                                                        <Button color="danger" onClick={() => handleDeleteRoom(index)}>
-                                                            Delete
+                                                    <td style={{ display: 'flex', justifyContent: 'center', }}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center', }} onClick={() => handleDeleteRoom(index)}>
+                                                            <i class="ri-delete-bin-7-line"></i>
+                                                        </Button>
+                                                        <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center', }} color="info" onClick={handleAddRoom}>
+                                                            <i class="ri-add-line" ></i>
                                                         </Button>
                                                     </td>
                                                 </tr>
@@ -735,7 +743,7 @@ const CreateBookingForm = () => {
 
 
 
-                        <Card>
+                        {/* <Card>
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
                                     <div
@@ -829,12 +837,12 @@ const CreateBookingForm = () => {
                                                     </Button>
                                                 </Col>
                                             </Row>
-                                            <hr /> {/* Optional: Add a line to separate room forms */}
+                                            <hr /> 
                                         </div>
                                     ))}
                                 </Collapse>
                             </CardBody>
-                        </Card>
+                        </Card> */}
 
                         <Card>
                             <CardBody>
