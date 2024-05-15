@@ -14,7 +14,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
   const hotel = useSelector((state) => state.Hotel.data);
 
   const hotelFacilities = hotel?.facilities || []; // Ensure hotel.facilities is not null or undefined
-
+  console.log("hotelFacilities------------------------",hotelFacilities)
   // Extract only the labels from the hotelFacilities array
   const labels = hotelFacilities.map(item => item.label);
 
@@ -112,7 +112,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
 
   const formFields = {
     form: [
-      { fieldName: "facilities", label: "Facilities", type: "select", errorMessage: "Select Facilities", value: formData.facilities, placeholder: "Select Facilities", isMulti: true, options: fetchedFacilities, defaultValue: facility},
+      { fieldName: "facilities", label: "Facilities", type: "multiselect", errorMessage: "Select Facilities", value: formData.facilities, placeholder: "Select Facilities", isMulti: true, options: fetchedFacilities, defaultValue: hotelFacilities},
     ],
   };
 

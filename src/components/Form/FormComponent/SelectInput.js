@@ -29,7 +29,7 @@ const SelectInput = ({
       if (defaultVal) {
         if (Array.isArray(defaultVal)) {
           const defaultValue = JSON.parse(defaultVal);
-          const defaultOptions = defaultValue.map(val => 
+          const defaultOptions = defaultValue.map(val =>
             options.find(option => option.label === val)
           );
           setDefaultValue(defaultOptions);
@@ -76,7 +76,6 @@ const SelectInput = ({
 
 
   const handleSelectChange = (selectedOption) => {
-
     if (Array.isArray(selectedOption)) {
       // Multi-selector input box
       // Extract values from selected options
@@ -87,11 +86,10 @@ const SelectInput = ({
       setInputError(selectedOption.length === 0);
       // Update the defaultValue state with the selected options
       setDefaultValue(selectedOption);
-
     } else {
       // Single selector input box
       // Pass the single selected value to the parent component
-      onChange(fieldName, selectedOption ? selectedOption.value : null,index,arrayName);
+      onChange(fieldName, selectedOption ? selectedOption.value : null, index, arrayName);
       // Set input error based on whether the option is selected or not
       setInputError(!selectedOption);
       // Update the defaultValue state with the single selected option

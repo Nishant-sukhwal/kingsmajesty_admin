@@ -11,6 +11,7 @@ import AddressInput from "../FormComponent/AddressInput";
 import EmailInput from "../FormComponent/EmailInput";
 import RadioButton from "../FormComponent/RadioInput";
 import TimeInput from "../FormComponent/TimeInput";
+import MultiSelectInput from "../FormComponent/MultiSelectInput";
 
 const GenralForm = ({ formFields, onChange }) => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const GenralForm = ({ formFields, onChange }) => {
         {formFields &&
           Object.keys(formFields.form).map((key) => {
             const fieldConfig = formFields.form[key];
-          
+
             switch (fieldConfig.type) {
               case "text":
                 return (
@@ -41,7 +42,7 @@ const GenralForm = ({ formFields, onChange }) => {
                       placeholder={fieldConfig.placeholder}
                       onChange={handleFieldChange}
                       defaultVal={fieldConfig.defaultValue}
-                      // defaultValue={fieldConfig.value}
+                    // defaultValue={fieldConfig.value}
                     />
                   </Col>
                 );
@@ -57,7 +58,23 @@ const GenralForm = ({ formFields, onChange }) => {
                       isMulti={fieldConfig.isMulti}
                       placeholder={fieldConfig.placeholder}
                       defaultVal={fieldConfig.defaultValue}
-                      // categoryVal={fieldConfig.categoryValue}
+                    // categoryVal={fieldConfig.categoryValue}
+                    />
+                  </Col>
+                );
+              case "multiselect":
+                return (
+                  <Col key={fieldConfig.fieldName} lg="6">
+                    <MultiSelectInput
+                      label={fieldConfig.label}
+                      fieldName={fieldConfig.fieldName}
+                      options={fieldConfig.options}
+                      onChange={handleFieldChange}
+                      errorMessage={fieldConfig.errorMessage}
+                      isMulti={fieldConfig.isMulti}
+                      placeholder={fieldConfig.placeholder}
+                      defaultVal={fieldConfig.defaultValue}
+                    // categoryVal={fieldConfig.categoryValue}
                     />
                   </Col>
                 );
@@ -131,7 +148,7 @@ const GenralForm = ({ formFields, onChange }) => {
                     />
                   </Col>
                 );
-                case "radio":
+              case "radio":
                 return (
                   <Col key={fieldConfig.fieldName} lg="6">
                     <RadioButton
@@ -146,7 +163,7 @@ const GenralForm = ({ formFields, onChange }) => {
                     />
                   </Col>
                 );
-                case "time":
+              case "time":
                 return (
                   <Col key={fieldConfig.fieldName} lg="6">
                     <TimeInput
@@ -160,7 +177,7 @@ const GenralForm = ({ formFields, onChange }) => {
                     />
                   </Col>
                 );
-                case "date":
+              case "date":
                 return (
                   <Col key={fieldConfig.fieldName} lg="6">
                     <TimeInput
