@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export const getAllFacilityList = async (formData) => {
+export const getFacilityListAPI = async (formData) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
-      "http://localhost:8086/v1/new/facility/get-facilities",
+      "http://localhost:8086/v1/fc/facility/facilities-list",
       {
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const facilityCreateApi = async (formData) => {
     data.append("facilityName", formData.name);
     data.append("image", formData.media);
     const response = await axios.post(
-      "http://localhost:8086/v1/new/facility/create-facility",
+      "http://localhost:8086/v1/fc/facility/create-facilities",
       data,
       {
         headers: {
@@ -47,7 +47,7 @@ export const getFacilityById = async (id) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
-      `http://localhost:8086/v1/new/facility/get-facilities/${id}`,
+      `http://localhost:8086/v1/fc/facility/facilities-list/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -64,13 +64,13 @@ export const getFacilityById = async (id) => {
 
 export const facilityUpdateApi = async (formData, id) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const data = new FormData();
     data.append("facilityName", formData.name);
     data.append("image", formData.media);
     console.log("data in api send: ", data);
     const response = await axios.patch(
-      `http://localhost:8086/v1/new/facility/update-facility/${id}`,
+      `http://localhost:8086/v1/fc/facility/edit-facilities/${id}`,
       data,
       {
         headers: {
@@ -89,9 +89,9 @@ export const facilityUpdateApi = async (formData, id) => {
 
 export const deleteFacilityApi = async (facilityId) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.delete(
-      `http://localhost:8086/v1/new/facility/delete-facility/${facilityId}`,
+      `http://localhost:8086/v1/fc/facility/delete-facilities/${facilityId}`,
       {
         headers: {
           "Content-Type": "application/json",

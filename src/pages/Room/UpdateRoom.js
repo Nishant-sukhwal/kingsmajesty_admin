@@ -79,6 +79,7 @@ const UpdateRoom = () => {
         dispatch(getFacilityList());
         dispatch(getDeals());
     }, []);
+    
 
     useEffect(() => {
         const fetchRooms = async () => {

@@ -3,19 +3,19 @@ import axios from "axios";
 export const addDealsApi = async (formData) => {
   console.log("formdata in saveDealsApi", formData)
   try {
-    //   const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     //   const data = new FormData();
     //   data.append("facilityName", formData.name);
     //   data.append("image", formData.media);
     const response = await axios.post(
-      "http://localhost:8086/v1/dl/deals/add-deals",
+      "http://localhost:8086/v1/dl/deals/create-deals",
       formData,
       // data,
       {
         headers: {
           'Content-Type': 'application/json',
           // "Content-Type": "multipart/form-data",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -33,7 +33,7 @@ export const getDealsApi = async () => {
     //   data.append("facilityName", formData.name);
     //   data.append("image", formData.media);
     const response = await axios.get(
-      "http://localhost:8086/v1/dl/deals/get-deals",
+      "http://localhost:8086/v1/dl/deals/deals-list",
       //formData,
       // data,
       {
@@ -56,7 +56,7 @@ export const getDealsByIdApi = async (id) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
-      `http://localhost:8086/v1/dl/deals/get-deals/${id}`,
+      `http://localhost:8086/v1/dl/deals/deals-list/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -73,11 +73,11 @@ export const getDealsByIdApi = async (id) => {
 
 export const DealsUpdateApi = async (formData, id) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const data = new FormData();
     data.append("name", formData.name);
     const response = await axios.patch(
-      `http://localhost:8086/v1/dl/deals/update-deals/${id}`,
+      `http://localhost:8086/v1/dl/deals/edit-deals/${id}`,
       data,
       {
         headers: {

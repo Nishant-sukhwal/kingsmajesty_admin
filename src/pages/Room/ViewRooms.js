@@ -7,7 +7,7 @@ import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
-import { deleteRoomApi } from "../../services/api/room/roomsApi";
+import getRoomsApi, { deleteRoomApi } from "../../services/api/room/roomsApi";
 
 const ViewRooms = () => {
   const [facilities, setFacilities] = useState([]);
@@ -17,40 +17,57 @@ const ViewRooms = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
  
   const [rooms, setRooms] = useState([]);
-  
+
 
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        // Fetch data from your API endpoint
-        const response = await fetch("http://localhost:8086/v1/rm/rooms/get-rooms");
-        const data = await response.json();
-        const filteredRooms = data.rooms.filter(
+        const response = await getRoomsApi();
+        const filteredRooms = response.rooms.filter(
           (item) => !item.deleted
         );
         setRooms(filteredRooms);
       } catch (error) {
-        console.error("Error fetching rooms:", error);
+        console.error("Error fetching facilities:", error);
       }
     };
-
     fetchRooms();
   }, []);
+  
+
+  // useEffect(() => {
+  //   const fetchRooms = async () => {
+  //     try {
+  //       // Fetch data from your API endpoint
+  //       const response = await fetch("http://localhost:8086/v1/rm/rooms/room-list");
+  //       const data = await response.json();
+  //       const filteredRooms = data.rooms.filter(
+  //         (item) => !item.deleted
+  //       );
+  //       setRooms(filteredRooms);
+  //     } catch (error) {
+  //       console.error("Error fetching rooms:", error);
+  //     }
+  //   };
+
+  //   fetchRooms();
+  // }, []);
 
      //This is for delete
      const fetchRooms = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8086/v1/rm/rooms/get-rooms"
-        );
-        const data = await response.json();
+        // const response = await fetch(
+        //   "http://localhost:8086/v1/rm/rooms/room-list"
+        // );
+        const response = await getRoomsApi();
+        // const data = await response.json();
         
-        const filteredRooms = data.rooms.filter(
+        const filteredRooms = response.rooms.filter(
           (item) => !item.deleted
         );
         return filteredRooms;
       } catch (error) {
-        console.error("Error fetching facilities:", error);
+        console.error("Error fetching rooms:", error);
       }
     };
 

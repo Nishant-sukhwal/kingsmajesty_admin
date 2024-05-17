@@ -22,18 +22,54 @@ export const getHotelCategoriesApi = async (formData) => {
   }
 };
 
+export const getHotelCategoryApi = async () => {
+  try {
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const response = await axios.get(
+      "http://localhost:8086/v1/hc/hotel-categories/hotelcategory-list",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching hotel category:", error);
+    throw error;
+  }
+};
+
+export const getHotelCategoryByIdApi = async (id) => {
+  try {
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const response = await axios.get(
+      `http://localhost:8086/v1/hc/hotel-categories/hotelcategory-list/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching facility by ID:", error);
+    throw error;
+  }
+};
+
+
 export const HotelCategoryCreateApi = async (formData) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
-    // const data = new FormData();
-    // data.append("name", formData.name);
     const requestData = {
       name: formData.name
       // Add other fields here if needed
     }
-    // data.append("image", formData.media);
     const response = await axios.post(
-      "http://localhost:8086/v1/hc/hotel-categories/create-hotelcategories",
+      "http://localhost:8086/v1/hc/hotel-categories/create-hotelcategory",
       requestData,
       {
         headers: {
@@ -49,33 +85,15 @@ export const HotelCategoryCreateApi = async (formData) => {
   }
 };
 
-export const getHotelCategoryByIdApi = async (id) => {
-  console.log(id);
-  try {
-    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
-    const response = await axios.get(
-      `http://localhost:8086/v1/hc/hotel-categories/get-hotelcategories/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching facility by ID:", error);
-    throw error;
-  }
-};
+
 
 export const hotelCategoryUpdateApi = async (formData, id) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const data = new FormData();
     data.append("name", formData.name);
     const response = await axios.patch(
-      `http://localhost:8086/v1/hc/hotel-categories/update-hotelcategories/${id}`,
+      `http://localhost:8086/v1/hc/hotel-categories/edit-hotelcategory/${id}`,
       data,
       {
         headers: {
@@ -84,7 +102,6 @@ export const hotelCategoryUpdateApi = async (formData, id) => {
         },
       }
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error updating facility:", error);
@@ -92,11 +109,11 @@ export const hotelCategoryUpdateApi = async (formData, id) => {
   }
 };
 
-export const deleteHotelCategory = async (id) => {
+export const deleteHotelCategoryAPI = async (id) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.delete(
-      `http://localhost:8086/v1/hc/hotel-categories/delete-hotelcategories/${id}`,
+      `http://localhost:8086/v1/hc/hotel-categories/delete-hotelcategory/${id}`,
       {
         headers: {
           "Content-Type": "application/json",

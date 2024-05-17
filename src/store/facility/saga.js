@@ -4,12 +4,12 @@ import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 import { CREATE_FACILITY, FACILITY_LIST } from "./actionTypes";
 
 // import login from "../../../services/api/authentication/authApi"
-import { facilityCreateApi, getAllFacilityList } from '../../services/api/facility/facilityCreateApi'
+import { facilityCreateApi, getFacilityListAPI } from '../../services/api/facility/facilityCreateApi'
 import { createFacility, setFacilityList } from "./actions";
 
 function* viewFacilityList() {
   try {
-    const response = yield call(getAllFacilityList);
+    const response = yield call(getFacilityListAPI);
     yield put(setFacilityList(response.facilities));
   } catch (error) {
     // yield put(apiError(error));

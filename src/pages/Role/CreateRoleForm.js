@@ -105,12 +105,12 @@ const CreateRoleForm = () => {
   const handleSubmit = () => {
 
     const formDataToSend = {
-    roleName: roleName.name, // Assuming 'name' is the role name field
-    sidebarMenus: selectedModuleIds,
-    permissions: selectedPermissionIds,
-  };
+      roleName: roleName.name, // Assuming 'name' is the role name field
+      sidebarMenus: selectedModuleIds,
+      permissions: selectedPermissionIds,
+    };
 
-  console.log("Submit --------------->",formDataToSend)
+    console.log("Submit --------------->", formDataToSend)
     // dispatch(saveRoomCategoryReq(formData));
     // toastr.success("Category Saved Successfully!");
   }
@@ -215,6 +215,28 @@ const CreateRoleForm = () => {
                               <tr key={moduleName}>
                                 <td>{moduleName}</td>
                                 <td className="permissions-column">
+                                  {Object.entries(modulePermissions)
+                                    .sort(([typeA], [typeB]) => {
+                                      const order = ['View', 'Create', 'Edit', 'Delete'];
+                                      return order.indexOf(typeA) - order.indexOf(typeB);
+                                    })
+                                    .map(([type, permissionsArray]) => (
+                                      <div className='d-flex align-items-center' key={type}>
+                                        {permissionsArray.map((perm) => (
+                                          <label className='d-flex align-items-center' key={perm._id}>
+                                            <input
+                                              type="checkbox"
+                                              checked={selectedPermissionIds.includes(perm._id)}
+                                              onChange={() => handleSelect(perm._id)}
+                                            />{' '}
+                                            <span className='mx-2'>{perm?.type?.charAt(0).toUpperCase() + perm?.type?.slice(1)} </span>
+                                          </label>
+                                        ))}
+                                        <br />
+                                      </div>
+                                    ))}
+                                </td>
+                                {/* <td className="permissions-column">
                                   {Object.entries(modulePermissions).map(([type, permissionsArray]) => (
                                     <div className='d-flex align-items-center' key={type}>
                                       {permissionsArray.map((perm) => (
@@ -230,7 +252,7 @@ const CreateRoleForm = () => {
                                       <br />
                                     </div>
                                   ))}
-                                </td>
+                                </td> */}
                               </tr>
                             ))}
                           </tbody>

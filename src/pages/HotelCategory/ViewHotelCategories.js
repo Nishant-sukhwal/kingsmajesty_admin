@@ -6,49 +6,29 @@ import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
 import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
-import { deleteHotelCategory } from "../../services/api/hotelCategory/hotelCategorysApi";
+import { deleteHotelCategory, deleteHotelCategoryAPI, getHotelCategoryApi } from "../../services/api/hotelCategory/hotelCategorysApi";
 
 const ViewHotelCategories = () => {
   const [hotelCategories, sethHotelCategories] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false); 
 
-  useEffect(() => {
-    const fetchHotelCategories = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/hc/hotel-categories/get-hotelcategories"
-        );
-        const data = await response.json();
-        const filteredHotelCategories = data.hotelCategories.filter(
-          (item) => !item.deleted
-        );
-        sethHotelCategories(filteredHotelCategories);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
-
-    fetchHotelCategories();
-  }, []);
-
-  //This is for delete
   const fetchHotelCategories = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8086/v1/hc/hotel-categories/get-hotelcategories"
-      );
-      const data = await response.json();
-            
-      const filteredHotelCategories = data.hotelCategories.filter(
+      const response = await getHotelCategoryApi();
+      const filteredHotelCategories = response.data.hotelCategories.filter(
         (item) => !item.deleted
       );
+      sethHotelCategories(filteredHotelCategories);
       return filteredHotelCategories
     } catch (error) {
-      console.error("Error fetching facilities:", error);
+      console.error("Error fetching hotel categories:", error);
     }
   };
 
+  useEffect(() => {
+    fetchHotelCategories();
+  }, []);
 
   const handleDeleteClick = (id) => {
     setShowDeleteModal(true);
@@ -58,14 +38,11 @@ const ViewHotelCategories = () => {
   const handleDeleteConfirm = async () => {
     try {
       for (const facilityId of selectedFacilities) {
-        await deleteHotelCategory(facilityId);
+        await deleteHotelCategoryAPI(facilityId);
       }
-
       const updatedFacilities = await fetchHotelCategories();
       sethHotelCategories(updatedFacilities);
       setSelectedFacilities([]);
-
-
       setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting Hotel Category:", error);

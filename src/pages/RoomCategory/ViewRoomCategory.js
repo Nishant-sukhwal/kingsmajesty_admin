@@ -15,32 +15,28 @@ const ViewRoomCategory = () => {
   const [category, setCategory] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
+  
 
   useEffect(() => {
-    const fetchCategory = async () => {
+    const fetchRooms = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-        );
-        const data = await response.json();
-        const filteredData = data.category.filter((item) => !item.deleted);
+        const response = await getRoomCategoryApi();
+        const filteredData = response.data.category.filter((item) => !item.deleted);
         setCategory(filteredData);
       } catch (error) {
-        console.error("Error fetching facilities:", error);
+        console.error("Error fetching room categories:", error);
       }
     };
-
-    fetchCategory();
+    fetchRooms();
   }, []);
 
+
+  
   //This is for delete
   const fetchRoomCategories = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-      );
-      const data = await response.json();
-      const filteredData = data.category.filter((item) => !item.deleted);
+      const response = await getRoomCategoryApi();
+      const filteredData = response.data.category.filter((item) => !item.deleted);
       return filteredData;
     } catch (error) {
       console.error("Error fetching facilities:", error);

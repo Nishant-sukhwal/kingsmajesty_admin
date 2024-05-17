@@ -2,15 +2,36 @@ import axios from "axios";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 
+
+
+
+const getRoomsApi = async () => {
+  const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+  try {
+    const response = await axios.get("http://localhost:8086/v1/rm/rooms/room-list", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching hotels:", error);
+    throw error;
+  }
+};
+
+export default getRoomsApi;
+
 export const fetchHotelsDropdownListApi = async () => {
   try {
-    // const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
-      "http://localhost:8086/v1/ht/hotels/get-hotels",
+      "http://localhost:8086/v1/ht/hotel/hotels-list",
       {
         headers: {
           "Content-Type": "application/json",
-          //   Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -27,7 +48,7 @@ export const fetchHotelsDropdownListApi = async () => {
 
 export const addRoomApi = async (formData) => {
   try {
-    // const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const formDataToSend = new FormData();
     // Append thumbnail
     formDataToSend.append("thumbnail", formData.thumbnail);
@@ -49,12 +70,12 @@ export const addRoomApi = async (formData) => {
     formDataToSend.append("deals", JSON.stringify(formData.deals));
 
     const response = await axios.post(
-      "http://localhost:8086/v1/rm/rooms/add-room",
+      "http://localhost:8086/v1/rm/rooms/create-room",
       formDataToSend,
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          //   Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
       }
     );
@@ -72,7 +93,7 @@ export const getRoomByIdApi = async (id) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
-      `http://localhost:8086/v1/rm/rooms/get-rooms/${id}`,
+      `http://localhost:8086/v1/rm/rooms/room-list/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +110,7 @@ export const getRoomByIdApi = async (id) => {
 
 export const updateRoomByIdApi = async (id,formData) => {
   try {
-    // const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const formDataToSend = new FormData();
     // Append thumbnail
     formDataToSend.append("thumbnail", formData.thumbnail);
@@ -111,28 +132,26 @@ export const updateRoomByIdApi = async (id,formData) => {
     formDataToSend.append("deals", JSON.stringify(formData.deals));
 
     const response = await axios.patch(
-      `http://localhost:8086/v1/rm/rooms/update-room/${id}`,
+      `http://localhost:8086/v1/rm/rooms/edit-room/${id}`,
       formDataToSend,
       {
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching facility by ID:", error);
-    throw error;
-  }
+      return response.data;
+   } catch (error) {
+      console.error("Error fetching facility by ID:", error);
+      throw error;
+    }
 };
 
 
-
 export const deleteRoomApi = async (id) => {
-  console.log('id in hereeeeeeeeeeeeeeeeee',id)
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.delete(
       `http://localhost:8086/v1/rm/rooms/delete-room/${id}`,
       {

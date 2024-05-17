@@ -4,7 +4,7 @@ export const getPaymentMethodsApi = async (formData) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
-      "http://localhost:8086/v1/pm/payment-methods/get-paymentmethods",
+      "http://localhost:8086/v1/pm/payment-methods/paymentmethods-list",
       {
         headers: {
           "Content-Type": "application/json",
@@ -24,9 +24,8 @@ export const PaymentMethodsCreateApi = async (formData) => {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const data = new FormData();
     data.append("name", formData.name);
-    // data.append("image", formData.media);
     const response = await axios.post(
-      "http://localhost:8086/v1/pm/payment-methods/create-paymentmethod",
+      "http://localhost:8086/v1/pm/payment-methods/create-paymentmethods",
       data,
       {
         headers: {
@@ -44,11 +43,10 @@ export const PaymentMethodsCreateApi = async (formData) => {
 
 
 export const getPaymentMethodsByIdApi = async (id) => {
-  console.log(id);
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
-      `http://localhost:8086/v1/pm/payment-methods/get-paymentmethod/${id}`,
+      `http://localhost:8086/v1/pm/payment-methods/paymentmethods-list/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -65,11 +63,11 @@ export const getPaymentMethodsByIdApi = async (id) => {
 
 export const paymentMethodsUpdateApi = async (formData, id) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const data = new FormData();
     data.append("name", formData.name);
     const response = await axios.patch(
-      `http://localhost:8086/v1/pm/payment-methods/update-paymentmethod/${id}`,
+      `http://localhost:8086/v1/pm/payment-methods/edit-paymentmethods/${id}`,
       data,
       {
         headers: {
@@ -88,9 +86,9 @@ export const paymentMethodsUpdateApi = async (formData, id) => {
 
 export const deletePaymentMethod = async (id) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.delete(
-      `http://localhost:8086/v1/pm/payment-methods/delete-paymentmethod/${id}`,
+      `http://localhost:8086/v1/pm/payment-methods/delete-paymentmethods/${id}`,
       {
         headers: {
           "Content-Type": "application/json",

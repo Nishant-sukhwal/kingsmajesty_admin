@@ -1,4 +1,4 @@
- import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Container } from "reactstrap";
 import toastr from "toastr";
 import { BasicInfoAddApi } from "../../../services/api/hotel/hotelCreateApi";
@@ -21,26 +21,27 @@ const BasicInfoForm = forwardRef((props, ref) => {
     description: "",
     hotelCategory: "",
   });
-  const[hotelCategories, setHotelCategories] = useState([]);
-  console.log("hotelCategories +++++++++++++++++",hotelCategories);
-  useEffect( ()=> {
+  const [hotelCategories, setHotelCategories] = useState([]);
+  console.log("hotelCategories +++++++++++++++++", hotelCategories);
 
-  
-    const hotelCetegories = async () => {
-      try {
-        //api call
-        const data = await getHotelCategoriesApi();
-        const categoryOptions = data.hotelCategories.map(category => ({
-          value: category.name,
-          label: category.name
-        }));
-         setHotelCategories(categoryOptions);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
-    hotelCetegories();
-  },[])
+
+  const hotelsCategories = async () => {
+    try {
+      //api call
+      const data = await getHotelCategoriesApi();
+      const categoryOptions = data.hotelCategories.map(category => ({
+        value: category.name,
+        label: category.name
+      }));
+      setHotelCategories(categoryOptions);
+    } catch (error) {
+      console.error("Error fetching hote categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    hotelsCategories();
+  }, []);
 
   const handleFormChange = (fieldName, value) => {
     setFormData({

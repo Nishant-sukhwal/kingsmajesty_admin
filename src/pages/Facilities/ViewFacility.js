@@ -5,47 +5,29 @@ import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
-import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
+import { deleteFacilityApi, getFacilityListAPI } from "../../services/api/facility/facilityCreateApi";
 
 const ViewFacility = () => {
   const [facilities, setFacilities] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
 
-  useEffect(() => {
-    const fetchFacilities = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/new/facility/get-facilities"
-        );
-        const data = await response.json();
-        const filteredFacilities = data.facilities.filter(
-          (facility) => !facility.deleted
-        );
-        setFacilities(filteredFacilities);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
-
-    fetchFacilities();
-  }, []);
-
   const fetchFacilities = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8086/v1/new/facility/get-facilities"
-      );
-      const data = await response.json();
-      const filteredFacilities = data.facilities.filter(
+      const response = await getFacilityListAPI();
+      const filteredFacilities = response.facilities.filter(
         (facility) => !facility.deleted
       );
-      // setFacilities(filteredFacilities);
-      return filteredFacilities;
+      setFacilities(filteredFacilities);
+      return filteredFacilities
     } catch (error) {
-      console.error("Error fetching facilities:", error);
+      console.error("Error fetching hotel categories:", error);
     }
   };
+
+  useEffect(() => {
+    fetchFacilities();
+  }, []);
 
 
   const handleDeleteClick = (facilityId) => {

@@ -6,50 +6,31 @@ import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
 import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
-import { deletePaymentMethod } from "../../services/api/paymentMethods/paymentMethodsApi";
+import { deletePaymentMethod, getPaymentMethodsApi } from "../../services/api/paymentMethods/paymentMethodsApi";
 
 const ViewPayment = () => {
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
-  
-  useEffect(() => {
-    const fetchPaymentMethods = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/pm/payment-methods/get-paymentmethods"
-        );
-        const data = await response.json();
-        const filteredpaymentMethods = data.paymentMethods.filter(
-          (item) => !item.deleted
-        );
-        setPaymentMethods(filteredpaymentMethods);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
 
+
+  const fetchPaymentMethods = async () => {
+    try {
+      const response = await getPaymentMethodsApi();
+      const filteredpaymentMethods = response.paymentMethods.filter(
+        (item) => !item.deleted
+      );
+      setPaymentMethods(filteredpaymentMethods);
+      return filteredpaymentMethods
+    } catch (error) {
+      console.error("Error fetching hotel categories:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchPaymentMethods();
   }, []);
 
-  //This is for delete
-  const fetchPaymentMethods = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:8086/v1/pm/payment-methods/get-paymentmethods"
-      );
-      const data = await response.json();
-      
-      const filteredpaymentMethods = data.paymentMethods.filter(
-        (item) => !item.deleted
-      );
-      // setFacilities(filteredFacilities);
-      return filteredpaymentMethods;
-    } catch (error) {
-      console.error("Error fetching facilities:", error);
-    }
-  };
-  
 
   const handleDeleteClick = (id) => {
     setShowDeleteModal(true);
@@ -63,7 +44,7 @@ const ViewPayment = () => {
       }
 
       const updatedPaymentMethods = await fetchPaymentMethods();
-      
+
       setPaymentMethods(updatedPaymentMethods);
       setSelectedFacilities([]);
 
@@ -74,7 +55,7 @@ const ViewPayment = () => {
     }
   };
 
-   const columns = useMemo(
+  const columns = useMemo(
     () => [
       // {
       //   Header: () => (
