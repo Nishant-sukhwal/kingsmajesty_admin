@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Label, Input, FormFeedback } from "reactstrap";
 
-const EmailInput = ({
+const PasswordInput = ({
   label,
-  id,
   fieldName,
-  defaultVal,
-  errorMessage,
-  value,
   onChange,
+  errorMessage,
   placeholder,
+  value,
+  defaultVal,
+  maxLength,
 }) => {
   const [inputError, setInputError] = useState(false);
-  const [inputValue, setInputValue] = useState()
-  console.log("defaultVal", defaultVal)
-  useEffect(() => {
-    setInputValue(defaultVal);
-  }, [defaultVal]);
+  const [inputValue,setInputValue] = useState()
+
+  
+  // useEffect(() => {
+  //   setInputValue(defaultVal);
+  // },[defaultVal]);
 
 
   const handleInputChange = (e) => {
@@ -26,28 +27,27 @@ const EmailInput = ({
     onChange(fieldName, inputVal); // Pass the current input value to the parent component
   };
 
-
   // const handleInputChange = (e) => {
-  //   const inputVal = e.target.value;
-  //   setInputValue(inputVal)
-  //   onChange(fieldName, inputValue);
-  //   // Check if the input value is empty and set inputError accordingly
+  //   const inputValue = e.target.value;
+  //   onChange(fieldName, inputValue); // Pass the updated value back to the parent component
   //   setInputError(inputValue.trim() === "");
   // };
 
   return (
-    <Row className="d-flex flex-row mb-3">
-      <Label htmlFor={id} className="d-flex flex-row col-md-2 col-form-label">
+    <Row className="mb-3">
+      <Label htmlFor={fieldName} className="col-md-2 col-form-label">
         {label}
       </Label>
-      <Col className="col-md-10">
+      <Col md={10}>
         <Input
-          type="email"
+          type="password"
+          onChange={handleInputChange}
           value={inputValue}
           placeholder={placeholder}
-          onChange={handleInputChange}
           required
           invalid={inputError}
+          maxLength={maxLength}
+          // defaultValue={defaultVal}
         />
         {inputError && <FormFeedback>{errorMessage}</FormFeedback>}
       </Col>
@@ -55,4 +55,5 @@ const EmailInput = ({
   );
 };
 
-export default EmailInput;
+export default PasswordInput;
+

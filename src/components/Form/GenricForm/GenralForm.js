@@ -12,6 +12,7 @@ import EmailInput from "../FormComponent/EmailInput";
 import RadioButton from "../FormComponent/RadioInput";
 import TimeInput from "../FormComponent/TimeInput";
 import MultiSelectInput from "../FormComponent/MultiSelectInput";
+import PasswordInput from "../FormComponent/PasswordInput";
 
 const GenralForm = ({ formFields, onChange }) => {
   const navigate = useNavigate();
@@ -191,6 +192,20 @@ const GenralForm = ({ formFields, onChange }) => {
                     />
                   </Col>
                 );
+                case "password":
+                  return (
+                    <Col key={fieldConfig.fieldName} lg="6">
+                      <PasswordInput
+                        label={fieldConfig.label}
+                        fieldName={fieldConfig.fieldName}
+                        errorMessage={fieldConfig.errorMessage}
+                        value={fieldConfig.value}
+                        placeholder={fieldConfig.placeholder}
+                        onChange={handleFieldChange}
+                        defaultVal={fieldConfig.defaultValue}
+                      />
+                    </Col>
+                  );
               default:
                 return null; // Return null for the default case
             }

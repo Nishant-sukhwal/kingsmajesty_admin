@@ -10,27 +10,44 @@ import {
   deleteRoomCategory,
   getRoomCategoryApi,
 } from "../../services/api/roomCategory/roomCategoryApi";
+import { deleteTeamMembersAPI, getRoleApi, getTeamMembersAPI } from "../../services/api/teamMemberApi";
 
 const ViewTeam = () => {
   const [category, setCategory] = useState([]);
+  const [team, setTeam] = useState([]);
+  console.log("team teamteam is---", team);
   const [selectedId, setSelectedId] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
 
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-        );
-        const data = await response.json();
-        const filteredData = data.category.filter((item) => !item.deleted);
-        setCategory(filteredData);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
+  const fetchTeamMembers = async () => {
+    try {
+      const res = await getTeamMembersAPI()
+      console.log(res);
+      const filteredData = res.data.teamMembers.filter((item) => !item.deleted);
+      setTeam(filteredData);
+    } catch (error) {
+      console.error("Error fetching facilities:", error);
+    }
+  };
 
-    fetchCategory();
+  // const [roles, setRoles] = useState([]);
+
+  // console.log("role names",roles)
+
+
+
+  // const fetchRole = async () => {
+  //   const res = await getRoleApi();
+  //   const transformedRoles = res.roles.map(role => ({
+  //     value: role._id,
+  //     label: role.role_name
+  //   }));
+  //   setRoles(transformedRoles);
+  // };
+
+  useEffect(() => {
+    fetchTeamMembers();
+    // fetchRole();
   }, []);
 
   //This is for delete
@@ -55,12 +72,9 @@ const ViewTeam = () => {
   const handleDeleteConfirm = async () => {
     try {
       for (const id of selectedId) {
-        await deleteRoomCategory(id);
+        await deleteTeamMembersAPI(id);
       }
-
-      const updatedData = await fetchRoomCategories();
-      setCategory(updatedData);
-
+      fetchTeamMembers()
       setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting facility:", error);
@@ -144,8 +158,14 @@ const ViewTeam = () => {
       //   ),
       // },
       {
-        Header: "Room Catagory Name",
-        accessor: "name",
+        Header: "Name",
+        accessor: "firstname",
+        disableFilters: true,
+        filterable: false,
+      },
+      {
+        Header: "Role",
+        accessor: "roles",
         disableFilters: true,
         filterable: false,
       },
@@ -154,7 +174,7 @@ const ViewTeam = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={`/roomcategories/update?id=${cellProps._id}`}
+              to={`/team/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
@@ -173,7 +193,7 @@ const ViewTeam = () => {
         disableSortBy: true,
       },
     ],
-    [category]
+    [team]
   );
 
   const breadcrumbItems = [
@@ -198,7 +218,7 @@ const ViewTeam = () => {
             <CardBody>
               <TableContainer
                 columns={columns || []}
-                data={category || []}
+                data={team || []}
                 isPagination={false}
                 iscustomPageSize={false}
                 isBordered={false}
