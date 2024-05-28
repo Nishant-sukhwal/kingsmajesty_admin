@@ -10,6 +10,8 @@ import {
   deleteRoomCategory,
   getRoomCategoryApi,
 } from "../../services/api/roomCategory/roomCategoryApi";
+import { getRoleApi } from "../../services/api/teamMemberApi";
+import { deleteRoleAPI, getRolesApi } from "../../services/api/roleApi";
 
 const ViewRole = () => {
   const [data, setData] = useState([]);
@@ -17,36 +19,22 @@ const ViewRole = () => {
   const [selectedId, setSelectedId] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
 
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/rl/roles/get-roles"
-        );
-        const data = await response.json();
-        // const filteredData = data.category.filter((item) => !item.deleted);
-        setData(data.roles);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
 
-    fetchCategory();
-  }, []);
 
-  //This is for delete
-  const fetchRoomCategories = async () => {
+  const fetchRoleslist = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-      );
-      const data = await response.json();
-      const filteredData = data.category.filter((item) => !item.deleted);
-      return filteredData;
+      const res = await getRolesApi();
+      const filteredData = (res.roles.filter((item) => !item.deleted));
+      setData(filteredData);
     } catch (error) {
       console.error("Error fetching facilities:", error);
     }
   };
+
+  useEffect(() => {
+    fetchRoleslist();
+  }, []);
+
 
   const handleDeleteClick = (id) => {
     setShowDeleteModal(true);
@@ -56,15 +44,12 @@ const ViewRole = () => {
   const handleDeleteConfirm = async () => {
     try {
       for (const id of selectedId) {
-        await deleteRoomCategory(id);
+        await deleteRoleAPI(id);
       }
-
-      const updatedData = await fetchRoomCategories();
-      setData(updatedData);
-
+      fetchRoleslist();
       setShowDeleteModal(false);
     } catch (error) {
-      console.error("Error deleting facility:", error);
+      console.error("Error deleting Role:", error);
     }
   };
 
@@ -155,7 +140,7 @@ const ViewRole = () => {
         accessor: (cellProps) => (
           <React.Fragment>
             <Link
-              to={`/roomcategories/update?id=${cellProps._id}`}
+              to={`/role/update?id=${cellProps._id}`}
               className="me-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>

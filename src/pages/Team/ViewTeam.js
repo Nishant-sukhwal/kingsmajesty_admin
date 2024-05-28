@@ -17,7 +17,7 @@ const ViewTeam = () => {
   const [team, setTeam] = useState([]);
   console.log("team teamteam is---", team);
   const [selectedId, setSelectedId] = useState([]);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false); 
 
   const fetchTeamMembers = async () => {
     try {
@@ -47,7 +47,7 @@ const ViewTeam = () => {
 
   useEffect(() => {
     fetchTeamMembers();
-    // fetchRole();
+   
   }, []);
 
   //This is for delete
@@ -128,7 +128,6 @@ const ViewTeam = () => {
       //   disableSortBy: true,
       //   show: false,
       // },
-
       {
         Header: "ID",
         accessor: (originalRow, index) => index + 1, // Display serial number

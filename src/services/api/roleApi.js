@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getRoleApi = async () => {
+export const getRolesApi = async () => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
@@ -17,15 +17,14 @@ export const getRoleApi = async () => {
     console.error("Error fetching role:", error);
     throw error;
   }
-};
+}
 
 
-export const createTeamMemberAPI = async (formData) => {
-  console.log("formData sending ------------------> ", formData)
+export const createRoleApi = async (formData) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.post(
-      "http://localhost:8086/v1/tm/team/create-team-member",
+      "http://localhost:8086/v1/rl/roles/create-role",
       formData,
       {
         headers: {
@@ -41,31 +40,12 @@ export const createTeamMemberAPI = async (formData) => {
   }
 };
 
-export const getTeamMembersAPI = async () => {
-  try {
-    const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
-    const response = await axios.get(
-      "http://localhost:8086/v1/tm/team/team-member-list",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response;
-  } catch (error) {
-    console.error("Error getting Team Member", error);
-    throw error;
-  }
-};
-
-export const getTeamMembersByIdAPI = async (id) => {
+export const getRoleByIdAPI = async (id) => {
   console.log(id);
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.get(
-      `http://localhost:8086/v1/tm/team/team-member-list/${id}`,
+      `http://localhost:8086/v1/rl/roles/roles-list/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -73,8 +53,6 @@ export const getTeamMembersByIdAPI = async (id) => {
         },
       }
     );
-    
-    
     return response;
   } catch (error) {
     console.error("Error getting Team Member by id", error);
@@ -82,13 +60,14 @@ export const getTeamMembersByIdAPI = async (id) => {
   }
 };
 
-export const teamMembersUpdateApi = async (formData, id) => {
+
+export const roleUpdateApi = async (formData, id) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     // const data = new FormData();
     // data.append("name", formData.name);
     const response = await axios.patch(
-      `http://localhost:8086/v1/tm/team/edit-team-member/${id}`,
+      `http://localhost:8086/v1/rl/roles/edit-role/${id}`,
       formData,
       {
         headers: {
@@ -106,14 +85,11 @@ export const teamMembersUpdateApi = async (formData, id) => {
 };
 
 
-
-
-
-export const deleteTeamMembersAPI = async (id) => {
+export const deleteRoleAPI = async (id) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.delete(
-      `http://localhost:8086/v1/tm/team/delete-team-member/${id}`,
+      `http://localhost:8086/v1/rl/roles/delete-role/${id}`,
       {
         headers: {
           "Content-Type": "application/json",

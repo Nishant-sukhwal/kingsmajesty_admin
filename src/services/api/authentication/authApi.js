@@ -17,10 +17,8 @@ export const login = async (formData) => {
       }
     );
     return response.data;
-
   } catch {
     console.log('Error in API call:');
-    // throw error;
   }
 }
 

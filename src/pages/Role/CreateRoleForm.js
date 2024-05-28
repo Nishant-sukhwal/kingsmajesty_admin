@@ -9,6 +9,7 @@ import "toastr/build/toastr.min.css";
 import SubHeader from '../../components/Common/SubHeader'
 import { Link } from "react-router-dom";
 import { getAllPermissionApi, getAllSidebarMenu } from '../../services/api/authentication/authApi'
+import { createRoleApi } from '../../services/api/roleApi'
 
 
 const CreateRoleForm = () => {
@@ -102,15 +103,22 @@ const CreateRoleForm = () => {
     setSelectedPermissionIds(updatedSelectedIds);
   };
 
-  const handleSubmit = () => {
-
+  const handleSubmit = async () => {
     const formDataToSend = {
-      roleName: roleName.name, // Assuming 'name' is the role name field
+      role_name: roleName.name, // Assuming 'name' is the role name field
       sidebarMenus: selectedModuleIds,
       permissions: selectedPermissionIds,
     };
 
     console.log("Submit --------------->", formDataToSend)
+    try {
+      const res = await createRoleApi(formDataToSend);
+      console.log("response is here", res);
+      toastr.success("Category Saved Successfully!");
+    } catch (error) {
+      console.log("error", error)
+      toastr.error("Category Saved Successfully!");
+    }
     // dispatch(saveRoomCategoryReq(formData));
     // toastr.success("Category Saved Successfully!");
   }
@@ -118,14 +126,6 @@ const CreateRoleForm = () => {
   const formFields = {
     backbutton: '/role',
     form: [
-      // {
-      //   fieldName: 'hotel',
-      //   label: 'Hotel',
-      //   type: 'select',
-      //   errorMessage: 'Please Select Hotel',
-      //   value: formData.hotel,
-      //   options: options,
-      // },
       {
         fieldName: 'name',
         label: 'Role Name',
@@ -134,14 +134,6 @@ const CreateRoleForm = () => {
         value: '',
         placeholder: 'Enter Role Name'
       },
-      // {
-      //   fieldName: 'description',
-      //   label: 'Description',
-      //   type: 'text',
-      //   errorMessage: 'Enter Description',
-      //   value: '',
-      //   placeholder: 'Enter Description'
-      // }
     ]
   }
 
@@ -236,23 +228,6 @@ const CreateRoleForm = () => {
                                       </div>
                                     ))}
                                 </td>
-                                {/* <td className="permissions-column">
-                                  {Object.entries(modulePermissions).map(([type, permissionsArray]) => (
-                                    <div className='d-flex align-items-center' key={type}>
-                                      {permissionsArray.map((perm) => (
-                                        <label className='d-flex align-items-center' key={perm._id}>
-                                          <input
-                                            type="checkbox"
-                                            checked={selectedPermissionIds.includes(perm._id)}
-                                            onChange={() => handleSelect(perm._id)}
-                                          />{' '}
-                                          <span className='mx-2'>{perm?.type?.charAt(0).toUpperCase() + perm?.type?.slice(1)} </span>
-                                        </label>
-                                      ))}
-                                      <br />
-                                    </div>
-                                  ))}
-                                </td> */}
                               </tr>
                             ))}
                           </tbody>

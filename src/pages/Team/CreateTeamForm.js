@@ -9,11 +9,8 @@ import SubHeader from '../../components/Common/SubHeader'
 import { createTeamMemberAPI, getRoleApi } from '../../services/api/teamMemberApi'
 
 const CreateTeamForm = () => {
-  const dispatch = useDispatch();
   const [roles, setRoles] = useState([]);
-  console.log("res is here--------------------------->", roles);
   const [formData, setFormData] = useState({});
-  console.log("formData is here", formData);
 
   const fetchRole = async () => {
     const res = await getRoleApi();
@@ -28,30 +25,6 @@ const CreateTeamForm = () => {
     fetchRole();
   }, [])
 
-  // useEffect(() => {
-  //   const fetchHotels = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "http://localhost:8086/v1/ht/hotels/get-hotels"
-  //       );
-  //       const data = await response.json();
-  //       setHotels(data.hotels);
-  //     } catch (error) {
-  //       console.error("Error fetching facilities:", error);
-  //     }
-  //   };
-
-  //   fetchHotels();
-  // }, []);
-  // console.log(hotels);
-
-
-  // Dynamically generate options based on the hotels data
-  // const options = hotels.map(hotel => ({
-  //   value: hotel.name,
-  //   label: hotel.name,
-  // }));
-
 
   const handleFormChange = (fieldName, value) => {
     setFormData({
@@ -60,16 +33,6 @@ const CreateTeamForm = () => {
     });
   };
 
-  const Roles = [
-    { value: 'admin', label: 'Admin' },
-    { value: 'super_admin', label: 'Super Admin' },
-    { value: 'hotel_manager', label: 'Hotel Manager' },
-    { value: 'front_desk_staff', label: 'Front Desk Staff' },
-    { value: 'housekeeping_staff', label: 'Housekeeping Staff' },
-    { value: 'maintenance_staff', label: 'Maintenance Staff' },
-    { value: 'accountant', label: 'Accountant' },
-    // Add more roles as needed
-  ];
   const formFields = {
     backbutton: '/team',
     form: [

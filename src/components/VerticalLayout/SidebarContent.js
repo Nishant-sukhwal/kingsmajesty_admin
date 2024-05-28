@@ -25,7 +25,7 @@ const SidebarContent = ({ t, router, type, changeLayout, changeSidebarTheme, cha
     state.sidebarMenu.sidebarMenus,
     state.Login.tokens.token,
   ]);
-  
+  console.log(sidebarMenus,token)
   console.log(sidebarMenus)
   useEffect(() => {
     if(token){      
