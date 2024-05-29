@@ -15,27 +15,13 @@ import DateInput from '../../components/Form/FormComponent/DateInput';
 import RadioButton from '../../components/Form/FormComponent/RadioInput';
 import NumberInput from '../../components/Form/FormComponent/NumberInput';
 import CkEditor from '../../components/Form/FormComponent/CkEditor';
+import { createTaxApi } from '../../services/api/taxesApi';
 
 // import CkEditor from "../FormComponent/CkEditor";
 
 const CreateTaxForm = () => {
     const dispatch = useDispatch();
-    const [formData, setFormData] = useState({
-        title: '',
-        subtitle: '',
-        description: '',
-        maxchildren: '',
-        maxadults: '',
-        maxpeople: '',
-        price_per_person: '',
-        hotels: [],
-        duration: '',
-        duration_unit: '',
-        homepage: false,
-        release: '',
-
-        // Add other form fields as needed
-    });
+    const [formData, setFormData] = useState({});
     console.log("formData update ", formData);
 
 
@@ -83,15 +69,23 @@ const CreateTaxForm = () => {
     const mandatoryOptions = ["Yes", "No"];
     const releaseOptions = ["Published", "NotPublished", "Awaiting", "Archived"];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(formData, "formData for api ")
+        try {
+            const res = await createTaxApi(formData);
+            console.log(res.data.message);
+            toastr.success(res.data.message);
+        } catch (error) {
+            toastr.error(error.message);
+        }
+
     }
 
     return (
         <div className="page-content">
             <Card>
                 <CardBody>
-                    <SubHeader value={"/tax"} />
+                    <SubHeader value={"/taxes"} />
                     <Container fluid={true}>
                         <Row>
                             <Col key="title" lg="6">

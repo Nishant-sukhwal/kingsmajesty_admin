@@ -10,42 +10,30 @@ import {
   deleteRoomCategory,
   getRoomCategoryApi,
 } from "../../services/api/roomCategory/roomCategoryApi";
+import { deleteServiceAPI, getServicesApi } from "../../services/api/servicesApi";
 
 const ViewServices = () => {
-  const [category, setCategory] = useState([]);
+  const [services, setServices] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
 
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-        );
-        const data = await response.json();
-        const filteredData = data.category.filter((item) => !item.deleted);
-        setCategory(filteredData);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
-
-    fetchCategory();
-  }, []);
-
-  //This is for delete
-  const fetchRoomCategories = async () => {
+  const fetchServices = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-      );
-      const data = await response.json();
-      const filteredData = data.category.filter((item) => !item.deleted);
-      return filteredData;
+      const response = await getServicesApi();
+      console.log(response.services);
+      const filteredData = response.services.filter((item) => !item.deleted);
+      setServices(filteredData);
     } catch (error) {
       console.error("Error fetching facilities:", error);
     }
   };
+
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+
 
   const handleDeleteClick = (id) => {
     setShowDeleteModal(true);
@@ -55,12 +43,10 @@ const ViewServices = () => {
   const handleDeleteConfirm = async () => {
     try {
       for (const id of selectedId) {
-        await deleteRoomCategory(id);
+        await deleteServiceAPI(id);
       }
 
-      const updatedData = await fetchRoomCategories();
-      setCategory(updatedData);
-
+      fetchServices();
       setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting facility:", error);
@@ -69,7 +55,7 @@ const ViewServices = () => {
 
   const columns = useMemo(
     () => [
-      
+
 
       {
         Header: "ID",
@@ -77,10 +63,10 @@ const ViewServices = () => {
         disableFilters: true,
         filterable: false,
       },
-     
+
       {
-        Header: "Room Catagory Name",
-        accessor: "name",
+        Header: "Service",
+        accessor: "title",
         disableFilters: true,
         filterable: false,
       },
@@ -108,7 +94,7 @@ const ViewServices = () => {
         disableSortBy: true,
       },
     ],
-    [category]
+    [services]
   );
 
   const breadcrumbItems = [
@@ -133,7 +119,7 @@ const ViewServices = () => {
             <CardBody>
               <TableContainer
                 columns={columns || []}
-                data={category || []}
+                data={services || []}
                 isPagination={false}
                 iscustomPageSize={false}
                 isBordered={false}

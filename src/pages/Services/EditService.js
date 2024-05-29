@@ -14,25 +14,27 @@ import SelectInput from '../../components/Form/FormComponent/SelectInput';
 import DateInput from '../../components/Form/FormComponent/DateInput';
 import RadioButton from '../../components/Form/FormComponent/RadioInput';
 import NumberInput from '../../components/Form/FormComponent/NumberInput';
+import { getServiceByIdApi, serviceUpdateApi } from '../../services/api/servicesApi';
+import { useLocation, useNavigate } from "react-router-dom";
+import CkEditor from '../../components/Form/FormComponent/CkEditor';
 
 const EditService = () => {
     const dispatch = useDispatch();
-    const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        priceType: null,
-        price: '',
-        tax: null,
-        startDate: null,
-        endDate: null,
-        mandatory: false,
-        release: '',
-        room: null
-        // Add other form fields as needed
-    });
+    const [formData, setFormData] = useState({});
     console.log("formData update ", formData);
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("id");
 
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getServiceByIdApi(id);
+            console.log(res);
+            setFormData(res.data.serviceById);
+        }
+        fetchData();
+    }, [id]);
 
 
     const handleFieldChange = (fieldName, value) => {
@@ -77,37 +79,55 @@ const EditService = () => {
     const mandatoryOptions = ["Yes", "No"];
     const releaseOptions = ["Published", "NotPublished", "Awaiting", "Archived"];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(formData, "formData for api ")
+        try {
+            const res = await serviceUpdateApi(formData, id);
+            console.log(res.message);
+            toastr.success(res.message);
+        } catch (error) {
+            toastr.error("Category Saved Successfully!");
+        }
     }
 
     return (
         <div className="page-content">
             <Card>
                 <CardBody>
+                    <SubHeader value={"/services"} />
                     <Container fluid={true}>
 
                         <Row>
-                            <Col key="name" lg="6">
+                            <Col key="title" lg="6">
                                 <TextInput
-                                    label="Name"
-                                    fieldName="name"
+                                    label="Title"
+                                    fieldName="title"
                                     errorMessage="Enter name"
-                                    value={formData.name}
+                                    // value={formData.title}
                                     placeholder="Enter Name"
                                     onChange={handleFieldChange}
-                                    defaultVal={formData.name}
+                                    defaultVal={formData?.title}
                                 />
                             </Col>
-                            <Col key="description" lg="6">
+                            <Col key="subtitle" lg="6">
                                 <TextInput
+                                    label="Subtitle"
+                                    fieldName="subtitle"
+                                    errorMessage="Enter Subtitle"
+                                    // value={formData.name}
+                                    placeholder="Enter Subtitle"
+                                    onChange={handleFieldChange}
+                                    defaultVal={formData?.subtitle}
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col key="description" lg="12">
+                                <CkEditor
                                     label="Description"
                                     fieldName="description"
-                                    errorMessage="Enter description"
-                                    value={formData.name}
-                                    placeholder="Enter description"
                                     onChange={handleFieldChange}
-                                    defaultVal={formData.description}
+                                    defaultVal={formData?.description}
                                 />
                             </Col>
                         </Row>
@@ -118,10 +138,10 @@ const EditService = () => {
                                     label="Price"
                                     fieldName="price"
                                     errorMessage="Enter price"
-                                    value={formData.name}
+                                    // value={formData.name}
                                     placeholder="Enter price"
                                     onChange={handleFieldChange}
-                                    defaultVal={formData.description}
+                                    defaultVal={formData?.price}
                                 />
                             </Col>
                             <Col key="priceType" lg="6">
@@ -132,7 +152,7 @@ const EditService = () => {
                                     onChange={handleFieldChange}
                                     errorMessage="Please Select Price Type"
                                     placeholder="Select Price Type"
-                                // defaultVal={fieldConfig.defaultValue}
+                                    defaultVal={formData?.priceType}
                                 />
                             </Col>
                         </Row>
@@ -145,7 +165,7 @@ const EditService = () => {
                                     fieldName="startDate"
                                     errorMessage="Please select a start date"
                                     placeholder="dd M, yyyy"
-                                    defaultVal={formData.startDate}
+                                    defaultVal={formData?.startDate}
                                     onChange={handleFieldChange}
                                 />
                             </Col>
@@ -156,7 +176,7 @@ const EditService = () => {
                                     fieldName="endDate"
                                     errorMessage="Please select a start date"
                                     placeholder="dd M, yyyy"
-                                    defaultVal={formData.endDate}
+                                    defaultVal={formData?.endDate}
                                     onChange={handleFieldChange}
                                 />
                             </Col>
@@ -168,11 +188,11 @@ const EditService = () => {
                                     label="Mandatory"
                                     fieldName="mandatory"
                                     errorMessage="Select option"
-                                    value={formData.mandatory}
+                                    // value={formData.mandatory}
                                     placeholder="Please Select option"
                                     onChange={handleFieldChange}
                                     options={mandatoryOptions}
-                                // defaultVal={formData.mandatory}
+                                    defaultVal={formData?.mandatory}
                                 />
                             </Col>
                             <Col key="release" lg="6">
@@ -180,17 +200,17 @@ const EditService = () => {
                                     label="Release"
                                     fieldName="release"
                                     errorMessage="Select option"
-                                    value={formData.release}
+                                    // value={formData.release}
                                     placeholder="Please Select option"
                                     onChange={handleFieldChange}
                                     options={releaseOptions}
-                                // defaultVal={formData.mandatory}
+                                    defaultVal={formData?.release}
                                 />
                             </Col>
                         </Row>
 
                         <Row>
-                            <Col key="tax" lg="6">
+                            {/* <Col key="tax" lg="6">
                                 <SelectInput
                                     label="Tax"
                                     fieldName="tax"
@@ -200,19 +220,20 @@ const EditService = () => {
                                     placeholder="Select tax type"
                                 // defaultVal={fieldConfig.defaultValue}
                                 />
-                            </Col>
-                            <Col key="room" lg="6">
+                            </Col> */}
+                            {/* <Col key="room" lg="6">
                                 <SelectInput
                                     label="Room"
                                     fieldName="room"
-                                    options={options}
+                                    options={options}   
                                     onChange={handleFieldChange}
                                     errorMessage="Please Select room"
                                     placeholder="Select room"
                                 // defaultVal={fieldConfig.defaultValue}
                                 />
-                            </Col>
+                            </Col> */}
                         </Row>
+
                         <Button type="submit" color="primary" className="me-1" onClick={handleSubmit}>
                             Submit
                         </Button>
@@ -222,5 +243,4 @@ const EditService = () => {
         </div>
     )
 }
-
 export default EditService

@@ -5,46 +5,27 @@ import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
-
-import {
-    deleteRoomCategory,
-    getRoomCategoryApi,
-} from "../../services/api/roomCategory/roomCategoryApi";
+import { deleteRoomCategory, getRoomCategoryApi, } from "../../services/api/roomCategory/roomCategoryApi";
+import { deleteActivityAPI, getActivitiesApi } from "../../services/api/activitiesApi";
 
 const ViewActivity = () => {
-    const [category, setCategory] = useState([]);
+    const [activities, setActivities] = useState([]);
     const [selectedId, setSelectedId] = useState([]);
     const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
 
-    useEffect(() => {
-        const fetchCategory = async () => {
-            try {
-                const response = await fetch(
-                    "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-                );
-                const data = await response.json();
-                const filteredData = data.category.filter((item) => !item.deleted);
-                setCategory(filteredData);
-            } catch (error) {
-                console.error("Error fetching facilities:", error);
-            }
-        };
-        fetchCategory();
-    }, []);
-
-    //This is for delete
-    const fetchRoomCategories = async () => {
+    const fetchActivities = async () => {
         try {
-            const response = await fetch(
-                "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-            );
-            const data = await response.json();
-            const filteredData = data.category.filter((item) => !item.deleted);
-            return filteredData;
+            const response = await getActivitiesApi();
+            console.log(response.activities);
+            const filteredData = response.activities.filter((item) => !item.deleted);
+            setActivities(filteredData);
         } catch (error) {
             console.error("Error fetching facilities:", error);
         }
     };
+    useEffect(() => {
+        fetchActivities();
+    }, []);
 
     const handleDeleteClick = (id) => {
         setShowDeleteModal(true);
@@ -54,12 +35,9 @@ const ViewActivity = () => {
     const handleDeleteConfirm = async () => {
         try {
             for (const id of selectedId) {
-                await deleteRoomCategory(id);
+                await deleteActivityAPI(id);
             }
-
-            const updatedData = await fetchRoomCategories();
-            setCategory(updatedData);
-
+            fetchActivities();
             setShowDeleteModal(false);
         } catch (error) {
             console.error("Error deleting facility:", error);
@@ -78,8 +56,8 @@ const ViewActivity = () => {
             },
 
             {
-                Header: "Room Catagory Name",
-                accessor: "name",
+                Header: "Actitvity",
+                accessor: "title",
                 disableFilters: true,
                 filterable: false,
             },
@@ -88,7 +66,7 @@ const ViewActivity = () => {
                 accessor: (cellProps) => (
                     <React.Fragment>
                         <Link
-                            to={`/activity/edit?id=${cellProps._id}`}
+                            to={`/activities/edit?id=${cellProps._id}`}
                             className="me-3 text-primary"
                         >
                             <i className="mdi mdi-pencil font-size-18"></i>
@@ -107,7 +85,7 @@ const ViewActivity = () => {
                 disableSortBy: true,
             },
         ],
-        [category]
+        [activities]
     );
 
     const breadcrumbItems = [
@@ -117,7 +95,7 @@ const ViewActivity = () => {
 
     const navigate = useNavigate();
     const handleFacilityClick = () => {
-        navigate("/activity/create");
+        navigate("/activities/create");
     };
 
     return (
@@ -132,7 +110,7 @@ const ViewActivity = () => {
                         <CardBody>
                             <TableContainer
                                 columns={columns || []}
-                                data={category || []}
+                                data={activities || []}
                                 isPagination={false}
                                 iscustomPageSize={false}
                                 isBordered={false}

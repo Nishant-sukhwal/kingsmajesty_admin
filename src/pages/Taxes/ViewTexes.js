@@ -10,41 +10,29 @@ import {
     deleteRoomCategory,
     getRoomCategoryApi,
 } from "../../services/api/roomCategory/roomCategoryApi";
+import { deleteTaxAPI, getTaxesApi } from "../../services/api/taxesApi";
 
 const ViewTexes = () => {
-    const [category, setCategory] = useState([]);
+    const [taxes, setTaxes] = useState([]);
     const [selectedId, setSelectedId] = useState([]);
     const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
-
-    useEffect(() => {
-        const fetchCategory = async () => {
-            try {
-                const response = await fetch(
-                    "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-                );
-                const data = await response.json();
-                const filteredData = data.category.filter((item) => !item.deleted);
-                setCategory(filteredData);
-            } catch (error) {
-                console.error("Error fetching facilities:", error);
-            }
-        };
-        fetchCategory();
-    }, []);
-
-    //This is for delete
-    const fetchRoomCategories = async () => {
+    
+    const fetchTaxes = async () => {
         try {
-            const response = await fetch(
-                "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-            );
-            const data = await response.json();
-            const filteredData = data.category.filter((item) => !item.deleted);
-            return filteredData;
+            const response = await getTaxesApi()
+            console.log(response.taxes);
+            
+            const filteredData = response.taxes.filter((item) => !item.deleted);
+            setTaxes(filteredData);
         } catch (error) {
             console.error("Error fetching facilities:", error);
         }
     };
+
+    useEffect(() => {
+        fetchTaxes();
+    }, []);
+
 
     const handleDeleteClick = (id) => {
         setShowDeleteModal(true);
@@ -54,12 +42,10 @@ const ViewTexes = () => {
     const handleDeleteConfirm = async () => {
         try {
             for (const id of selectedId) {
-                await deleteRoomCategory(id);
+                await deleteTaxAPI(id);
             }
-
-            const updatedData = await fetchRoomCategories();
-            setCategory(updatedData);
-
+           
+            fetchTaxes();
             setShowDeleteModal(false);
         } catch (error) {
             console.error("Error deleting facility:", error);
@@ -78,8 +64,14 @@ const ViewTexes = () => {
             },
 
             {
-                Header: "Room Catagory Name",
-                accessor: "name",
+                Header: "Tax",
+                accessor: "title",
+                disableFilters: true,
+                filterable: false,
+            },
+            {
+                Header: "Value(%)",
+                accessor: "value",
                 disableFilters: true,
                 filterable: false,
             },
@@ -88,7 +80,7 @@ const ViewTexes = () => {
                 accessor: (cellProps) => (
                     <React.Fragment>
                         <Link
-                            to={`/tax/edit?id=${cellProps._id}`}
+                            to={`/taxes/edit?id=${cellProps._id}`}
                             className="me-3 text-primary"
                         >
                             <i className="mdi mdi-pencil font-size-18"></i>
@@ -107,7 +99,7 @@ const ViewTexes = () => {
                 disableSortBy: true,
             },
         ],
-        [category]
+        [taxes]
     );
 
     const breadcrumbItems = [
@@ -117,7 +109,7 @@ const ViewTexes = () => {
 
     const navigate = useNavigate();
     const handleFacilityClick = () => {
-        navigate("/tax/create");
+        navigate("/taxes/create");
     };
 
     return (
@@ -132,7 +124,7 @@ const ViewTexes = () => {
                         <CardBody>
                             <TableContainer
                                 columns={columns || []}
-                                data={category || []}
+                                data={taxes || []}
                                 isPagination={false}
                                 iscustomPageSize={false}
                                 isBordered={false}

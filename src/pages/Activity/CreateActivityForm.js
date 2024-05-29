@@ -15,27 +15,30 @@ import DateInput from '../../components/Form/FormComponent/DateInput';
 import RadioButton from '../../components/Form/FormComponent/RadioInput';
 import NumberInput from '../../components/Form/FormComponent/NumberInput';
 import CkEditor from '../../components/Form/FormComponent/CkEditor';
+import { createActivityApi } from '../../services/api/activitiesApi';
 
 // import CkEditor from "../FormComponent/CkEditor";
 
 const CreateActivityForm = () => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
-        title: '',
-        subtitle: '',
-        description: '',
-        maxchildren: '',
-        maxadults: '',
-        maxpeople: '',
-        price_per_person: '',
-        hotels: [],
-        duration: '',
-        duration_unit: '',
-        homepage: false,
-        release: '',
-        
-        // Add other form fields as needed
+    
     });
+    // const [formData, setFormData] = useState({
+    //     title: '',
+    //     subtitle: '',
+    //     description: '',
+    //     maxchildren: '',
+    //     maxadults: '',
+    //     maxpeople: '',
+    //     price_per_person: '',
+    //     duration: '',
+    //     duration_unit: '',
+    //     homepage: false,
+    //     release: '',
+        
+    //     // Add other form fields as needed
+    // });
     console.log("formData update ", formData);
 
 
@@ -83,15 +86,17 @@ const CreateActivityForm = () => {
     const mandatoryOptions = ["Yes", "No"];
     const releaseOptions = ["Published", "NotPublished", "Awaiting", "Archived"];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(formData, "formData for api ")
+        const res = await createActivityApi(formData);
+        console.log(res);
     }
 
     return (
         <div className="page-content">
             <Card>
                 <CardBody>
-                    <SubHeader value={"/activity"} />
+                    <SubHeader value={"/activities"} />
                     <Container fluid={true}>
 
                         <Row>
@@ -239,7 +244,7 @@ const CreateActivityForm = () => {
                             <Col key="hotels" lg="6">
                                 <SelectInput
                                     label="Price Type"
-                                    fieldName="hotels"
+                                    fieldName="priceType"
                                     options={options}
                                     onChange={handleFieldChange}
                                     errorMessage="Please Select hotels"

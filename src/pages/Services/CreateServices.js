@@ -14,22 +14,13 @@ import SelectInput from '../../components/Form/FormComponent/SelectInput';
 import DateInput from '../../components/Form/FormComponent/DateInput';
 import RadioButton from '../../components/Form/FormComponent/RadioInput';
 import NumberInput from '../../components/Form/FormComponent/NumberInput';
+import CkEditor from '../../components/Form/FormComponent/CkEditor';
+import { createServiceApi } from '../../services/api/servicesApi';
+
 
 const CreateServices = () => {
     const dispatch = useDispatch();
-    const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        priceType: null,
-        price: '',
-        tax: null,
-        startDate: null,
-        endDate: null,
-        mandatory: false,
-        release: '',
-        room: null
-        // Add other form fields as needed
-    });
+    const [formData, setFormData] = useState({});
     console.log("formData update ", formData);
 
     const handleFieldChange = (fieldName, value) => {
@@ -40,20 +31,21 @@ const CreateServices = () => {
     };
 
     const options = [
-        { value: "night", label: "Night" },
-        { value: "person", label: "Person" },
-        { value: "person-night", label: "Person/night" },
-        { value: "adult", label: "Adult" },
-        { value: "adult-night", label: "Adult/night" },
-        { value: "child", label: "Child" },
-        { value: "child-night", label: "Child/night" },
-        { value: "package", label: "Fixed price" },
-        { value: "qty", label: "Quantity" },
-        { value: "qty-night", label: "Quantity/night" },
-        { value: "qty-person-night", label: "Quantity/person/night" },
-        { value: "qty-adult-night", label: "Quantity/adult/night" },
-        { value: "qty-child-night", label: "Quantity/child/night" }
+        { value: "Night", label: "Person" },
+        { value: "Person", label: "Night" },
+        { value: "Person/night", label: "Person/night" },
+        { value: "Adult", label: "Adult" },
+        { value: "Adult/night", label: "Adult/night" },
+        { value: "Child", label: "Child" },
+        { value: "Child/night", label: "Child/night" },
+        { value: "Fixed price", label: "Fixed price" },
+        { value: "Quantity", label: "Quantity" },
+        { value: "Quantity/night", label: "Quantity/night" },
+        { value: "Quantity/person/night", label: "Quantity/person/night" },
+        { value: "Quantity/adult/night", label: "Quantity/adult/night" },
+        { value: "Quantity/child/night", label: "Quantity/child/night" }
     ];
+
 
 
     const taxOptions = [
@@ -74,38 +66,55 @@ const CreateServices = () => {
     const mandatoryOptions = ["Yes", "No"];
     const releaseOptions = ["Published", "NotPublished", "Awaiting", "Archived"];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(formData, "formData for api ")
+        try {
+            const res = await createServiceApi(formData);
+            console.log(res);
+            toastr.success(res.data.message);
+        } catch (error) {
+            toastr.error("Category Saved Successfully!");
+        }
     }
 
     return (
         <div className="page-content">
-            <Card>  
+            <Card>
                 <CardBody>
                     <SubHeader value={"/services"} />
                     <Container fluid={true}>
 
                         <Row>
-                            <Col key="name" lg="6">
+                            <Col key="title" lg="6">
                                 <TextInput
-                                    label="Name"
-                                    fieldName="name"
+                                    label="Title"
+                                    fieldName="title"
                                     errorMessage="Enter name"
-                                    value={formData.name}
+                                    value={formData.title}
                                     placeholder="Enter Name"
                                     onChange={handleFieldChange}
-                                    defaultVal={formData.name}
+                                    defaultVal={formData.title}
                                 />
                             </Col>
-                            <Col key="description" lg="6">
+                            <Col key="subtitle" lg="6">
                                 <TextInput
+                                    label="Subtitle"
+                                    fieldName="subtitle"
+                                    errorMessage="Enter Subtitle"
+                                    value={formData.name}
+                                    placeholder="Enter Subtitle"
+                                    onChange={handleFieldChange}
+                                    // defaultVal={formData.description}
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col key="description" lg="12">
+                                <CkEditor
                                     label="Description"
                                     fieldName="description"
-                                    errorMessage="Enter description"
-                                    value={formData.name}
-                                    placeholder="Enter description"
                                     onChange={handleFieldChange}
-                                    defaultVal={formData.description}
+                                // defaultVal={fieldConfig.defaultValue}
                                 />
                             </Col>
                         </Row>
@@ -119,7 +128,7 @@ const CreateServices = () => {
                                     value={formData.name}
                                     placeholder="Enter price"
                                     onChange={handleFieldChange}
-                                    defaultVal={formData.description}
+                                    // defaultVal={formData.description}
                                 />
                             </Col>
                             <Col key="priceType" lg="6">
@@ -143,7 +152,7 @@ const CreateServices = () => {
                                     fieldName="startDate"
                                     errorMessage="Please select a start date"
                                     placeholder="dd M, yyyy"
-                                    defaultVal={formData.startDate}
+                                    // defaultVal={formData.startDate}
                                     onChange={handleFieldChange}
                                 />
                             </Col>
@@ -154,7 +163,7 @@ const CreateServices = () => {
                                     fieldName="endDate"
                                     errorMessage="Please select a start date"
                                     placeholder="dd M, yyyy"
-                                    defaultVal={formData.endDate}
+                                    // defaultVal={formData.endDate}
                                     onChange={handleFieldChange}
                                 />
                             </Col>
@@ -188,7 +197,7 @@ const CreateServices = () => {
                         </Row>
 
                         <Row>
-                            <Col key="tax" lg="6">
+                            {/* <Col key="tax" lg="6">
                                 <SelectInput
                                     label="Tax"
                                     fieldName="tax"
@@ -198,18 +207,18 @@ const CreateServices = () => {
                                     placeholder="Select tax type"
                                 // defaultVal={fieldConfig.defaultValue}
                                 />
-                            </Col>
-                            <Col key="room" lg="6">
+                            </Col> */}
+                            {/* <Col key="room" lg="6">
                                 <SelectInput
                                     label="Room"
                                     fieldName="room"
-                                    options={options}
+                                    options={options}   
                                     onChange={handleFieldChange}
                                     errorMessage="Please Select room"
                                     placeholder="Select room"
                                 // defaultVal={fieldConfig.defaultValue}
                                 />
-                            </Col>
+                            </Col> */}
                         </Row>
 
                         <Button type="submit" color="primary" className="me-1" onClick={handleSubmit}>

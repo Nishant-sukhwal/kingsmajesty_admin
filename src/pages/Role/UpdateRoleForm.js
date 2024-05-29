@@ -9,7 +9,7 @@ import "toastr/build/toastr.min.css";
 import SubHeader from '../../components/Common/SubHeader'
 import { Link } from "react-router-dom";
 import { getAllPermissionApi, getAllSidebarMenu } from '../../services/api/authentication/authApi'
-import { createRoleApi, getRoleByIdAPI } from '../../services/api/roleApi'
+import { createRoleApi, getRoleByIdAPI, roleUpdateApi } from '../../services/api/roleApi'
 import { getTeamMembersByIdAPI } from '../../services/api/teamMemberApi'
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -21,9 +21,7 @@ const UpdateRoleForm = () => {
   const [permission, setPermission] = useState([]);
   const [selectedPermissionIds, setSelectedPermissionIds] = useState([]);
   const [selectedModuleIds, setSelectedModuleIds] = useState([]);
-  const [roleName, setRoleName] = useState({
-    name: '',
-  });
+  const [roleName, setRoleName] = useState({});
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -128,7 +126,7 @@ const UpdateRoleForm = () => {
 
     console.log("Submit --------------->", formDataToSend)
     try {
-      const res = await createRoleApi(formDataToSend);
+      const res = await roleUpdateApi(formDataToSend, id);
       console.log("response is here", res);
       toastr.success("Category Saved Successfully!");
     } catch (error) {
@@ -147,7 +145,6 @@ const UpdateRoleForm = () => {
         label: 'Role Name',
         type: 'text',
         errorMessage: 'Enter Role Name',
-        value: '',
         placeholder: 'Enter Role Name',
         defaultValue: roleName
       },

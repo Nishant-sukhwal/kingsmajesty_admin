@@ -69,6 +69,7 @@ import EditBookingForm from "../pages/Booking/EditBookingForm";
 import ViewTexes from "../pages/Taxes/ViewTexes";
 import CreateTaxForm from "../pages/Taxes/CreateTaxForm";
 import EditTaxForm from "../pages/Taxes/EditTaxForm";
+import EditActivityForm from "../pages/Activity/EditActivityForm";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -127,9 +128,9 @@ const authProtectedRoutes = [
   { path: "/services/edit", exact: true, component: <EditService /> },
 
   //Activity 
-  { path: "/activity", exact: true, component: <ViewActivity /> },
-  { path: "/activity/create", exact: true, component: <CreateActivityForm /> },
-  { path: "/activity/edit", exact: true, component: <ViewServices /> },
+  { path: "/activities", exact: true, component: <ViewActivity /> },
+  { path: "/activities/create", exact: true, component: <CreateActivityForm /> },
+  { path: "/activities/edit", exact: true, component: <EditActivityForm /> },
 
   //Booking 
   { path: "/booking", exact: true, component: <ViewBooking /> },
@@ -137,9 +138,9 @@ const authProtectedRoutes = [
   { path: "/booking/edit", exact: true, component: <EditBookingForm /> },
 
   //Taxes 
-  { path: "/tax", exact: true, component: <ViewTexes /> },
-  { path: "/tax/create", exact: true, component: <CreateTaxForm /> },
-  { path: "/tax/edit", exact: true, component: <EditTaxForm /> },
+  { path: "/taxes", exact: true, component: <ViewTexes /> },
+  { path: "/taxes/create", exact: true, component: <CreateTaxForm /> },
+  { path: "/taxes/edit", exact: true, component: <EditTaxForm /> },
 
   //Packages
   { path: "/packages", exact: true, component: <Maintenance /> },
