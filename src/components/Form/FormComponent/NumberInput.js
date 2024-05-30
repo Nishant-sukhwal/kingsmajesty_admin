@@ -21,6 +21,7 @@ const NumberInput = ({
 
 
   const handleInputChange = (e) => {
+    console.log(e.target.value)
     const inputVal = e.target.value;
     setInputValue(inputVal); // Update inputValue state with the new input value
     setInputError(inputVal.trim() === ""); // Check for input validation here if needed

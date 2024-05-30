@@ -66,7 +66,6 @@ const UpdateRoom = () => {
     
 
     const handleFormChange = (fieldName, value) => {
-        
         setFormData(formData => ({
             ...formData,
             [fieldName]: value,

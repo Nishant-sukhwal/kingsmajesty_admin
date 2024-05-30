@@ -12,6 +12,7 @@ import { getAllPermissionApi, getAllSidebarMenu } from '../../services/api/authe
 import { createRoleApi, getRoleByIdAPI, roleUpdateApi } from '../../services/api/roleApi'
 import { getTeamMembersByIdAPI } from '../../services/api/teamMemberApi'
 import { useLocation, useNavigate } from "react-router-dom";
+import TextInput from '../../components/Form/FormComponent/TextInput'
 
 const UpdateRoleForm = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,6 @@ const UpdateRoleForm = () => {
       setRoleName(res.data.roleById.role_name);
       setSelectedModuleIds(res.data.roleById.sidebarMenus);
       setSelectedPermissionIds(res.data.roleById.permissions);
-
     }
     fetchData();
   }, []);
@@ -64,13 +64,10 @@ const UpdateRoleForm = () => {
     fetchData();
   }, []);
 
-  const handleFormChange = (fieldName, value) => {
-    setRoleName({
-      ...roleName,
-      [fieldName]: value,
-    });
-  };
 
+  const handleFieldChange = (fieldName, value) => {
+    setRoleName(value);
+  };
 
   const handleToggleMenuItem = (moduleId) => {
     const isSelected = selectedModuleIds.includes(moduleId);
@@ -80,7 +77,7 @@ const UpdateRoleForm = () => {
     } else {
       // Module is not selected, so add it to the array
       setSelectedModuleIds([...selectedModuleIds, moduleId]);
-    }
+    } 
   };
 
   const toggleCollapse = () => {
@@ -133,23 +130,10 @@ const UpdateRoleForm = () => {
       console.log("error", error)
       toastr.error("Category Saved Successfully!");
     }
-    // dispatch(saveRoomCategoryReq(formData));
-    // toastr.success("Category Saved Successfully!");
+  
   }
 
-  const formFields = {
-    backbutton: '/role',
-    form: [
-      {
-        fieldName: 'name',
-        label: 'Role Name',
-        type: 'text',
-        errorMessage: 'Enter Role Name',
-        placeholder: 'Enter Role Name',
-        defaultValue: roleName
-      },
-    ]
-  }
+  
 
   return (
     <div className="page-content">
@@ -157,7 +141,19 @@ const UpdateRoleForm = () => {
         <Card>
           <CardBody>
             <SubHeader value={"/role"} />
-            <GenralForm formFields={formFields} onChange={handleFormChange} />
+            <Row>
+              <Col key="name" lg="6">
+                <TextInput
+                  label="Role Name"
+                  fieldName="name"
+                  errorMessage="Enter Role Name"
+                  // value={formData.title}
+                  placeholder="Enter Role Name"
+                  onChange={handleFieldChange}
+                  defaultVal={roleName}
+                />
+              </Col>
+            </Row>
             {/* Sidebar Menu */}
             <Col xl={12}>
               <Card>

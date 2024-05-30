@@ -84,9 +84,8 @@ const CreateBookingForm = () => {
         });
     };
 
-
     const handleNestedFieldChange = (fieldName, value, index, arrayName) => {
-        console.log(fieldName, value, index, arrayName);
+        console.log('handleNestedFieldChange', fieldName, value, index, arrayName)
         setFormData((prevFormData) => {
             const updatedArray = [...prevFormData[arrayName]];
             const updatedItem = { ...updatedArray[index] };
@@ -100,6 +99,25 @@ const CreateBookingForm = () => {
         });
     };
 
+    const handleInputChange = (fieldName, value, index, arrayName) => {
+        console.log(fieldName, value, index, arrayName)
+
+        setFormData((prevFormData) => {
+            const updatedArray = [...prevFormData[arrayName]];
+            const updatedItem = { ...updatedArray[index] };
+            updatedItem[fieldName] = value;
+            updatedArray[index] = updatedItem;
+
+            return {
+                ...prevFormData,
+                [arrayName]: updatedArray,
+            };
+        });
+        // const inputVal = e.target.value;
+        // setInputValue(inputVal); // Update inputValue state with the new input value
+        // setInputError(inputVal.trim() === ""); // Check for input validation here if needed
+        // onChange(fieldName, inputVal); // Pass the current input value to the parent component
+      };
 
 
 
@@ -576,6 +594,267 @@ const CreateBookingForm = () => {
                                 </Row>
                             </CardBody>
                         </Card>
+                        {/* Here is new */}
+
+                        <Card>
+                            <CardBody>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div
+                                        onClick={toggleIsOpen}
+                                        style={{ fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}
+                                    >
+                                        Rooms
+                                    </div>
+
+                                    <Button
+                                        type="button"
+                                        color="primary"
+                                        className="ms-3"
+                                        style={{ minWidth: '50px', marginBottom: '5px' }}
+                                        onClick={toggleIsOpen}
+                                    >
+                                        +
+                                    </Button>
+                                </div>
+                                <hr style={{
+                                    width: '100%',
+                                    margin: 'auto',
+                                    borderTop: '1px solid gray',
+                                    marginTop: '5px',
+                                    marginBottom: '10px'
+                                }} />
+                                <Collapse isOpen={isOpen}>
+                                    <div style={{ alignItems: 'center' }}>
+
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', textAlign: 'center', marginBottom: '10px' }}>
+                                            <div>#</div>
+                                            <div>Hotel</div>
+                                            <div>Room</div>
+                                            <div>Adults</div>
+                                            <div>Children</div>
+                                            <div>Tax Rate</div>
+                                            <div>Amount</div>
+                                            <div>Action</div>
+                                        </div>
+                                        <hr style={{
+                                            width: '100%',
+                                            margin: 'auto',
+                                            borderTop: '1px solid gray',
+                                            marginTop: '5px',
+                                            marginBottom: '15px'
+                                        }} />
+
+
+                                        {formData.room.map((room, index) => (
+                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                                <div style={{ marginTop: '10px' }}>{index + 1}</div>
+
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+                                                    <div style={{ width: '100%', }}>
+                                                        {/* <label style={{  marginLeft: '40px' }} >Hotel</label>                                             */}
+                                                        <SelectInput
+                                                            fieldName="hotel"
+                                                            onChange={handleFieldChange}
+                                                            options={options}
+                                                            value={room.hotel}
+                                                            errorMessage="Please select hotel"
+                                                            placeholder="Select hotel"
+                                                        />
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
+                                                        {/* <label style={{  marginLeft: '40px' }}>Room</label> */}
+
+                                                        <SelectInput
+                                                            fieldName="room"
+                                                            options={options}
+                                                            value={room.room}
+                                                            errorMessage="Please select room"
+                                                            placeholder="Select room"
+                                                        />
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
+                                                        {/* <label style={{  marginLeft: '40px' }}>Adults</label> */}
+
+                                                        <NumberInput
+                                                            fieldName="adults"
+                                                            value={room.adults}
+                                                            errorMessage="Enter adults"
+                                                            // onChange={(value) => handleInputChange(index, "adults", value)}
+                                                            placeholder="Enter adults"
+                                                        />
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
+                                                        {/* <label style={{  marginLeft: '40px' }}>Children</label> */}
+
+                                                        <Input
+                                                            type="number"
+                                                            // onChange={handleInputChange}
+                                                            onChange={(e) => handleInputChange( 'children',  e, 'room', index, )}
+                                                            // value={inputValue}
+                                                            placeholder="Enter Adults"
+                                                            // required
+                                                            // invalid={inputError}
+                                                            // maxLength="2"
+                                                        // defaultValue={defaultVal}
+                                                        />
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
+                                                        {/* <label style={{  marginLeft: '40px' }} >Taxrate</label> */}
+
+                                                        <NumberInput
+                                                            fieldName="taxrate"
+                                                            value={room.taxrate}
+                                                            errorMessage="Enter tax rate"
+                                                            placeholder="Enter tax rate"
+                                                        />
+                                                    </div>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', }}>
+                                                        {/* <label style={{  marginLeft: '40px' }} >Amount</label> */}
+
+                                                        <NumberInput
+                                                            fieldName="amount"
+                                                            value={room.amount}
+                                                            errorMessage="Enter amount"
+                                                            placeholder="Enter amount"
+                                                        />
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                                                    <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                        <i className="ri-delete-bin-7-line"></i>
+                                                    </Button>
+                                                    <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
+                                                        <i className="ri-add-line"></i>
+                                                    </Button>
+                                                </div>
+
+                                            </div>
+                                        ))}
+                                    </div>
+                                </Collapse>
+                            </CardBody>
+                        </Card>
+
+                        <Card>
+                            <CardBody>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div
+                                        onClick={toggleIsOpen}
+                                        style={{ fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}
+                                    >
+                                        Rooms
+                                    </div>
+
+
+                                    <Button
+                                        type="button"
+                                        color="primary"
+                                        className="ms-3"
+                                        style={{ minWidth: '50px', marginBottom: '5px' }}
+                                        onClick={toggleIsOpen}
+                                    >
+                                        +
+                                    </Button>
+                                </div>
+                                <hr style={{
+                                    width: '100%',
+                                    margin: 'auto',
+                                    borderTop: '1px solid gray',
+                                    marginTop: '5px',
+                                    marginBottom: '10px'
+                                }} />
+                                <Collapse isOpen={isOpen}>
+                                    <Table responsive>
+                                        <thead style={{ textAlign: 'center' }} >
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Hotel</th>
+                                                <th>Room</th>
+                                                <th>Adults</th>
+                                                <th>Children</th>
+                                                <th>Tax Rate</th>
+                                                <th>Amount</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {formData.room.map((room, index) => (
+                                                <tr key={`room-${index}`}>
+                                                    <th scope="row">{index + 1}</th>
+                                                    <td style={{ width: '20%' }}>
+                                                        <SelectInput
+                                                            fieldName="hotel"
+                                                            options={options}
+                                                            value={room.hotel}
+                                                            errorMessage="Please select hotel"
+                                                            placeholder="Select hotel"
+
+                                                        />
+                                                    </td>
+                                                    <td style={{ width: '20%' }}>
+                                                        <SelectInput
+                                                            fieldName="room"
+                                                            options={options}
+                                                            value={room.room}
+                                                            errorMessage="Please select room"
+                                                            placeholder="Select room"
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <NumberInput
+                                                            fieldName="adults"
+                                                            value={room.adults}
+                                                            errorMessage="Enter adults"
+                                                            // onChange={(value) => handleInputChange(index, "adults", value)}
+                                                            placeholder="Enter adults"
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <NumberInput
+                                                            fieldName="children"
+                                                            value={room.children}
+                                                            errorMessage="Enter children"
+                                                            placeholder="Enter children"
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <NumberInput
+                                                            fieldName="taxrate"
+                                                            value={room.taxrate}
+                                                            errorMessage="Enter tax rate"
+                                                            placeholder="Enter tax rate"
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <NumberInput
+                                                            fieldName="amount"
+                                                            value={room.amount}
+                                                            errorMessage="Enter amount"
+                                                            placeholder="Enter amount"
+                                                        />
+                                                    </td>
+                                                    <td style={{ display: 'flex', justifyContent: 'center', }}>
+                                                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                                                            <Button color="danger" style={{ display: 'flex', alignItems: 'center', }} onClick={() => handleDeleteRoom(index)}>
+                                                                <i class="ri-delete-bin-7-line"></i>
+                                                            </Button>
+                                                            <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center', }} color="primary " onClick={handleAddRoom}>
+                                                                <i class="ri-add-line" ></i>
+                                                            </Button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                </Collapse>
+                            </CardBody>
+                        </Card>
 
                         <Card>
                             <CardBody>
@@ -697,7 +976,6 @@ const CreateBookingForm = () => {
                                 </Collapse>
                             </CardBody>
                         </Card>
-
 
                         <Card>
                             <CardBody>
@@ -1134,7 +1412,7 @@ const CreateBookingForm = () => {
                                 </Collapse>
                             </CardBody>
                         </Card>
-                        
+
 
                         <Button type="submit" color="primary" className="me-1" onClick={handleSubmit}>
                             Submit
