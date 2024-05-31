@@ -83,9 +83,8 @@ const CreateBookingForm = () => {
             [fieldName]: value,
         });
     };
-
     const handleNestedFieldChange = (fieldName, value, index, arrayName) => {
-        console.log('handleNestedFieldChange', fieldName, value, index, arrayName)
+        console.log('handleNestedFieldChange', fieldName, value, index, arrayName);
         setFormData((prevFormData) => {
             const updatedArray = [...prevFormData[arrayName]];
             const updatedItem = { ...updatedArray[index] };
@@ -98,6 +97,20 @@ const CreateBookingForm = () => {
             };
         });
     };
+    // const handleNestedFieldChange = (fieldName, value, index, arrayName) => {
+    //     console.log('handleNestedFieldChange', fieldName, value, index, arrayName)
+    //     setFormData((prevFormData) => {
+    //         const updatedArray = [...prevFormData[arrayName]];
+    //         const updatedItem = { ...updatedArray[index] };
+    //         updatedItem[fieldName] = value;
+    //         updatedArray[index] = updatedItem;
+
+    //         return {
+    //             ...prevFormData,
+    //             [arrayName]: updatedArray,
+    //         };
+    //     });
+    // };
 
     const handleInputChange = (fieldName, value, index, arrayName) => {
         console.log(fieldName, value, index, arrayName)
@@ -117,7 +130,7 @@ const CreateBookingForm = () => {
         // setInputValue(inputVal); // Update inputValue state with the new input value
         // setInputError(inputVal.trim() === ""); // Check for input validation here if needed
         // onChange(fieldName, inputVal); // Pass the current input value to the parent component
-      };
+    };
 
 
 
@@ -594,8 +607,8 @@ const CreateBookingForm = () => {
                                 </Row>
                             </CardBody>
                         </Card>
-                        {/* Here is new */}
 
+                        {/*Room */}
                         <Card>
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
@@ -626,9 +639,9 @@ const CreateBookingForm = () => {
                                 <Collapse isOpen={isOpen}>
                                     <div style={{ alignItems: 'center' }}>
 
-                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', textAlign: 'center', marginBottom: '10px' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', textAlign: 'center', marginBottom: '10px' }}>
                                             <div>#</div>
-                                            <div>Hotel</div>
+                                            {/* <div>Hotel</div> */}
                                             <div>Room</div>
                                             <div>Adults</div>
                                             <div>Children</div>
@@ -646,75 +659,71 @@ const CreateBookingForm = () => {
 
 
                                         {formData.room.map((room, index) => (
-                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
                                                 <div style={{ marginTop: '10px' }}>{index + 1}</div>
 
                                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
-                                                    <div style={{ width: '100%', }}>
-                                                        {/* <label style={{  marginLeft: '40px' }} >Hotel</label>                                             */}
+                                                    {/* <div style={{ width: '100%', }}>
+
                                                         <SelectInput
-                                                            fieldName="hotel"
-                                                            onChange={handleFieldChange}
+                                                            fieldName="hotel"                                                            
                                                             options={options}
                                                             value={room.hotel}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'room')}
                                                             errorMessage="Please select hotel"
                                                             placeholder="Select hotel"
                                                         />
-                                                    </div>
+                                                    </div> */}
                                                     <div style={{ width: '100%' }}>
-                                                        {/* <label style={{  marginLeft: '40px' }}>Room</label> */}
+
 
                                                         <SelectInput
                                                             fieldName="room"
                                                             options={options}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'room')}
                                                             value={room.room}
                                                             errorMessage="Please select room"
                                                             placeholder="Select room"
                                                         />
                                                     </div>
                                                     <div style={{ width: '100%' }}>
-                                                        {/* <label style={{  marginLeft: '40px' }}>Adults</label> */}
+
 
                                                         <NumberInput
                                                             fieldName="adults"
                                                             value={room.adults}
                                                             errorMessage="Enter adults"
-                                                            // onChange={(value) => handleInputChange(index, "adults", value)}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'room')}
                                                             placeholder="Enter adults"
                                                         />
                                                     </div>
                                                     <div style={{ width: '100%' }}>
-                                                        {/* <label style={{  marginLeft: '40px' }}>Children</label> */}
 
-                                                        <Input
-                                                            type="number"
-                                                            // onChange={handleInputChange}
-                                                            onChange={(e) => handleInputChange( 'children',  e, 'room', index, )}
-                                                            // value={inputValue}
-                                                            placeholder="Enter Adults"
-                                                            // required
-                                                            // invalid={inputError}
-                                                            // maxLength="2"
-                                                        // defaultValue={defaultVal}
+
+                                                        <NumberInput
+                                                            fieldName="children"
+                                                            errorMessage="Enter children"
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'room')}
+                                                            placeholder="Enter adults"
                                                         />
                                                     </div>
                                                     <div style={{ width: '100%' }}>
-                                                        {/* <label style={{  marginLeft: '40px' }} >Taxrate</label> */}
+
 
                                                         <NumberInput
                                                             fieldName="taxrate"
-                                                            value={room.taxrate}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'room')}
                                                             errorMessage="Enter tax rate"
                                                             placeholder="Enter tax rate"
                                                         />
                                                     </div>
                                                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', }}>
-                                                        {/* <label style={{  marginLeft: '40px' }} >Amount</label> */}
+
 
                                                         <NumberInput
                                                             fieldName="amount"
-                                                            value={room.amount}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'room')}
                                                             errorMessage="Enter amount"
                                                             placeholder="Enter amount"
                                                         />
@@ -723,260 +732,40 @@ const CreateBookingForm = () => {
 
                                                 </div>
 
-
-                                                <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                                    <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
-                                                        <i className="ri-delete-bin-7-line"></i>
-                                                    </Button>
-                                                    <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
+                                                {index > 0 ? (
+                                                    <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                            <i className="ri-delete-bin-7-line"></i>
+                                                        </Button>
+                                                        {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
                                                         <i className="ri-add-line"></i>
-                                                    </Button>
-                                                </div>
+                                                    </Button> */}
+                                                    </div>
+                                                ) : (<div style={{ width: '3%', display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
 
+                                                </div>)
+                                                }
                                             </div>
                                         ))}
                                     </div>
-                                </Collapse>
-                            </CardBody>
-                        </Card>
+                                    <div>
 
-                        <Card>
-                            <CardBody>
-                                <div className='d-flex justify-content-between align-items-center'>
-                                    <div
-                                        onClick={toggleIsOpen}
-                                        style={{ fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}
-                                    >
-                                        Rooms
+                                        <Button
+                                            type="button"
+                                            color="primary"
+                                            className="ms-3"
+                                            style={{ minWidth: '50px', marginBottom: '5px' }}
+                                            onClick={handleAddRoom}
+                                        >
+                                            Add More  +
+                                        </Button>
                                     </div>
-
-
-                                    <Button
-                                        type="button"
-                                        color="primary"
-                                        className="ms-3"
-                                        style={{ minWidth: '50px', marginBottom: '5px' }}
-                                        onClick={toggleIsOpen}
-                                    >
-                                        +
-                                    </Button>
-                                </div>
-                                <hr style={{
-                                    width: '100%',
-                                    margin: 'auto',
-                                    borderTop: '1px solid gray',
-                                    marginTop: '5px',
-                                    marginBottom: '10px'
-                                }} />
-                                <Collapse isOpen={isOpen}>
-                                    <Table responsive>
-                                        <thead style={{ textAlign: 'center' }} >
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Hotel</th>
-                                                <th>Room</th>
-                                                <th>Adults</th>
-                                                <th>Children</th>
-                                                <th>Tax Rate</th>
-                                                <th>Amount</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {formData.room.map((room, index) => (
-                                                <tr key={`room-${index}`}>
-                                                    <th scope="row">{index + 1}</th>
-                                                    <td style={{ width: '20%' }}>
-                                                        <SelectInput
-                                                            fieldName="hotel"
-                                                            options={options}
-                                                            value={room.hotel}
-                                                            errorMessage="Please select hotel"
-                                                            placeholder="Select hotel"
-
-                                                        />
-                                                    </td>
-                                                    <td style={{ width: '20%' }}>
-                                                        <SelectInput
-                                                            fieldName="room"
-                                                            options={options}
-                                                            value={room.room}
-                                                            errorMessage="Please select room"
-                                                            placeholder="Select room"
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <NumberInput
-                                                            fieldName="adults"
-                                                            value={room.adults}
-                                                            errorMessage="Enter adults"
-                                                            // onChange={(value) => handleInputChange(index, "adults", value)}
-                                                            placeholder="Enter adults"
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <NumberInput
-                                                            fieldName="children"
-                                                            value={room.children}
-                                                            errorMessage="Enter children"
-                                                            placeholder="Enter children"
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <NumberInput
-                                                            fieldName="taxrate"
-                                                            value={room.taxrate}
-                                                            errorMessage="Enter tax rate"
-                                                            placeholder="Enter tax rate"
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <NumberInput
-                                                            fieldName="amount"
-                                                            value={room.amount}
-                                                            errorMessage="Enter amount"
-                                                            placeholder="Enter amount"
-                                                        />
-                                                    </td>
-                                                    <td style={{ display: 'flex', justifyContent: 'center', }}>
-                                                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                                                            <Button color="danger" style={{ display: 'flex', alignItems: 'center', }} onClick={() => handleDeleteRoom(index)}>
-                                                                <i class="ri-delete-bin-7-line"></i>
-                                                            </Button>
-                                                            <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center', }} color="primary " onClick={handleAddRoom}>
-                                                                <i class="ri-add-line" ></i>
-                                                            </Button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
                                 </Collapse>
+
                             </CardBody>
                         </Card>
 
-                        <Card>
-                            <CardBody>
-                                <div className='d-flex justify-content-between align-items-center'>
-                                    <div
-                                        onClick={toggleIsOpen}
-                                        style={{ fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}
-                                    >
-                                        Rooms
-                                    </div>
-
-
-                                    <Button
-                                        type="button"
-                                        color="primary"
-                                        className="ms-3"
-                                        style={{ minWidth: '50px', marginBottom: '5px' }}
-                                        onClick={toggleIsOpen}
-                                    >
-                                        +
-                                    </Button>
-                                </div>
-                                <hr style={{
-                                    width: '100%',
-                                    margin: 'auto',
-                                    borderTop: '1px solid gray',
-                                    marginTop: '5px',
-                                    marginBottom: '10px'
-                                }} />
-                                <Collapse isOpen={isOpen}>
-                                    <Table responsive>
-                                        <thead style={{ textAlign: 'center' }} >
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Hotel</th>
-                                                <th>Room</th>
-                                                <th>Adults</th>
-                                                <th>Children</th>
-                                                <th>Tax Rate</th>
-                                                <th>Amount</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {formData.room.map((room, index) => (
-                                                <tr key={`room-${index}`}>
-                                                    <th scope="row">{index + 1}</th>
-                                                    <td style={{ width: '20%' }}>
-                                                        <SelectInput
-                                                            fieldName="hotel"
-                                                            options={options}
-                                                            value={room.hotel}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'hotel')}
-                                                            errorMessage="Please select hotel"
-                                                            placeholder="Select hotel"
-
-                                                        />
-                                                    </td>
-                                                    <td style={{ width: '20%' }}>
-                                                        <SelectInput
-                                                            fieldName="room"
-                                                            options={options}
-                                                            value={room.room}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'room')}
-                                                            errorMessage="Please select room"
-                                                            placeholder="Select room"
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <NumberInput
-                                                            fieldName="adults"
-                                                            value={room.adults}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'adults')}
-                                                            errorMessage="Enter adults"
-                                                            placeholder="Enter adults"
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <NumberInput
-                                                            fieldName="children"
-                                                            value={room.children}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'children')}
-                                                            errorMessage="Enter children"
-                                                            placeholder="Enter children"
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <NumberInput
-                                                            fieldName="taxrate"
-                                                            value={room.taxrate}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'taxrate')}
-                                                            errorMessage="Enter tax rate"
-                                                            placeholder="Enter tax rate"
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <NumberInput
-                                                            fieldName="amount"
-                                                            value={room.amount}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'amount')}
-                                                            errorMessage="Enter amount"
-                                                            placeholder="Enter amount"
-                                                        />
-                                                    </td>
-                                                    <td style={{ display: 'flex', justifyContent: 'center', }}>
-                                                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                                                            <Button color="danger" style={{ display: 'flex', alignItems: 'center', }} onClick={() => handleDeleteRoom(index)}>
-                                                                <i class="ri-delete-bin-7-line"></i>
-                                                            </Button>
-                                                            <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center', }} color="primary " onClick={handleAddRoom}>
-                                                                <i class="ri-add-line" ></i>
-                                                            </Button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
-                                </Collapse>
-                            </CardBody>
-                        </Card>
-
+                        { /*Activities */}
                         <Card>
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
@@ -986,7 +775,6 @@ const CreateBookingForm = () => {
                                     >
                                         Activities
                                     </div>
-
 
                                     <Button
                                         type="button"
@@ -1006,126 +794,138 @@ const CreateBookingForm = () => {
                                     marginBottom: '10px'
                                 }} />
                                 <Collapse isOpen={isOpen1}>
-                                    <Table responsive>
-                                        <thead style={{ textAlign: 'center' }} >
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>Adults</th>
-                                                <th>Children</th>
-                                                <th>Duration</th>
-                                                <th>Date</th>
+                                    <div style={{ alignItems: 'center' }}>
 
-                                                <th>Tax Rate</th>
-                                                <th>Amount</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {formData.room.map((room, index) => (
-                                                <tr key={`room-${index}`}>
-                                                    <th scope="row">{index + 1}</th>
-                                                    <td style={{ width: '20%' }}>
-                                                        <SelectInput
-                                                            fieldName="hotel"
-                                                            options={options}
-                                                            value={room.hotel}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'hotel')}
-                                                            errorMessage="Please select hotel"
-                                                            placeholder="Select hotel"
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', textAlign: 'center', marginBottom: '10px' }}>
+                                            <div>#</div>
+                                            <div>Name</div>
+                                            <div>Adults</div>
+                                            <div>Children</div>
+                                            <div>Duration</div>
+                                            <div>Date</div>
+                                            <div>Tax Rate</div>
+                                            <div>Amount</div>
+                                            <div>Action</div>
+                                        </div>
+                                        <hr style={{
+                                            width: '100%',
+                                            margin: 'auto',
+                                            borderTop: '1px solid gray',
+                                            marginTop: '5px',
+                                            marginBottom: '15px'
+                                        }} />
 
-                                                        />
-                                                    </td>
-                                                    {/* <td style={{ width: '20%' }}>
+
+                                        {formData.room.map((room, index) => (
+                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                                <div style={{ marginTop: '10px' }}>{index + 1}</div>
+
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                    <div style={{ width: '100%' }}>
                                                         <SelectInput
-                                                            fieldName="room"
+                                                            fieldName="name"
                                                             options={options}
-                                                            value={room.room}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'room')}
-                                                            errorMessage="Please select room"
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'activities')}
+                                                            errorMessage="Please select activity"
                                                             placeholder="Select room"
                                                         />
-                                                    </td> */}
-                                                    <td>
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
+
+
                                                         <NumberInput
                                                             fieldName="adults"
                                                             value={room.adults}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'adults')}
                                                             errorMessage="Enter adults"
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'activities')}
                                                             placeholder="Enter adults"
                                                         />
-                                                    </td>
-                                                    <td>
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
+
+
                                                         <NumberInput
                                                             fieldName="children"
-                                                            value={room.children}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'children')}
                                                             errorMessage="Enter children"
-                                                            placeholder="Enter children"
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'activities')}
+                                                            placeholder="Enter adults"
                                                         />
-                                                    </td>
-                                                    <td>
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
                                                         <NumberInput
                                                             fieldName="duration"
-                                                            value={room.adults}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'duration')}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'activities')}
                                                             errorMessage="Enter duration"
                                                             placeholder="Enter duration"
                                                         />
-                                                    </td>
-
-
-                                                    <td>
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
                                                         <DateInput
                                                             id="date"
                                                             fieldName="date"
                                                             errorMessage="Please select a date"
                                                             placeholder="dd M, yyyy"
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'date')}
-
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'activities')}
                                                         />
-                                                    </td>
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
 
 
-
-
-
-                                                    <td>
                                                         <NumberInput
                                                             fieldName="taxrate"
-                                                            value={room.taxrate}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'taxrate')}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'activities')}
                                                             errorMessage="Enter tax rate"
                                                             placeholder="Enter tax rate"
                                                         />
-                                                    </td>
-                                                    <td>
+                                                    </div>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', }}>
+
+
                                                         <NumberInput
                                                             fieldName="amount"
-                                                            value={room.amount}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'amount')}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'activities')}
                                                             errorMessage="Enter amount"
                                                             placeholder="Enter amount"
                                                         />
-                                                    </td>
-                                                    <td style={{ display: 'flex', justifyContent: 'center', }}>
-                                                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                                                            <Button color="danger" style={{ display: 'flex', alignItems: 'center', }} onClick={() => handleDeleteRoom(index)}>
-                                                                <i class="ri-delete-bin-7-line"></i>
-                                                            </Button>
-                                                            <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center', }} color="primary " onClick={handleAddRoom}>
-                                                                <i class="ri-add-line" ></i>
-                                                            </Button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
+                                                    </div>
+
+
+                                                </div>
+
+                                                {index > 0 ? (
+                                                    <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                            <i className="ri-delete-bin-7-line"></i>
+                                                        </Button>
+                                                        {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
+                                                        <i className="ri-add-line"></i>
+                                                    </Button> */}
+                                                    </div>
+                                                ) : (<div style={{ width: '3%', display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+
+                                                </div>)
+                                                }
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div>
+
+                                        <Button
+                                            type="button"
+                                            color="primary"
+                                            className="ms-3"
+                                            style={{ minWidth: '50px', marginBottom: '5px' }}
+                                            onClick={handleAddRoom}
+                                        >
+                                            Add More  +
+                                        </Button>
+                                    </div>
                                 </Collapse>
+
                             </CardBody>
                         </Card>
 
+                        { /*Services */}
                         <Card>
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
@@ -1135,7 +935,6 @@ const CreateBookingForm = () => {
                                     >
                                         Services
                                     </div>
-
 
                                     <Button
                                         type="button"
@@ -1155,80 +954,110 @@ const CreateBookingForm = () => {
                                     marginBottom: '10px'
                                 }} />
                                 <Collapse isOpen={isOpen2}>
-                                    <Table responsive>
-                                        <thead style={{ textAlign: 'center' }} >
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>Quantity</th>
-                                                <th>Tax Rate</th>
-                                                <th>Amount</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {formData.room.map((room, index) => (
-                                                <tr key={`room-${index}`}>
-                                                    <th scope="row">{index + 1}</th>
-                                                    <td style={{ width: '20%' }}>
-                                                        <TextInput
+                                    <div style={{ alignItems: 'center' }}>
+
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', textAlign: 'center', marginBottom: '10px' }}>
+                                            <div>#</div>
+                                            <div>Name</div>
+                                            <div>Quantity</div>
+                                            <div>Tax Rate</div>
+                                            <div>Amount</div>
+                                            <div>Action</div>
+                                        </div>
+                                        <hr style={{
+                                            width: '100%',
+                                            margin: 'auto',
+                                            borderTop: '1px solid gray',
+                                            marginTop: '5px',
+                                            marginBottom: '15px'
+                                        }} />
+
+
+                                        {formData.room.map((room, index) => (
+                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
+                                                <div style={{ marginTop: '10px' }}>{index + 1}</div>
+
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                    <div style={{ width: '100%' }}>
+                                                        <SelectInput
                                                             fieldName="name"
                                                             options={options}
-                                                            value={room.hotel}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'name')}
-                                                            errorMessage="Please enter name"
-                                                            placeholder="Enter name"
-
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'services')}
+                                                            errorMessage="Please select service"
+                                                            placeholder="Select service"
                                                         />
-                                                    </td>
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
 
-                                                    <td>
+
                                                         <NumberInput
                                                             fieldName="quantity"
-                                                            value={room.adults}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'quantity')}
                                                             errorMessage="Enter quantity"
-                                                            placeholder="Enter quantity"
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'services')}
+                                                            placeholder="Enter adults"
                                                         />
-                                                    </td>
+                                                    </div>
 
-                                                    <td>
+
+                                                    <div style={{ width: '100%' }}>
+
+
                                                         <NumberInput
                                                             fieldName="taxrate"
-                                                            value={room.taxrate}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'taxrate')}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'services')}
                                                             errorMessage="Enter tax rate"
                                                             placeholder="Enter tax rate"
                                                         />
-                                                    </td>
-                                                    <td>
+                                                    </div>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', }}>
+
+
                                                         <NumberInput
                                                             fieldName="amount"
-                                                            value={room.amount}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'amount')}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'services')}
                                                             errorMessage="Enter amount"
                                                             placeholder="Enter amount"
                                                         />
-                                                    </td>
-                                                    <td style={{ display: 'flex', justifyContent: 'center', }}>
-                                                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                                                            <Button color="danger" style={{ display: 'flex', alignItems: 'center', }} onClick={() => handleDeleteRoom(index)}>
-                                                                <i class="ri-delete-bin-7-line"></i>
-                                                            </Button>
-                                                            <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center', }} color="primary " onClick={handleAddRoom}>
-                                                                <i class="ri-add-line" ></i>
-                                                            </Button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
+                                                    </div>
+
+
+                                                </div>
+
+                                                {index > 0 ? (
+                                                    <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                            <i className="ri-delete-bin-7-line"></i>
+                                                        </Button>
+                                                        {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
+                                                        <i className="ri-add-line"></i>
+                                                    </Button> */}
+                                                    </div>
+                                                ) : (<div style={{ width: '3%', display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+
+                                                </div>)
+                                                }
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div>
+
+                                        <Button
+                                            type="button"
+                                            color="primary"
+                                            className="ms-3"
+                                            style={{ minWidth: '50px', marginBottom: '5px' }}
+                                            onClick={handleAddRoom}
+                                        >
+                                            Add More  +
+                                        </Button>
+                                    </div>
                                 </Collapse>
+
                             </CardBody>
                         </Card>
 
 
+                        { /*Payments */}
                         <Card>
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
@@ -1238,6 +1067,7 @@ const CreateBookingForm = () => {
                                     >
                                         Payments
                                     </div>
+
                                     <Button
                                         type="button"
                                         color="primary"
@@ -1247,7 +1077,6 @@ const CreateBookingForm = () => {
                                     >
                                         +
                                     </Button>
-
                                 </div>
                                 <hr style={{
                                     width: '100%',
@@ -1257,81 +1086,107 @@ const CreateBookingForm = () => {
                                     marginBottom: '10px'
                                 }} />
                                 <Collapse isOpen={isOpen3}>
-                                    <Table responsive>
-                                        <thead style={{ textAlign: 'center' }} >
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Payment Method</th>
-                                                <th>Date</th>
-                                                <th>Transaction Id</th>
-                                                <th>Amount</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {formData.room.map((room, index) => (
-                                                <tr key={`room-${index}`}>
-                                                    <th scope="row">{index + 1}</th>
-                                                    <td style={{ width: '20%' }}>
+                                    <div style={{ alignItems: 'center' }}>
+
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', textAlign: 'center', marginBottom: '10px' }}>
+                                            <div>#</div>
+                                            <div>Payment Method</div>
+                                            <div>Date</div>
+                                            <div>Transaction Id</div>
+                                            <div>Amount</div>
+                                            <div>Action</div>
+                                        </div>
+                                        <hr style={{
+                                            width: '100%',
+                                            margin: 'auto',
+                                            borderTop: '1px solid gray',
+                                            marginTop: '5px',
+                                            marginBottom: '15px'
+                                        }} />
+
+
+                                        {formData.room.map((room, index) => (
+                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
+                                                <div style={{ marginTop: '10px' }}>{index + 1}</div>
+
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                    <div style={{ width: '100%' }}>
                                                         <SelectInput
                                                             fieldName="payment_method"
                                                             options={options}
-                                                            value={room.hotel}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'payment_method')}
-                                                            errorMessage="Please select payment method"
-                                                            placeholder="Select payment method"
-
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'payments')}
+                                                            errorMessage="Please select Payment method"
+                                                            placeholder="Select Payment method"
                                                         />
-                                                    </td>
-
-                                                    <td>
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
                                                         <DateInput
                                                             id="date"
                                                             fieldName="date"
                                                             errorMessage="Please select a date"
                                                             placeholder="dd M, yyyy"
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'date')}
-
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'payments')}
                                                         />
-                                                    </td>
-                                                    <td>
-                                                        <TextInput
-                                                            fieldName="t_id"
-                                                            value={room.taxrate}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 't_id')}
-                                                            errorMessage="Enter transaction id"
+                                                    </div>
+                                                    <div style={{ width: '100%' }}>
+
+
+                                                        <NumberInput
+                                                            fieldName="tid"
+                                                            errorMessage="Enter Transaction Id"
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'payments')}
                                                             placeholder="Enter transaction id"
                                                         />
-                                                    </td>
+                                                    </div>
 
-                                                    <td>
+
+
+                                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', }}>
+
+
                                                         <NumberInput
-                                                            fieldName="taxrate"
-                                                            value={room.taxrate}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'taxrate')}
-                                                            errorMessage="Enter tax rate"
-                                                            placeholder="Enter tax rate"
+                                                            fieldName="amount"
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'payments')}
+                                                            errorMessage="Enter amount"
+                                                            placeholder="Enter amount"
                                                         />
-                                                    </td>
+                                                    </div>
+                                                </div>
 
-                                                    <td style={{ display: 'flex', justifyContent: 'center', }}>
-                                                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                                                            <Button color="danger" style={{ display: 'flex', alignItems: 'center', }} onClick={() => handleDeleteRoom(index)}>
-                                                                <i class="ri-delete-bin-7-line"></i>
-                                                            </Button>
-                                                            <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center', }} color="primary " onClick={handleAddRoom}>
-                                                                <i class="ri-add-line" ></i>
-                                                            </Button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
+                                                {index > 0 ? (
+                                                    <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                            <i className="ri-delete-bin-7-line"></i>
+                                                        </Button>
+                                                        {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
+                                                        <i className="ri-add-line"></i>
+                                                    </Button> */}
+                                                    </div>
+                                                ) : (<div style={{ width: '3%', display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+
+                                                </div>)
+                                                }
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div>
+
+                                        <Button
+                                            type="button"
+                                            color="primary"
+                                            className="ms-3"
+                                            style={{ minWidth: '50px', marginBottom: '5px' }}
+                                            onClick={handleAddRoom}
+                                        >
+                                            Add More  +
+                                        </Button>
+                                    </div>
                                 </Collapse>
+
                             </CardBody>
                         </Card>
 
+                        { /*Taxes */}
                         <Card>
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
@@ -1341,6 +1196,7 @@ const CreateBookingForm = () => {
                                     >
                                         Taxes
                                     </div>
+
                                     <Button
                                         type="button"
                                         color="primary"
@@ -1350,8 +1206,6 @@ const CreateBookingForm = () => {
                                     >
                                         +
                                     </Button>
-
-
                                 </div>
                                 <hr style={{
                                     width: '100%',
@@ -1361,55 +1215,83 @@ const CreateBookingForm = () => {
                                     marginBottom: '10px'
                                 }} />
                                 <Collapse isOpen={isOpen4}>
-                                    <Table responsive>
-                                        <thead style={{ textAlign: 'center' }} >
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>Amount</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {formData.room.map((room, index) => (
-                                                <tr key={`room-${index}`}>
-                                                    <th scope="row">{index + 1}</th>
+                                    <div style={{ alignItems: 'center' }}>
 
-                                                    <td>
-                                                        <TextInput
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', textAlign: 'center', marginBottom: '10px' }}>
+                                            <div>#</div>
+                                            <div>Name</div>
+
+                                            <div>Amount</div>
+                                            <div>Action</div>
+                                        </div>
+                                        <hr style={{
+                                            width: '100%',
+                                            margin: 'auto',
+                                            borderTop: '1px solid gray',
+                                            marginTop: '5px',
+                                            marginBottom: '15px'
+                                        }} />
+
+
+                                        {formData.room.map((room, index) => (
+                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
+                                                <div style={{ marginTop: '10px' }}>{index + 1}</div>
+
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                    <div style={{ width: '100%' }}>
+                                                        <SelectInput
                                                             fieldName="name"
-                                                            value={room.taxrate}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'name')}
-                                                            errorMessage="Enter name"
-                                                            placeholder="Enter name"
+                                                            options={options}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'taxes')}
+                                                            errorMessage="Please select tax"
+                                                            placeholder="Select tax"
                                                         />
-                                                    </td>
+                                                    </div>
 
-                                                    <td>
+
+
+                                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', }}>
+
+
                                                         <NumberInput
                                                             fieldName="amount"
-                                                            value={room.amount}
-                                                            onChange={(e) => handleNestedFieldChange(e, index, 'room', 'amount')}
+                                                            onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'taxes')}
                                                             errorMessage="Enter amount"
                                                             placeholder="Enter amount"
                                                         />
-                                                    </td>
+                                                    </div>
+                                                </div>
 
-                                                    <td style={{ display: 'flex', justifyContent: 'center', }}>
-                                                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                                                            <Button color="danger" style={{ display: 'flex', alignItems: 'center', }} onClick={() => handleDeleteRoom(index)}>
-                                                                <i class="ri-delete-bin-7-line"></i>
-                                                            </Button>
-                                                            <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center', }} color="primary " onClick={handleAddRoom}>
-                                                                <i class="ri-add-line" ></i>
-                                                            </Button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
+                                                {index > 0 ? (
+                                                    <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                            <i className="ri-delete-bin-7-line"></i>
+                                                        </Button>
+                                                        {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
+                                                        <i className="ri-add-line"></i>
+                                                    </Button> */}
+                                                    </div>
+                                                ) : (<div style={{ width: '3%', display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+
+                                                </div>)
+                                                }
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div>
+
+                                        <Button
+                                            type="button"
+                                            color="primary"
+                                            className="ms-3"
+                                            style={{ minWidth: '50px', marginBottom: '5px' }}
+                                            onClick={handleAddRoom}
+                                        >
+                                            Add More  +
+                                        </Button>
+                                    </div>
                                 </Collapse>
+
                             </CardBody>
                         </Card>
 

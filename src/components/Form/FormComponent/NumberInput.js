@@ -17,6 +17,7 @@ const NumberInput = ({
   
   useEffect(() => {
     setInputValue(defaultVal);
+    
   },[defaultVal]);
 
 

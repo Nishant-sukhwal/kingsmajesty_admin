@@ -110,14 +110,36 @@ export const getRoomByIdApi = async (id) => {
 
 export const updateRoomByIdApi = async (id,formData) => {
   try {
+   console.log("formData inside api",formData)
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const formDataToSend = new FormData();
-    // Append thumbnail
-    formDataToSend.append("thumbnail", formData.thumbnail);
-    // Append gallery files
-    formData.gallery.forEach((file, index) => {
-      formDataToSend.append(`gallery`, file);
-    });
+    
+    // Append thumbnail if it's a File instance
+    if (formData.thumbnail instanceof File) {
+      formDataToSend.append("thumbnail", formData.thumbnail);
+    } 
+    // else {
+    //   formDataToSend.append("thumbnail", null);
+    // }
+
+    // Append gallery files if they are File instances
+    if (Array.isArray(formData.gallery)) {
+      formData.gallery.forEach((file, index) => {
+        if (file instanceof File) {
+          formDataToSend.append("gallery", file);
+        } 
+        // else {
+        //   formDataToSend.append("gallery", null);
+        // }
+      });
+    }
+
+    // // Append thumbnail
+    // formDataToSend.append("thumbnail", formData.thumbnail);
+    // // Append gallery files
+    // formData.gallery.forEach((file, index) => {
+    //   formDataToSend.append(`gallery`, file);
+    // });
     //other fields
     formDataToSend.append("hotel", formData.hotel);
     formDataToSend.append("category", formData.category);
@@ -131,12 +153,20 @@ export const updateRoomByIdApi = async (id,formData) => {
     formDataToSend.append("facilities", JSON.stringify(formData.facilities)); // Assuming facilities is an array, stringify it
     formDataToSend.append("deals", JSON.stringify(formData.deals));
 
+    console.log("formDataToSend ishere after checks");
+
+    // Log all formDataToSend entries
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(key, value);
+    }
+
+
     const response = await axios.patch(
       `http://localhost:8086/v1/rm/rooms/edit-room/${id}`,
       formDataToSend,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }

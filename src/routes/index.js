@@ -58,18 +58,34 @@ import UpdateRoleForm from "../pages/Role/UpdateRoleForm";
 import ViewTeam from "../pages/Team/ViewTeam";
 import CreateTeamForm from "../pages/Team/CreateTeamForm";
 import UpdateTeamForm from "../pages/Team/UpdateTeamForm";
+//Services
 import ViewServices from "../pages/Services/ViewServices";
 import CreateServices from "../pages/Services/CreateServices";
 import EditService from "../pages/Services/EditService";
+//Activities
 import ViewActivity from "../pages/Activity/ViewActivity";
 import CreateActivityForm from "../pages/Activity/CreateActivityForm";
+import EditActivityForm from "../pages/Activity/EditActivityForm";
+//Booking
 import ViewBooking from "../pages/Booking/ViewBooking";
 import CreateBookingForm from "../pages/Booking/CreateBookingForm";
 import EditBookingForm from "../pages/Booking/EditBookingForm";
+//Taxes
 import ViewTexes from "../pages/Taxes/ViewTexes";
 import CreateTaxForm from "../pages/Taxes/CreateTaxForm";
 import EditTaxForm from "../pages/Taxes/EditTaxForm";
-import EditActivityForm from "../pages/Activity/EditActivityForm";
+//Amenities
+import Amenities from "../pages/Amenities/Amenities";
+import CreateAmenities from "../pages/Amenities/CreateAmenities";
+import EditAmenities from "../pages/Amenities/EditAmenities";
+//Packages
+import Packages from "../pages/Packages/Packages";
+import CreatePackages from "../pages/Packages/CreatePackages";
+import EditPackages from "../pages/Packages/EditPackages";
+//Destinations
+import Destinations from "../pages/Destinations/Destinations";
+import CreateDestinations from "../pages/Destinations/CreateDestinations";
+import EditDestinations from "../pages/Destinations/EditDestinations";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -142,10 +158,21 @@ const authProtectedRoutes = [
   { path: "/taxes/create", exact: true, component: <CreateTaxForm /> },
   { path: "/taxes/edit", exact: true, component: <EditTaxForm /> },
 
-  //Packages
-  { path: "/packages", exact: true, component: <Maintenance /> },
-  
-  ,
+  //Amenities 
+  { path: "/amenities", exact: true, component: <Amenities /> },
+  { path: "/amenities/create", exact: true, component: <CreateAmenities /> },
+  { path: "/amenities/edit", exact: true, component: <EditAmenities /> },
+
+  //packages 
+  { path: "/packages", exact: true, component: <Packages /> },
+  { path: "/packages/create", exact: true, component: <CreatePackages /> },
+  { path: "/packages/edit", exact: true, component: <EditPackages /> },
+
+
+  //destinations
+  { path: "/destinations", exact: true, component: <Destinations /> },
+  { path: "/destinations/create", exact: true, component: <CreateDestinations /> },
+  { path: "/destinations/edit", exact: true, component: <EditDestinations /> },
 
 
 
