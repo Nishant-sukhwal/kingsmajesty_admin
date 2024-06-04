@@ -18,6 +18,7 @@ import CkEditor from '../../components/Form/FormComponent/CkEditor';
 import { createServiceApi } from '../../services/api/servicesApi';
 import AddressInput from '../../components/Form/FormComponent/AddressInput';
 import ChooseFileInput from '../../components/Form/FormComponent/ChooseFileInput';
+import { createDestinationApi } from '../../services/api/destinationsApi';
 
 
 const CreateDestinations = () => {
@@ -70,13 +71,13 @@ const CreateDestinations = () => {
 
     const handleSubmit = async () => {
         console.log(formData, "formData for api ")
-        // try {
-        //     const res = await createServiceApi(formData);
-        //     console.log(res);
-        //     toastr.success(res.data.message);
-        // } catch (error) {
-        //     toastr.error("Category Saved Successfully!");
-        // }
+        try {
+            const res = await createDestinationApi(formData);
+            console.log(res);
+            // toastr.success(res.data.message);
+        } catch (error) {
+            toastr.error("Category Saved Successfully!");
+        }
     }
 
     return (
@@ -190,10 +191,10 @@ const CreateDestinations = () => {
                                 // defaultVal=''                            
                                 />
                                 </Col>
-                                <Col key="gellary" lg="6">
+                                <Col key="gallery" lg="6">
                                 <ChooseFileInput
-                                    label="Gellary"
-                                    fieldName="gellary"
+                                    label="Gallery"
+                                    fieldName="gallery"
                                     onChange={handleFieldChange}
                                     errorMessage="Select File"
                                     imageViewer="true"

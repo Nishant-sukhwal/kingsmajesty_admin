@@ -17,7 +17,8 @@ import NumberInput from '../../components/Form/FormComponent/NumberInput';
 import CkEditor from '../../components/Form/FormComponent/CkEditor';
 import { createServiceApi } from '../../services/api/servicesApi';
 import ChooseFileInput from '../../components/Form/FormComponent/ChooseFileInput';
-
+import { useLocation } from "react-router-dom";
+import { getPackageByIdApi, updatePackageApi } from '../../services/api/packagesApi';
 
 const EditPackages = () => {
     const dispatch = useDispatch();
@@ -30,6 +31,20 @@ const EditPackages = () => {
             [fieldName]: value,
         });
     };
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("id");
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getPackageByIdApi(id);
+            console.log(res);
+            setFormData(res.package);
+        }
+        fetchData();
+    }, [id]);
 
     const options = [
         { value: "Night", label: "Person" },
@@ -69,13 +84,13 @@ const EditPackages = () => {
 
     const handleSubmit = async () => {
         console.log(formData, "formData for api ")
-        // try {
-        //     const res = await createServiceApi(formData);
-        //     console.log(res);
-        //     toastr.success(res.data.message);
-        // } catch (error) {
-        //     toastr.error("Category Saved Successfully!");
-        // }
+        try {
+            const res = await updatePackageApi(id, formData);
+            console.log(res);
+            toastr.success(res.message);
+        } catch (error) {
+            toastr.error("error in destination Saved!");
+        }
     }
 
     return (
@@ -105,7 +120,7 @@ const EditPackages = () => {
                                     value={formData.name}
                                     placeholder="Enter Subtitle"
                                     onChange={handleFieldChange}
-                                // defaultVal={formData.description}
+                                    defaultVal={formData.subtitle}
                                 />
                             </Col>
                         </Row>
@@ -115,7 +130,7 @@ const EditPackages = () => {
                                     label="Description"
                                     fieldName="description"
                                     onChange={handleFieldChange}
-                                // defaultVal={fieldConfig.defaultValue}
+                                    defaultVal={formData.description}
                                 />
                             </Col>
                         </Row>
@@ -129,7 +144,7 @@ const EditPackages = () => {
                                     value={formData.name}
                                     placeholder="Enter price"
                                     onChange={handleFieldChange}
-                                // defaultVal={formData.description}
+                                    defaultVal={formData.price}
                                 />
                             </Col>
                             <Col key="priceType" lg="6">
@@ -140,7 +155,7 @@ const EditPackages = () => {
                                     onChange={handleFieldChange}
                                     errorMessage="Please Select Price Type"
                                     placeholder="Select Price Type"
-                                // defaultVal={fieldConfig.defaultValue}
+                                    defaultVal={formData.priceType}
                                 />
                             </Col>
                         </Row>
@@ -153,7 +168,7 @@ const EditPackages = () => {
                                     fieldName="startDate"
                                     errorMessage="Please select a start date"
                                     placeholder="dd M, yyyy"
-                                    // defaultVal={formData.startDate}
+                                    defaultVal={formData.startDate}
                                     onChange={handleFieldChange}
                                 />
                             </Col>
@@ -164,7 +179,7 @@ const EditPackages = () => {
                                     fieldName="endDate"
                                     errorMessage="Please select a start date"
                                     placeholder="dd M, yyyy"
-                                    // defaultVal={formData.endDate}
+                                    defaultVal={formData.endDate}
                                     onChange={handleFieldChange}
                                 />
                             </Col>
@@ -180,7 +195,7 @@ const EditPackages = () => {
                                     placeholder="Please Select option"
                                     onChange={handleFieldChange}
                                     options={mandatoryOptions}
-                                // defaultVal={formData.mandatory}
+                                    defaultVal={formData.homepage}
                                 />
                             </Col>
                             <Col key="release" lg="6">
@@ -192,20 +207,20 @@ const EditPackages = () => {
                                     placeholder="Please Select option"
                                     onChange={handleFieldChange}
                                     options={releaseOptions}
-                                // defaultVal={formData.mandatory}
+                                    defaultVal={formData.release}
                                 />
                             </Col>
                         </Row>
 
                         <Row>
-                            <Col key="media" lg="6">
+                            <Col key="thumbnail" lg="6">
                                 <ChooseFileInput
-                                    label="Media"
-                                    fieldName="media"
+                                    label="Thumbnail"
+                                    fieldName="thumbnail"
                                     onChange={handleFieldChange}
                                     errorMessage="Select File"
                                     imageViewer="true"
-                                // defaultVal=''                            
+                                    defaultVal={formData.thumbnail}                            
                                 />
                             </Col>
                         </Row>

@@ -17,6 +17,7 @@ import NumberInput from '../../components/Form/FormComponent/NumberInput';
 import CkEditor from '../../components/Form/FormComponent/CkEditor';
 import { createServiceApi } from '../../services/api/servicesApi';
 import ChooseFileInput from '../../components/Form/FormComponent/ChooseFileInput';
+import { createPackageApi } from '../../services/api/packagesApi';
 
 
 const CreatePackages = () => {
@@ -69,13 +70,13 @@ const CreatePackages = () => {
 
     const handleSubmit = async () => {
         console.log(formData, "formData for api ")
-        // try {
-        //     const res = await createServiceApi(formData);
-        //     console.log(res);
-        //     toastr.success(res.data.message);
-        // } catch (error) {
-        //     toastr.error("Category Saved Successfully!");
-        // }
+        try {
+            const res = await createPackageApi(formData);
+            console.log(res);
+            // toastr.success(res.data.message);
+        } catch (error) {
+            toastr.error("Category Saved Successfully!");
+        }
     }
 
     return (
@@ -198,10 +199,10 @@ const CreatePackages = () => {
                         </Row>
 
                         <Row>
-                            <Col key="media" lg="6">
+                            <Col key="thumbnail" lg="6">
                                 <ChooseFileInput
-                                    label="Media"
-                                    fieldName="media"
+                                    label="Thumbnail"
+                                    fieldName="thumbnail"
                                     onChange={handleFieldChange}
                                     errorMessage="Select File"
                                     imageViewer="true"

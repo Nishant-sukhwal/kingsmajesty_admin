@@ -69,6 +69,21 @@ const Amenities = () => {
         filterable: false,
       },
       {
+        Header: "Image",
+        accessor: "media",
+        disableFilters: true,
+        filterable: false,
+        Cell: ({ cell: { value } }) => (
+          <div style={{ width: "50px", height: "50px" }}>
+            <img
+              src={`http://localhost:8086/v1/img/get-Images/image/${value}`}
+              alt="Img"
+              style={{ width: "100%", height: "100%", objectFit: "fit" }}
+            />
+          </div>
+        ),
+      },
+      {
         Header: "Action",
         accessor: (cellProps) => (
           <React.Fragment>

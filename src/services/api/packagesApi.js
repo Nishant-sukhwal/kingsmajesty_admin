@@ -21,13 +21,27 @@ export const getPackagesApi = async () => {
 
 export const createPackageApi = async (formData) => {
   try {
+    const formDataToSend = new FormData();
+    // Append thumbnail
+    formDataToSend.append("thumbnail", formData.thumbnail);
+
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("subtitle", formData.subtitle);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("endDate", formData.endDate);
+    formDataToSend.append("startDate", formData.startDate);
+    formDataToSend.append("price", formData.price);
+    formDataToSend.append("priceType", formData.priceType);
+    formDataToSend.append("homepage", formData.homepage);
+    formDataToSend.append("release", formData.release);
+
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.post(
       "http://localhost:8086/v1/pk/packages/create-packages",
-      formData,
+      formDataToSend,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }
@@ -58,15 +72,31 @@ export const getPackageByIdApi = async (id) => {
   }
 };
 
-export const updatePackageApi = async (formData, id) => {
+export const updatePackageApi = async (id,formData) => {
   try {
+    const formDataToSend = new FormData();
+    // Append thumbnail if it's a File instance
+    if (formData.thumbnail instanceof File) {
+      formDataToSend.append("thumbnail", formData.thumbnail);
+    }
+
+    //other fields
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("subtitle", formData.subtitle);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("startDate", formData.startDate);
+    formDataToSend.append("endDate", formData.endDate);
+    formDataToSend.append("price", formData.price);
+    formDataToSend.append("priceType", formData.priceType);
+    formDataToSend.append("homepage", formData.homepage);
+    formDataToSend.append("release", formData.release);
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.patch(
       `http://localhost:8086/v1/pk/packages/edit-packages/${id}`,
-      formData,
+      formDataToSend,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }

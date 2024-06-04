@@ -61,15 +61,23 @@ export const getAmenityByIdApi = async (id) => {
   }
 };
 
-export const updateAmenityApi = async (formData, id) => {
+export const updateAmenityApi = async (id, formData) => {
+  console.log(id, formData);
   try {
+    const formDataToSend = new FormData();
+    // Append thumbnail if it's a File instance
+    if (formData.media instanceof File) {
+      formDataToSend.append("media", formData.media);
+    }
+    formDataToSend.append("name", formData.name);
+    
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.patch(
       `http://localhost:8086/v1/am/amenities/edit-amenities/${id}`,
-      formData,
+      formDataToSend,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }

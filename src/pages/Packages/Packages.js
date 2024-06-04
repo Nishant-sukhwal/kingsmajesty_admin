@@ -11,18 +11,18 @@ import {
   getRoomCategoryApi,
 } from "../../services/api/roomCategory/roomCategoryApi";
 import { deleteServiceAPI, getServicesApi } from "../../services/api/servicesApi";
+import { deletePackageApi, getPackagesApi } from "../../services/api/packagesApi";
 
 const Packages = () => {
-  const [services, setServices] = useState([]);
+  const [packages, setPackages] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
 
-  const fetchServices = async () => {
+  const fetchPackages = async () => {
     try {
-      const response = await getServicesApi();
-      console.log(response.services);
-      const filteredData = response.services.filter((item) => !item.deleted);
-      setServices(filteredData);
+      const response = await getPackagesApi();
+      const filteredData = response.packages.filter((item) => !item.deleted);
+      setPackages(filteredData);
     } catch (error) {
       console.error("Error fetching facilities:", error);
     }
@@ -30,7 +30,7 @@ const Packages = () => {
 
 
   useEffect(() => {
-    fetchServices();
+    fetchPackages();
   }, []);
 
 
@@ -43,10 +43,10 @@ const Packages = () => {
   const handleDeleteConfirm = async () => {
     try {
       for (const id of selectedId) {
-        await deleteServiceAPI(id);
+        await deletePackageApi(id);
       }
 
-      fetchServices();
+      fetchPackages();
       setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting facility:", error);
@@ -65,7 +65,7 @@ const Packages = () => {
       },
 
       {
-        Header: "Service",
+        Header: "Packages",
         accessor: "title",
         disableFilters: true,
         filterable: false,
@@ -94,7 +94,7 @@ const Packages = () => {
         disableSortBy: true,
       },
     ],
-    [services]
+    [packages]
   );
 
   const breadcrumbItems = [
@@ -119,7 +119,7 @@ const Packages = () => {
             <CardBody>
               <TableContainer
                 columns={columns || []}
-                data={services || []}
+                data={packages || []}
                 isPagination={false}
                 iscustomPageSize={false}
                 isBordered={false}

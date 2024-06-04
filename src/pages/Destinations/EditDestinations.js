@@ -18,12 +18,26 @@ import CkEditor from '../../components/Form/FormComponent/CkEditor';
 import { createServiceApi } from '../../services/api/servicesApi';
 import AddressInput from '../../components/Form/FormComponent/AddressInput';
 import ChooseFileInput from '../../components/Form/FormComponent/ChooseFileInput';
-
+import { useLocation } from "react-router-dom";
+import { getDestinationByIdApi, updateDestinationApi } from '../../services/api/destinationsApi';
 
 const EditDestinations = () => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({});
     console.log("formData update ", formData);
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("id");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getDestinationByIdApi(id);
+            console.log(res);
+            setFormData(res.destination);
+        }
+        fetchData();
+    }, [id]);
 
     const handleFieldChange = (fieldName, value) => {
         setFormData({
@@ -70,14 +84,16 @@ const EditDestinations = () => {
 
     const handleSubmit = async () => {
         console.log(formData, "formData for api ")
-        // try {
-        //     const res = await createServiceApi(formData);
-        //     console.log(res);
-        //     toastr.success(res.data.message);
-        // } catch (error) {
-        //     toastr.error("Category Saved Successfully!");
-        // }
+        try {
+            const res = await updateDestinationApi(id, formData);
+            console.log(res);
+            toastr.success(res.message);
+        } catch (error) {
+            toastr.error("error in destination Saved!");
+        }
     }
+    // Conditional image URL variable
+    const imageUrl = formData?.media ? `${formData?.media}` : null;
 
     return (
         <div className="page-content">
@@ -105,7 +121,7 @@ const EditDestinations = () => {
                                     value={formData.name}
                                     placeholder="Enter Subtitle"
                                     onChange={handleFieldChange}
-                                // defaultVal={formData.description}
+                                    defaultVal={formData.subtitle}
                                 />
                             </Col>
                         </Row>
@@ -115,7 +131,7 @@ const EditDestinations = () => {
                                     label="Description"
                                     fieldName="description"
                                     onChange={handleFieldChange}
-                                // defaultVal={fieldConfig.defaultValue}
+                                    defaultVal={formData.description}
                                 />
                             </Col>
                         </Row>
@@ -127,7 +143,7 @@ const EditDestinations = () => {
                                     errorMessage="Enter location"
                                     placeholder="Enter location / address"
                                     onChange={handleFieldChange}
-                                // defaultVal={fieldConfig.defaultValue}
+                                    defaultVal={formData.location}
                                 />
                             </Col>
                         </Row>
@@ -139,7 +155,7 @@ const EditDestinations = () => {
                                     errorMessage="Enter latitude"
                                     placeholder="Enter latitude"
                                     onChange={handleFieldChange}
-                                // defaultVal={formData.description}
+                                    defaultVal={formData.latitude}
                                 />
                             </Col>
                             <Col key="longitude" lg="6">
@@ -149,7 +165,7 @@ const EditDestinations = () => {
                                     errorMessage="Enter longitude"
                                     placeholder="Enter longitude"
                                     onChange={handleFieldChange}
-                                // defaultVal={formData.description}
+                                    defaultVal={formData.longitude}
                                 />
                             </Col>
                         </Row>
@@ -163,7 +179,7 @@ const EditDestinations = () => {
                                     placeholder="Please Select option"
                                     onChange={handleFieldChange}
                                     options={mandatoryOptions}
-                                // defaultVal={formData.mandatory}
+                                    defaultVal={formData.homepage}
                                 />
                             </Col>
                             <Col key="release" lg="6">
@@ -175,7 +191,7 @@ const EditDestinations = () => {
                                     placeholder="Please Select option"
                                     onChange={handleFieldChange}
                                     options={releaseOptions}
-                                // defaultVal={formData.mandatory}
+                                    defaultVal={formData.release}
                                 />
                             </Col>
                         </Row>
@@ -187,18 +203,21 @@ const EditDestinations = () => {
                                     onChange={handleFieldChange}
                                     errorMessage="Select File"
                                     imageViewer="true"
+                                    value={formData.thumbnail}
+                                    defaultVal={formData.thumbnail}
                                 // defaultVal=''                            
                                 />
-                                </Col>
-                                <Col key="gellary" lg="6">
+                            </Col>
+                            <Col key="gallery" lg="6">
                                 <ChooseFileInput
-                                    label="Gellary"
-                                    fieldName="gellary"
+                                    label="Gallery"
+                                    fieldName="gallery"
                                     onChange={handleFieldChange}
                                     errorMessage="Select File"
                                     imageViewer="true"
                                     multiple="true"
-                                // defaultVal=''                            
+                                    value={formData.gallery}
+                                    defaultVal={formData.gellary}
                                 />
                             </Col>
                         </Row>

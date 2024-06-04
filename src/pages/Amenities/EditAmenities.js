@@ -9,7 +9,7 @@ import TextInput from '../../components/Form/FormComponent/TextInput';
 import { createServiceApi } from '../../services/api/servicesApi';
 import ChooseFileInput from '../../components/Form/FormComponent/ChooseFileInput';
 import { useLocation } from "react-router-dom";
-import { getAmenityByIdApi } from '../../services/api/amenitiesApi';
+import { getAmenityByIdApi, updateAmenityApi } from '../../services/api/amenitiesApi';
 
 
 const EditAmenities = () => {
@@ -41,13 +41,14 @@ const EditAmenities = () => {
 
     const handleSubmit = async () => {
         console.log(formData, "formData for api ")
-        // try {
-        //     const res = await createServiceApi(formData);
-        //     console.log(res);
-        //     toastr.success(res.data.message);
-        // } catch (error) {
-        //     toastr.error("Category Saved Successfully!");
-        // }
+        try {
+            
+            const res = await updateAmenityApi(id,formData);
+            console.log(res);
+            toastr.success(res.message);
+        } catch (error) {
+            toastr.error("Category Saved Successfully!");
+        }
     }
     // Conditional image URL variable
     const imageUrl = formData?.media ? `${formData?.media}` : null;

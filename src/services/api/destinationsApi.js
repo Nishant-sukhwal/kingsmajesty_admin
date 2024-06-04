@@ -20,14 +20,33 @@ export const getDestinationsApi = async () => {
 };
 
 export const createDestinationApi = async (formData) => {
+  console.log("formData in api ", formData)
   try {
+    const formDataToSend = new FormData();
+    // Append thumbnail
+    formDataToSend.append("thumbnail", formData.thumbnail);
+    // Append gallery files
+    formData.gallery.forEach((file, index) => {
+      formDataToSend.append(`gallery`, file);
+    });
+    //other fields
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("subtitle", formData.subtitle);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("latitude", formData.latitude);
+    formDataToSend.append("longitude", formData.longitude);
+    formDataToSend.append("location", formData.location);
+    formDataToSend.append("homepage", formData.homepage);
+    formDataToSend.append("release", formData.release);
+
+
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.post(
       "http://localhost:8086/v1/ds/destinations/create-destinations",
-      formData,
+      formDataToSend,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }
@@ -58,15 +77,40 @@ export const getDestinationByIdApi = async (id) => {
   }
 };
 
-export const updateDestinationApi = async (formData, id) => {
+export const updateDestinationApi = async (id,formData) => {
+  console.log(" api ---------------------->",formData, id)
   try {
+    const formDataToSend = new FormData();
+    // Append thumbnail if it's a File instance
+    if (formData.thumbnail instanceof File) {
+      formDataToSend.append("thumbnail", formData.thumbnail);
+    }
+
+    // Append gallery files if they are File instances
+    if (Array.isArray(formData.gallery)) {
+      formData.gallery.forEach((file, index) => {
+        if (file instanceof File) {
+          formDataToSend.append("gallery", file);
+        }
+      });
+    }
+    //other fields
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("subtitle", formData.subtitle);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("latitude", formData.latitude);
+    formDataToSend.append("longitude", formData.longitude);
+    formDataToSend.append("location", formData.location);
+    formDataToSend.append("homepage", formData.homepage);
+    formDataToSend.append("release", formData.release);
+
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.patch(
       `http://localhost:8086/v1/ds/destinations/edit-destinations/${id}`,
-      formData,
+      formDataToSend,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }
@@ -82,7 +126,7 @@ export const deleteDestinationApi = async (id) => {
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.delete(
-      `http://localhost:8086/v1/ds/destinations /delete-destinations/${id}`,
+      `http://localhost:8086/v1/ds/destinations/delete-destinations/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
