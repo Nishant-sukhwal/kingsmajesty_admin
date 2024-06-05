@@ -11,10 +11,10 @@ const Sidebar = ({ type }) => {
         <div data-simplebar className="h-100">
           {type !== "condensed" ? (
             <SimpleBar style={{ maxHeight: "100%" }}>
-              <SidebarContent />
+              <SidebarContent type={"Notcondensed"} />
             </SimpleBar>
           ) : (
-            <SidebarContent />
+            <SidebarContent type={"condensed"} />
           )}
         </div>
       </div>
