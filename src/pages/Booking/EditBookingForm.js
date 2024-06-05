@@ -91,7 +91,7 @@ const EditBookingForm = () => {
         <div className="page-content">
             <Card>
                 <CardBody>
-                    <SubHeader value={"/activity"} />
+                    <SubHeader value={"/booking"} />
                     <Container fluid={true}>
 
                         <Row>

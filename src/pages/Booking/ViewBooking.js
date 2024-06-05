@@ -10,41 +10,28 @@ import {
     deleteRoomCategory,
     getRoomCategoryApi,
 } from "../../services/api/roomCategory/roomCategoryApi";
+import { deleteBookingApi, getBookingsApi } from "../../services/api/bookingApi";
 
 const ViewBooking = () => {
-    const [category, setCategory] = useState([]);
+    const [booking, setBooking] = useState([]);
     const [selectedId, setSelectedId] = useState([]);
     const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
 
-    useEffect(() => {
-        const fetchCategory = async () => {
-            try {
-                const response = await fetch(
-                    "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-                );
-                const data = await response.json();
-                const filteredData = data.category.filter((item) => !item.deleted);
-                setCategory(filteredData);
-            } catch (error) {
-                console.error("Error fetching facilities:", error);
-            }
-        };
-        fetchCategory();
-    }, []);
-
-    //This is for delete
-    const fetchRoomCategories = async () => {
+    const fetchBookings = async () => {
         try {
-            const response = await fetch(
-                "http://localhost:8086/v1/rm/roomcategory/get-roomcategory"
-            );
-            const data = await response.json();
-            const filteredData = data.category.filter((item) => !item.deleted);
-            return filteredData;
+          const response = await getBookingsApi();
+          console.log(response.bookings);
+          const filteredData = response.bookings.filter((item) => !item.deleted);
+          setBooking(filteredData);
         } catch (error) {
-            console.error("Error fetching facilities:", error);
+          console.error("Error fetching facilities:", error);
         }
-    };
+      };
+    
+    
+      useEffect(() => {
+        fetchBookings();
+      }, []);
 
     const handleDeleteClick = (id) => {
         setShowDeleteModal(true);
@@ -53,19 +40,17 @@ const ViewBooking = () => {
 
     const handleDeleteConfirm = async () => {
         try {
-            for (const id of selectedId) {
-                await deleteRoomCategory(id);
-            }
-
-            const updatedData = await fetchRoomCategories();
-            setCategory(updatedData);
-
-            setShowDeleteModal(false);
+          for (const id of selectedId) {
+            await deleteBookingApi(id);
+          }
+    
+          fetchBookings();
+          setShowDeleteModal(false);
         } catch (error) {
-            console.error("Error deleting facility:", error);
+          console.error("Error deleting facility:", error);
         }
-    };
-
+      };
+    
     const columns = useMemo(
         () => [
 
@@ -78,8 +63,75 @@ const ViewBooking = () => {
             },
 
             {
-                Header: "Room Catagory Name",
-                accessor: "name",
+                Header: "Room",
+                accessor: "room",
+                disableFilters: true,
+                filterable: false,
+                Cell: ({ row }) => {
+                    return (
+                        <div>
+                            {row.original.room.map((room, index) => (
+                                <div key={index}>{room.room}</div>
+                            ))}
+                        </div>
+                    );
+                }
+            },
+            {
+                Header: "Check In",
+                accessor: "checkInDate",
+                disableFilters: true,
+                filterable: false,
+                Cell: ({ value }) => {
+                    const date = new Date(value);
+                    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                    return formattedDate;
+                }
+            },
+            {
+                Header: "Check Out",
+                accessor: "checkOutDate",
+                disableFilters: true,
+                filterable: false,
+                Cell: ({ value }) => {
+                    const date = new Date(value);
+                    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                    return formattedDate;
+                }
+            },
+            {
+                Header: "Total (INR)",
+                accessor:'total',
+                disableFilters: true,
+                filterable: false,
+            },
+            {
+                Header: "FirstName",
+                accessor:'firstName',
+                disableFilters: true,
+                filterable: false,
+            },
+            {
+                Header: "LastName",
+                accessor:'lastName',
+                disableFilters: true,
+                filterable: false,
+            },
+            {
+                Header: "Email",
+                accessor:'email',
+                disableFilters: true,
+                filterable: false,
+            },
+            {
+                Header: "Phone",
+                accessor:'mobile',
+                disableFilters: true,
+                filterable: false,
+            },
+            {
+                Header: "status",
+                accessor: "status",
                 disableFilters: true,
                 filterable: false,
             },
@@ -107,7 +159,7 @@ const ViewBooking = () => {
                 disableSortBy: true,
             },
         ],
-        [category]
+        [booking]
     );
 
     const breadcrumbItems = [
@@ -132,7 +184,7 @@ const ViewBooking = () => {
                         <CardBody>
                             <TableContainer
                                 columns={columns || []}
-                                data={category || []}
+                                data={booking || []}
                                 isPagination={false}
                                 iscustomPageSize={false}
                                 isBordered={false}

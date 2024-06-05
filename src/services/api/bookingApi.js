@@ -20,6 +20,7 @@ export const getBookingsApi = async () => {
 };
 
 export const createBookingApi = async (formData) => {
+  console.log('formData formDataformData formData: ',formData);
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.post(

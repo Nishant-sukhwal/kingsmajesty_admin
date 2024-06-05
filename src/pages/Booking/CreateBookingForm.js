@@ -16,6 +16,7 @@ import RadioButton from '../../components/Form/FormComponent/RadioInput';
 import NumberInput from '../../components/Form/FormComponent/NumberInput';
 import CkEditor from '../../components/Form/FormComponent/CkEditor';
 import AddressInput from '../../components/Form/FormComponent/AddressInput';
+import { createBookingApi } from '../../services/api/bookingApi';
 
 // import CkEditor from "../FormComponent/CkEditor";
 
@@ -170,8 +171,15 @@ const CreateBookingForm = () => {
     const mandatoryOptions = ["Yes", "No"];
     const releaseOptions = ["Published", "NotPublished", "Awaiting", "Archived"];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(formData, "formData for api ")
+        try {
+            const res = await createBookingApi(formData);
+            console.log(res);
+            // toastr.success(res.data.message);
+        } catch (error) {
+            toastr.error("Category Saved Successfully!");
+        }
     }
 
 
@@ -181,15 +189,53 @@ const CreateBookingForm = () => {
         updatedFormData.room.push({ hotel: '', room: '', adults: '', children: '', taxrate: '', amount: '' });
         setFormData(updatedFormData);
     };
+    const handleAddActivity = () => {
+        const updatedFormData = { ...formData };
+        updatedFormData.activities.push({ name: '', adults: '', duration: '', children: '', date: '', taxrate: '', amount: '' });
+        setFormData(updatedFormData);
+    };
+    const handleAddServices = () => {
+        const updatedFormData = { ...formData };
+        updatedFormData.services.push({ name: '', quantity: '', duration: '', taxrate: '', amount: '' });
+        setFormData(updatedFormData);
+    };
+    const handleAddPayments = () => {
+        const updatedFormData = { ...formData };
+        updatedFormData.payments.push({ payment_method: '', date: '', tid: '', amount: '', });
+        setFormData(updatedFormData);
+    };
+    const handleAddTax = () => {
+        const updatedFormData = { ...formData };
+        updatedFormData.taxes.push({ name: '', amount: '' });
+        setFormData(updatedFormData);
+    };
 
 
-    const handleDeleteRoom = (index) => {
-        // const updatedFormData = { ...formData };
-        // updatedFormData.room.splice(index, 1);
-        // setFormData(updatedFormData);
+
+    const handleDelete = (index) => {
         if (formData.room.length > 1) {
             const updatedFormData = { ...formData };
             updatedFormData.room.splice(index, 1);
+            setFormData(updatedFormData);
+        }
+        if (formData.activities.length > 1) {
+            const updatedFormData = { ...formData };
+            updatedFormData.activities.splice(index, 1);
+            setFormData(updatedFormData);
+        }
+        if (formData.services.length > 1) {
+            const updatedFormData = { ...formData };
+            updatedFormData.services.splice(index, 1);
+            setFormData(updatedFormData);
+        }
+        if (formData.payments.length > 1) {
+            const updatedFormData = { ...formData };
+            updatedFormData.payments.splice(index, 1);
+            setFormData(updatedFormData);
+        }
+        if (formData.taxes.length > 1) {
+            const updatedFormData = { ...formData };
+            updatedFormData.taxes.splice(index, 1);
             setFormData(updatedFormData);
         }
     };
@@ -218,7 +264,7 @@ const CreateBookingForm = () => {
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
                                     <div
-                                        onClick={toggleIsOpen}
+                                        // onClick={toggleIsOpen}
                                         style={{ fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}
                                     >
                                         Hotel Details
@@ -421,7 +467,7 @@ const CreateBookingForm = () => {
                             <CardBody>
                                 <div className='d-flex justify-content-between align-items-center'>
                                     <div
-                                        onClick={toggleIsOpen}
+                                        // onClick={toggleIsOpen}
                                         style={{ fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}
                                     >
                                         Customer Details
@@ -676,8 +722,6 @@ const CreateBookingForm = () => {
                                                         />
                                                     </div> */}
                                                     <div style={{ width: '100%' }}>
-
-
                                                         <SelectInput
                                                             fieldName="room"
                                                             options={options}
@@ -688,8 +732,6 @@ const CreateBookingForm = () => {
                                                         />
                                                     </div>
                                                     <div style={{ width: '100%' }}>
-
-
                                                         <NumberInput
                                                             fieldName="adults"
                                                             value={room.adults}
@@ -699,8 +741,6 @@ const CreateBookingForm = () => {
                                                         />
                                                     </div>
                                                     <div style={{ width: '100%' }}>
-
-
                                                         <NumberInput
                                                             fieldName="children"
                                                             errorMessage="Enter children"
@@ -709,8 +749,6 @@ const CreateBookingForm = () => {
                                                         />
                                                     </div>
                                                     <div style={{ width: '100%' }}>
-
-
                                                         <NumberInput
                                                             fieldName="taxrate"
                                                             onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'room')}
@@ -728,13 +766,10 @@ const CreateBookingForm = () => {
                                                             placeholder="Enter amount"
                                                         />
                                                     </div>
-
-
                                                 </div>
-
                                                 {index > 0 ? (
                                                     <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDelete(index)}>
                                                             <i className="ri-delete-bin-7-line"></i>
                                                         </Button>
                                                         {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
@@ -749,7 +784,6 @@ const CreateBookingForm = () => {
                                         ))}
                                     </div>
                                     <div>
-
                                         <Button
                                             type="button"
                                             color="primary"
@@ -816,8 +850,8 @@ const CreateBookingForm = () => {
                                         }} />
 
 
-                                        {formData.room.map((room, index) => (
-                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                        {formData.activities.map((activities, index) => (
+                                            <div key={`activities-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
                                                 <div style={{ marginTop: '10px' }}>{index + 1}</div>
 
                                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -835,7 +869,7 @@ const CreateBookingForm = () => {
 
                                                         <NumberInput
                                                             fieldName="adults"
-                                                            value={room.adults}
+                                                            value={activities.adults}
                                                             errorMessage="Enter adults"
                                                             onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'activities')}
                                                             placeholder="Enter adults"
@@ -894,7 +928,7 @@ const CreateBookingForm = () => {
 
                                                 {index > 0 ? (
                                                     <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDelete(index)}>
                                                             <i className="ri-delete-bin-7-line"></i>
                                                         </Button>
                                                         {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
@@ -909,19 +943,17 @@ const CreateBookingForm = () => {
                                         ))}
                                     </div>
                                     <div>
-
                                         <Button
                                             type="button"
                                             color="primary"
                                             className="ms-3"
                                             style={{ minWidth: '50px', marginBottom: '5px' }}
-                                            onClick={handleAddRoom}
+                                            onClick={handleAddActivity}
                                         >
                                             Add More  +
                                         </Button>
                                     </div>
                                 </Collapse>
-
                             </CardBody>
                         </Card>
 
@@ -973,8 +1005,8 @@ const CreateBookingForm = () => {
                                         }} />
 
 
-                                        {formData.room.map((room, index) => (
-                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
+                                        {formData.services.map((services, index) => (
+                                            <div key={`services-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
                                                 <div style={{ marginTop: '10px' }}>{index + 1}</div>
 
                                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -1025,7 +1057,7 @@ const CreateBookingForm = () => {
 
                                                 {index > 0 ? (
                                                     <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDelete(index)}>
                                                             <i className="ri-delete-bin-7-line"></i>
                                                         </Button>
                                                         {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
@@ -1046,7 +1078,7 @@ const CreateBookingForm = () => {
                                             color="primary"
                                             className="ms-3"
                                             style={{ minWidth: '50px', marginBottom: '5px' }}
-                                            onClick={handleAddRoom}
+                                            onClick={handleAddServices}
                                         >
                                             Add More  +
                                         </Button>
@@ -1105,8 +1137,8 @@ const CreateBookingForm = () => {
                                         }} />
 
 
-                                        {formData.room.map((room, index) => (
-                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
+                                        {formData.payments.map((payments, index) => (
+                                            <div key={`payments-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
                                                 <div style={{ marginTop: '10px' }}>{index + 1}</div>
 
                                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -1155,7 +1187,7 @@ const CreateBookingForm = () => {
 
                                                 {index > 0 ? (
                                                     <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDelete(index)}>
                                                             <i className="ri-delete-bin-7-line"></i>
                                                         </Button>
                                                         {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
@@ -1176,7 +1208,7 @@ const CreateBookingForm = () => {
                                             color="primary"
                                             className="ms-3"
                                             style={{ minWidth: '50px', marginBottom: '5px' }}
-                                            onClick={handleAddRoom}
+                                            onClick={handleAddPayments}
                                         >
                                             Add More  +
                                         </Button>
@@ -1233,8 +1265,8 @@ const CreateBookingForm = () => {
                                         }} />
 
 
-                                        {formData.room.map((room, index) => (
-                                            <div key={`room-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
+                                        {formData.taxes.map((taxes, index) => (
+                                            <div key={`taxes-${index}`} style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-around', marginBottom: '10px' }}>
                                                 <div style={{ marginTop: '10px' }}>{index + 1}</div>
 
                                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -1264,7 +1296,7 @@ const CreateBookingForm = () => {
 
                                                 {index > 0 ? (
                                                     <div style={{ display: 'flex', justifyContent: 'center', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDeleteRoom(index)}>
+                                                        <Button color="danger" style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDelete(index)}>
                                                             <i className="ri-delete-bin-7-line"></i>
                                                         </Button>
                                                         {/* <Button style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} color="primary " onClick={handleAddRoom}>
@@ -1285,7 +1317,7 @@ const CreateBookingForm = () => {
                                             color="primary"
                                             className="ms-3"
                                             style={{ minWidth: '50px', marginBottom: '5px' }}
-                                            onClick={handleAddRoom}
+                                            onClick={handleAddTax}
                                         >
                                             Add More  +
                                         </Button>
