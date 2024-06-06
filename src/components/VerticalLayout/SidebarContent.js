@@ -126,13 +126,13 @@ const SidebarContent = ({ t, router, type, changeLayout, changeSidebarTheme, cha
                     {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 ? (
                       <Link to={`/${menuCategoryItem.route}`} className="has-arrow waves-effect">
                         <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
-                        <span className="ms-1">{t(menuCategoryItem.menu)}</span>
+                        <span className={`ms-1 ${type === 'condensed' ? 'd-none' : ''}`}>{t(menuCategoryItem.menu)}</span>
                       </Link>
                     ) : (
                       <Link to={`/${menuCategoryItem.route}`} className="waves-effect">
                         <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
-                        <span className="ms-1">{t(menuCategoryItem.menu)}</span>
-                        {/* <span className={`ms-1 ${type === 'condensed' ? 'hide' : ''}`}>{t(menuCategoryItem.menu)}</span> */}
+                        {/* <span className="ms-1">{t(menuCategoryItem.menu)}</span> */}
+                        <span className={`ms-1 ${type === 'condensed' ? 'd-none' : ''}`}>{t(menuCategoryItem.menu)}</span>
                       </Link>
                     )}
 
@@ -161,12 +161,12 @@ const SidebarContent = ({ t, router, type, changeLayout, changeSidebarTheme, cha
                     {menuCategoryItem.subMenu && menuCategoryItem.subMenu.length > 0 ? (
                       <Link to={`/${menuCategoryItem.route}`} className="has-arrow waves-effect">
                         <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
-                        <span className="ms-1" >{t(menuCategoryItem.menu)}</span>
+                        <span className={`ms-1 ${type === 'condensed' ? 'd-none' : ''}`} >{t(menuCategoryItem.menu)}</span>
                       </Link>
                     ) : (
                       <Link to={`/${menuCategoryItem.route}`} className="waves-effect">
                         <i className={`ri-${menuCategoryItem.icon}-fill`}></i>
-                        <span className="ms-1" >{t(menuCategoryItem.menu)}</span>
+                        <span className={`ms-1 ${type === 'condensed' ? 'd-none' : ''}`}>{t(menuCategoryItem.menu)}</span>
                       </Link>
                     )}
 

@@ -13,7 +13,7 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { AvForm } from "availity-reactstrap-validation";
 import ChooseFileInput from "../../components/Form/FormComponents/ChooseFileInput";
 import TextInput from "../../components/Form/FormComponentsValidate/TextInput";
-import { facilityUpdateApi, getFacilityById } from "../../services/api/facility/facilityCreateApi";
+import { facilityUpdateApi, getFacilityById } from "../../services/api/facilityCreateApi";
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
 import { useLocation, useNavigate } from "react-router-dom";

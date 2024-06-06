@@ -1,5 +1,5 @@
 import axios from "axios";
-import { endpoints } from "../../RequestUrls";
+import { endpoints } from "../RequestUrls";
 
 // Load environment variables from .env file
 // import dotenv from 'dotenv';

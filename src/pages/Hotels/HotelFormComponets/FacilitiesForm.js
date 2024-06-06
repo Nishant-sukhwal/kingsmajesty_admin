@@ -7,28 +7,25 @@ import MultipleSelector from "../../../components/Form/FormSelectorComponent/Mul
 import { useSelector } from "react-redux";
 import { FacilitiesAddApi } from "../../../services/api/hotel/hotelCreateApi";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
+import { getFacilityListAPI } from "../../../services/api/facilityCreateApi";
 
 const FacilitiesForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
 
   const [facilities, setFacilities] = useState([]);
 
+  const fetchFacilities = async () => {
+    try {
+      const response = await getFacilityListAPI();
+      const filteredFacilities = response.facilities.filter(
+        (facility) => !facility.deleted
+      );
+      setFacilities(filteredFacilities);
+    } catch (error) {
+      console.error("Error fetching facilities:", error);
+    }
+  };
   useEffect(() => {
-    const fetchFacilities = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/new/facility/get-facilities"
-        );
-        const data = await response.json();
-        const filteredFacilities = data.facilities.filter(
-          (facility) => !facility.deleted
-        );
-        setFacilities(filteredFacilities);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
-  
     fetchFacilities();
   }, []);
 

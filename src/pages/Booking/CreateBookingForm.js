@@ -17,12 +17,16 @@ import NumberInput from '../../components/Form/FormComponent/NumberInput';
 import CkEditor from '../../components/Form/FormComponent/CkEditor';
 import AddressInput from '../../components/Form/FormComponent/AddressInput';
 import { createBookingApi } from '../../services/api/bookingApi';
-
+import getHotelsApi from '../../services/api/hotel/hotelCreateApi';
+import getRoomsApi from '../../services/api/room/roomsApi';
+import { getActivitiesApi } from '../../services/api/activitiesApi';
+import { getServicesApi } from '../../services/api/servicesApi';
+import { getPaymentMethodsApi } from '../../services/api/paymentMethodsApi';
+import { getTaxesApi } from '../../services/api/taxesApi';
 // import CkEditor from "../FormComponent/CkEditor";
 
 const CreateBookingForm = () => {
     const dispatch = useDispatch();
-    // const [isOpen, setIsOpen] = useState(false);
     const [formData, setFormData] = useState({
         hotel: '',
         checkInDate: '',
@@ -57,26 +61,81 @@ const CreateBookingForm = () => {
     });
     console.log("formData update ", formData);
 
-
     const useToggle = (initialState) => {
         const [isOpen, setIsOpen] = useState(initialState);
-
         const toggle = () => {
             setIsOpen(!isOpen);
         }
-
         return [isOpen, toggle];
     };
+
     const [isOpen, toggleIsOpen] = useToggle(false);
     const [isOpen1, toggleIsOpen1] = useToggle(false);
     const [isOpen2, toggleIsOpen2] = useToggle(false);
     const [isOpen3, toggleIsOpen3] = useToggle(false);
     const [isOpen4, toggleIsOpen4] = useToggle(false);
 
+    const [hotels, setHotels] = useState();
+    const [rooms, setRooms] = useState();
+    const [activity, setActivity] = useState();
+    const [service, setServices] = useState();
+    const [tax, setTaxes] = useState();
+    const [paymentMethods, setPaymentMethods] = useState();
 
-    // const toggleCollapse = () => {
-    //     setIsOpen(!isOpen);
-    // };
+    const fetchDropdowns = async () => {
+        try {
+            const [hotelsRes, roomsRes, activitiesRes, servicesRes, paymentMethodsRes, taxesRes] = await Promise.all([
+                getHotelsApi(),
+                getRoomsApi(),
+                getActivitiesApi(),
+                getServicesApi(),
+                getPaymentMethodsApi(),
+                getTaxesApi()
+            ]);
+    
+            const formattedHotels = hotelsRes.hotels.map(data => ({
+                value: data.name,
+                label: data.name
+            }));
+            setHotels(formattedHotels);
+    
+            const formattedRooms = roomsRes.rooms.map(data => ({
+                value: data.category,
+                label: data.category
+            }));
+            setRooms(formattedRooms);
+    
+            const formattedActivities = activitiesRes.activities.map(data => ({
+                value: data.title,
+                label: data.title
+            }));
+            setActivity(formattedActivities);
+    
+            const formattedServices = servicesRes.services.map(data => ({
+                value: data.title,
+                label: data.title
+            }));
+            setServices(formattedServices);
+    
+            const formattedPaymentMethods = paymentMethodsRes.paymentMethods.map(data => ({
+                value: data.name,
+                label: data.name
+            }));
+            setPaymentMethods(formattedPaymentMethods);
+    
+            const formattedTaxes = taxesRes.taxes.map(data => ({
+                value: data.title,
+                label: data.title
+            }));
+            setTaxes(formattedTaxes);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDropdowns()
+    }, [])
 
     const handleFieldChange = (fieldName, value) => {
         setFormData({
@@ -91,50 +150,12 @@ const CreateBookingForm = () => {
             const updatedItem = { ...updatedArray[index] };
             updatedItem[fieldName] = value;
             updatedArray[index] = updatedItem;
-
             return {
                 ...prevFormData,
                 [arrayName]: updatedArray,
             };
         });
     };
-    // const handleNestedFieldChange = (fieldName, value, index, arrayName) => {
-    //     console.log('handleNestedFieldChange', fieldName, value, index, arrayName)
-    //     setFormData((prevFormData) => {
-    //         const updatedArray = [...prevFormData[arrayName]];
-    //         const updatedItem = { ...updatedArray[index] };
-    //         updatedItem[fieldName] = value;
-    //         updatedArray[index] = updatedItem;
-
-    //         return {
-    //             ...prevFormData,
-    //             [arrayName]: updatedArray,
-    //         };
-    //     });
-    // };
-
-    const handleInputChange = (fieldName, value, index, arrayName) => {
-        console.log(fieldName, value, index, arrayName)
-
-        setFormData((prevFormData) => {
-            const updatedArray = [...prevFormData[arrayName]];
-            const updatedItem = { ...updatedArray[index] };
-            updatedItem[fieldName] = value;
-            updatedArray[index] = updatedItem;
-
-            return {
-                ...prevFormData,
-                [arrayName]: updatedArray,
-            };
-        });
-        // const inputVal = e.target.value;
-        // setInputValue(inputVal); // Update inputValue state with the new input value
-        // setInputError(inputVal.trim() === ""); // Check for input validation here if needed
-        // onChange(fieldName, inputVal); // Pass the current input value to the parent component
-    };
-
-
-
 
     const options = [
         { value: "night", label: "Night" },
@@ -151,25 +172,11 @@ const CreateBookingForm = () => {
         { value: "qty-adult-night", label: "Quantity/adult/night" },
         { value: "qty-child-night", label: "Quantity/child/night" }
     ];
-
-
-    const taxOptions = [
-        { value: "VAT-10", label: "VAT-10" },
-        { value: "VAT-12", label: "VAT-12" },
-        { value: "VAT-18", label: "VAT-18" },
-        { value: "GST-5", label: "GST-5" },
-        { value: "GST-12", label: "GST-12" },
-        { value: "GST-18", label: "GST-18" },
-        { value: "LuxuryTax-8", label: "Luxury Tax-8%" },
-        { value: "LuxuryTax-12", label: "Luxury Tax-12%" },
-        { value: "ServiceCharge-10", label: "Service Charge-10%" },
-        { value: "ServiceCharge-12", label: "Service Charge-12%" }
+    const statusOption = [
+        { value: "Booked", label: "Booked" },
+        { value: "Pending", label: "Pending" },
     ];
 
-
-
-    const mandatoryOptions = ["Yes", "No"];
-    const releaseOptions = ["Published", "NotPublished", "Awaiting", "Archived"];
 
     const handleSubmit = async () => {
         console.log(formData, "formData for api ")
@@ -181,8 +188,6 @@ const CreateBookingForm = () => {
             toastr.error("Category Saved Successfully!");
         }
     }
-
-
 
     const handleAddRoom = () => {
         const updatedFormData = { ...formData };
@@ -209,8 +214,6 @@ const CreateBookingForm = () => {
         updatedFormData.taxes.push({ name: '', amount: '' });
         setFormData(updatedFormData);
     };
-
-
 
     const handleDelete = (index) => {
         if (formData.room.length > 1) {
@@ -239,19 +242,6 @@ const CreateBookingForm = () => {
             setFormData(updatedFormData);
         }
     };
-
-    const handleAddBooking = () => {
-        // Create a new room object with default values
-        const newRoom = { hotel: '', roomType: '', adults: 1, amount: 1, taxRate: 0 };
-
-        // Update the formData state to include the new room
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            room: [...prevFormData.room, newRoom]  // Add newRoom to the existing room array
-        }));
-    };
-
-
 
     return (
         <div className="page-content">
@@ -293,7 +283,7 @@ const CreateBookingForm = () => {
                                         <SelectInput
                                             label="Hotel"
                                             fieldName="hotel"
-                                            options={options}
+                                            options={hotels}
                                             onChange={handleFieldChange}
                                             errorMessage="Please Select hotels"
                                             placeholder="Select hotels"
@@ -633,7 +623,7 @@ const CreateBookingForm = () => {
                                         <SelectInput
                                             label="Status"
                                             fieldName="status"
-                                            options={options}
+                                            options={statusOption}
                                             onChange={handleFieldChange}
                                             errorMessage="Please Select status"
                                             placeholder="Select status"
@@ -644,7 +634,7 @@ const CreateBookingForm = () => {
                                         <SelectInput
                                             label="Payment option"
                                             fieldName="payment_option"
-                                            options={options}
+                                            options={paymentMethods}
                                             onChange={handleFieldChange}
                                             errorMessage="Please select a payment option"
                                             placeholder="Select a payment option"
@@ -724,7 +714,7 @@ const CreateBookingForm = () => {
                                                     <div style={{ width: '100%' }}>
                                                         <SelectInput
                                                             fieldName="room"
-                                                            options={options}
+                                                            options={rooms}
                                                             onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'room')}
                                                             value={room.room}
                                                             errorMessage="Please select room"
@@ -858,10 +848,10 @@ const CreateBookingForm = () => {
                                                     <div style={{ width: '100%' }}>
                                                         <SelectInput
                                                             fieldName="name"
-                                                            options={options}
+                                                            options={activity}
                                                             onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'activities')}
                                                             errorMessage="Please select activity"
-                                                            placeholder="Select room"
+                                                            placeholder="Select activity"
                                                         />
                                                     </div>
                                                     <div style={{ width: '100%' }}>
@@ -1013,7 +1003,7 @@ const CreateBookingForm = () => {
                                                     <div style={{ width: '100%' }}>
                                                         <SelectInput
                                                             fieldName="name"
-                                                            options={options}
+                                                            options={service}
                                                             onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'services')}
                                                             errorMessage="Please select service"
                                                             placeholder="Select service"
@@ -1145,7 +1135,7 @@ const CreateBookingForm = () => {
                                                     <div style={{ width: '100%' }}>
                                                         <SelectInput
                                                             fieldName="payment_method"
-                                                            options={options}
+                                                            options={paymentMethods}
                                                             onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'payments')}
                                                             errorMessage="Please select Payment method"
                                                             placeholder="Select Payment method"
@@ -1273,7 +1263,7 @@ const CreateBookingForm = () => {
                                                     <div style={{ width: '100%' }}>
                                                         <SelectInput
                                                             fieldName="name"
-                                                            options={options}
+                                                            options={tax}
                                                             onChange={(fieldName, value) => handleNestedFieldChange(fieldName, value, index, 'taxes')}
                                                             errorMessage="Please select tax"
                                                             placeholder="Select tax"

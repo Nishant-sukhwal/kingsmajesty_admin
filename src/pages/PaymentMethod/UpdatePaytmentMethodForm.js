@@ -12,7 +12,7 @@ import 'toastr/build/toastr.min.css'
 import { useLocation, useNavigate } from "react-router-dom";
 import SubHeader from "../../components/Common/SubHeader";
 import GenralForm from "../../components/Form/GenricForm/GenralForm";
-import {  getPaymentMethodsByIdApi, paymentMethodsUpdateApi } from "../../services/api/paymentMethods/paymentMethodsApi";
+import {  getPaymentMethodsByIdApi, paymentMethodsUpdateApi } from "../../services/api/paymentMethodsApi";
 
 const UpdatePaymentMethods = () => {
     const [breadcrumbItems] = useState([

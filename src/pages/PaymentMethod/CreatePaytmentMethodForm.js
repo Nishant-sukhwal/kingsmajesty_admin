@@ -10,12 +10,12 @@ import {
 } from "reactstrap";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { AvForm } from "availity-reactstrap-validation";
-import { facilityCreateApi } from "../../services/api/facility/facilityCreateApi";
+import { facilityCreateApi } from "../../services/api/facilityCreateApi";
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
 import SubHeader from "../../components/Common/SubHeader";
 import GenralForm from "../../components/Form/GenricForm/GenralForm";
-import { PaymentMethodsCreateApi } from "../../services/api/paymentMethods/paymentMethodsApi";
+import { PaymentMethodsCreateApi } from "../../services/api/paymentMethodsApi";
 
 const CreatePaytmentMethodForm = () => {
 

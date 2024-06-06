@@ -12,7 +12,7 @@ import 'toastr/build/toastr.min.css'
 import { useLocation, useNavigate } from "react-router-dom";
 import SubHeader from "../../components/Common/SubHeader";
 import GenralForm from "../../components/Form/GenricForm/GenralForm";
-import { getHotelCategoryByIdApi, hotelCategoryUpdateApi } from "../../services/api/hotelCategory/hotelCategorysApi";
+import { getHotelCategoryByIdApi, hotelCategoryUpdateApi } from "../../services/api/hotelCategorysApi";
 
 const UpdateHotelCategoryForm = () => {
     const [breadcrumbItems] = useState([

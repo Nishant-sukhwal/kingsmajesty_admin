@@ -5,8 +5,7 @@ import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
-import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
-import { deleteHotelCategory, deleteHotelCategoryAPI, getHotelCategoryApi } from "../../services/api/hotelCategory/hotelCategorysApi";
+import { deleteHotelCategory, deleteHotelCategoryAPI, getHotelCategoryApi } from "../../services/api/hotelCategorysApi";
 
 const ViewHotelCategories = () => {
   const [hotelCategories, sethHotelCategories] = useState([]);

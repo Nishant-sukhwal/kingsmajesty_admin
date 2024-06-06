@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { getHotelId } from "../../../store/hotel/actions";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 import "toastr/build/toastr.min.css";
-import { getHotelCategoriesApi } from "../../../services/api/hotelCategory/hotelCategorysApi";
+import { getHotelCategoryApi } from "../../../services/api/hotelCategorysApi";
 
 const BasicInfoForm = forwardRef((props, ref) => {
   const dispatch = useDispatch();
@@ -28,8 +28,9 @@ const BasicInfoForm = forwardRef((props, ref) => {
   const hotelsCategories = async () => {
     try {
       //api call
-      const data = await getHotelCategoriesApi();
-      const categoryOptions = data.hotelCategories.map(category => ({
+      const res = await getHotelCategoryApi();
+      console.log(res.data)
+      const categoryOptions = res.data.hotelCategories.map(category => ({
         value: category.name,
         label: category.name
       }));

@@ -5,8 +5,8 @@ import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
-import { deleteFacilityApi } from "../../services/api/facility/facilityCreateApi";
-import { deletePaymentMethod, getPaymentMethodsApi } from "../../services/api/paymentMethods/paymentMethodsApi";
+import { deleteFacilityApi } from "../../services/api/facilityCreateApi";
+import { deletePaymentMethod, getPaymentMethodsApi } from "../../services/api/paymentMethodsApi";
 
 const ViewPayment = () => {
   const [paymentMethods, setPaymentMethods] = useState([]);

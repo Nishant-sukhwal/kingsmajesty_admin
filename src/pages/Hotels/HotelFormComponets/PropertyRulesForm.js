@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { AvForm } from "availity-reactstrap-validation";
 import toastr from "toastr";
@@ -8,13 +8,14 @@ import MultipleSelector from "../../../components/Form/FormSelectorComponent/Mul
 import { useSelector } from "react-redux";
 import { PropertyRulesAddApi } from "../../../services/api/hotel/hotelCreateApi";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
+import { getPaymentMethodsApi } from "../../../services/api/paymentMethodsApi";
 // import { PropertyRulesAddApi } from "../../../services/api/hotel/hotelCreateApi"; // Import the API for Property Rules
 
 
 const PropertyRulesForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
   const [selectedFacilities, setSelectedFacilities] = useState(null);
-
+  const [paymentMethods , setPaymentmethods] = useState();
   const [formData, setFormData] = useState({
     paymentPolicy: "",
     ageRestriction: "",
@@ -25,6 +26,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
     childRules: "",
   });
   console.log(formData);
+ 
 
   const handleFormChange = (fieldName, value) => {
     console.log(fieldName, value);
@@ -34,6 +36,23 @@ const PropertyRulesForm = forwardRef((props, ref) => {
     });
   };
 
+  const fetchPaymentOptions = async () => {
+    try {
+      const res = await getPaymentMethodsApi();
+      console.log(res.paymentMethods);
+      const formattedData = res.paymentMethods.map(method => ({
+        label: method.name,
+        value: method.name,
+      }));
+      setPaymentmethods(formattedData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchPaymentOptions();
+  }, [])
 
   const paymentOptions = [
     {
@@ -67,7 +86,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
       { fieldName: "ageRestriction", label: "Age Restriction", type: 'address', required: true, errorMessage: "Please Enter Age Restriction ploicy", placeholder: "Enter Age Restriction Policy" },
       { fieldName: "petsRules", label: "Pets", type: 'address', required: true, errorMessage: "Please Enter Pets Policy", placeholder: "Enter Pets Policy" },
       { fieldName: "childRules", label: "Child Policies", type: 'address', required: true, errorMessage: "Please Enter Child policies", placeholder: "Enter Child policies" },
-      { fieldName: "paymentMethods", label: "PaymentMethods", type: "select", errorMessage: "Select Payment Methods", value: formData.paymentMethods, placeholder: "Select Payment Methods", isMulti: true, options: paymentOptions, },
+      { fieldName: "paymentMethods", label: "PaymentMethods", type: "select", errorMessage: "Select Payment Methods", value: formData.paymentMethods, placeholder: "Select Payment Methods", isMulti: true, options: paymentMethods, },
     ],
   };
 
@@ -86,7 +105,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
       toastr.error(`Please ensure all required fields are filled. Missing fields: : ${errorMessages}`);
       return;
     }
-   
+
     // Implement the API call for Property Rules form submission
     try {
       const res = await PropertyRulesAddApi(formData, hotelId);

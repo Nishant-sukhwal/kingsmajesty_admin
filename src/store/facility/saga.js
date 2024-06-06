@@ -4,7 +4,7 @@ import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 import { CREATE_FACILITY, FACILITY_LIST } from "./actionTypes";
 
 // import login from "../../../services/api/authentication/authApi"
-import { facilityCreateApi, getFacilityListAPI } from '../../services/api/facility/facilityCreateApi'
+import { facilityCreateApi, getFacilityListAPI } from '../../services/api/facilityCreateApi'
 import { createFacility, setFacilityList } from "./actions";
 
 function* viewFacilityList() {

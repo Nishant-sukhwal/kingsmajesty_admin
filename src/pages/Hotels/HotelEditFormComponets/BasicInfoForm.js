@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getHotelById, getHotelId } from "../../../store/hotel/actions";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 import "toastr/build/toastr.min.css";
-import { getHotelCategoriesApi } from "../../../services/api/hotelCategory/hotelCategorysApi";
+import { getHotelCategoryApi } from "../../../services/api/hotelCategorysApi";
 import { useLocation } from "react-router-dom";
 
 
@@ -30,10 +30,8 @@ const BasicInfoForm = forwardRef((props, ref) => {
     description: "",
     hotelCategory: "",
   });
-
   console.log("Basic Info FormData-==-===-=-=-=-=-=-=--->", formData);
   const [hotelCategories, setHotelCategories] = useState([]);
-
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id")
@@ -60,8 +58,8 @@ const BasicInfoForm = forwardRef((props, ref) => {
     const hotelCetegories = async () => {
       try {
         //api call
-        const data = await getHotelCategoriesApi();
-        const categoryOptions = data.hotelCategories.map(category => ({
+        const res = await getHotelCategoryApi();
+        const categoryOptions = res.data.hotelCategories.map(category => ({
           value: category.name,
           label: category.name
         }));

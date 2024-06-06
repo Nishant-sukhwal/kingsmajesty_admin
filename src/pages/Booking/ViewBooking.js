@@ -84,7 +84,7 @@ const ViewBooking = () => {
                 filterable: false,
                 Cell: ({ value }) => {
                     const date = new Date(value);
-                    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                    const formattedDate = `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear()}`;
                     return formattedDate;
                 }
             },
@@ -95,8 +95,20 @@ const ViewBooking = () => {
                 filterable: false,
                 Cell: ({ value }) => {
                     const date = new Date(value);
-                    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                    const formattedDate = `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear()}`;
                     return formattedDate;
+                }
+            },
+            {
+                Header: "Days",
+                accessor: "numberOfDays",
+                disableFilters: true,
+                filterable: false,
+                Cell: ({ row }) => {
+                    const checkInDate = new Date(row.original.checkInDate);
+                    const checkOutDate = new Date(row.original.checkOutDate);
+                    const numberOfDays = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)); // Calculate difference in days
+                    return numberOfDays;
                 }
             },
             {

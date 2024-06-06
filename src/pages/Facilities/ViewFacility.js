@@ -5,7 +5,7 @@ import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
-import { deleteFacilityApi, getFacilityListAPI } from "../../services/api/facility/facilityCreateApi";
+import { deleteFacilityApi, getFacilityListAPI } from "../../services/api/facilityCreateApi";
 
 const ViewFacility = () => {
   const [facilities, setFacilities] = useState([]);

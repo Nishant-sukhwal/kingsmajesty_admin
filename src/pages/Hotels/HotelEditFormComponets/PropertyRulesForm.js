@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { PropertyRulesAddApi, PropertyRulesUpdateApi } from "../../../services/api/hotel/hotelCreateApi";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 import { useLocation } from "react-router-dom";
-import { getPaymentMethodsApi, getPaymentMethodsByIdApi } from "../../../services/api/paymentMethods/paymentMethodsApi";
+import { getPaymentMethodsApi, getPaymentMethodsByIdApi } from "../../../services/api/paymentMethodsApi";
 // import { PropertyRulesAddApi } from "../../../services/api/hotel/hotelCreateApi"; // Import the API for Property Rules
 
 
@@ -21,6 +21,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id")
   const [paymentOptions, setPaymentOptions] = useState();
+  const [paymentMethods , setPaymentmethods] = useState();
   const [formData, setFormData] = useState({
     paymentPolicy: "",
     ageRestriction: "",
@@ -55,41 +56,59 @@ const PropertyRulesForm = forwardRef((props, ref) => {
   };
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getPaymentMethodsApi();
-        const formattedOptions = [
-          {
-            label: "Card",
-            options: data.paymentMethods
-              .filter(method => method.name.includes("Card"))
-              .map(method => ({ label: method.name, value: method.name }))
-          },
-          {
-            label: "Online",
-            options: data.paymentMethods
-              .filter(method => !method.name.includes("Card") && !method.name.includes("COD"))
-              .map(method => ({ label: method.name, value: method.name }))
-          },
-          {
-            label: "COD",
-            options: data.paymentMethods
-              .filter(method => method.name.includes("COD"))
-              .map(method => ({ label: method.name, value: method.name }))
-          }
-        ];
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const data = await getPaymentMethodsApi();
+  //       const formattedOptions = [
+  //         {
+  //           label: "Card",
+  //           options: data.paymentMethods
+  //             .filter(method => method.name.includes("Card"))
+  //             .map(method => ({ label: method.name, value: method.name }))
+  //         },
+  //         {
+  //           label: "Online",
+  //           options: data.paymentMethods
+  //             .filter(method => !method.name.includes("Card") && !method.name.includes("COD"))
+  //             .map(method => ({ label: method.name, value: method.name }))
+  //         },
+  //         {
+  //           label: "COD",
+  //           options: data.paymentMethods
+  //             .filter(method => method.name.includes("COD"))
+  //             .map(method => ({ label: method.name, value: method.name }))
+  //         }
+  //       ];
         
-        setPaymentOptions(formattedOptions);
+  //       setPaymentOptions(formattedOptions);
 
-      } catch (error) {
-        console.error("Error fetching Payment method data:", error);
-      }
-    };
+  //     } catch (error) {
+  //       console.error("Error fetching Payment method data:", error);
+  //     }
+  //   };
 
 
-    fetchData();
-  }, [id]);
+  //   fetchData();
+  // }, [id]);
+
+  const fetchPaymentOptions = async () => {
+    try {
+      const res = await getPaymentMethodsApi();
+      console.log(res.paymentMethods);
+      const formattedData = res.paymentMethods.map(method => ({
+        label: method.name,
+        value: method.name,
+      }));
+      setPaymentmethods(formattedData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchPaymentOptions();
+  }, [id])
 
 
   const formFields = {
@@ -100,7 +119,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
       { fieldName: "ageRestriction", label: "Age Restriction", type: 'address', required: true, errorMessage: "Please Enter Age Restriction ploicy", placeholder: "Enter Age Restriction Policy", defaultValue: hotel?.ageRestriction },
       { fieldName: "petsRules", label: "Pets", type: 'address', required: true, errorMessage: "Please Enter Pets Policy", placeholder: "Enter Pets Policy", defaultValue: hotel?.petsRules, },
       { fieldName: "childRules", label: "Child Policies", type: 'address', required: true, errorMessage: "Please Enter Child policies", placeholder: "Enter Child policies", defaultValue: hotel?.childRules },
-      { fieldName: "paymentMethods", label: "PaymentMethods", type: "select", errorMessage: "Select Payment Methods", value: formData.paymentMethods, placeholder: "Select Payment Methods", isMulti: true, options: paymentOptions, defaultValue: hotel?.paymentMethods, },
+      { fieldName: "paymentMethods", label: "PaymentMethods", type: "select", errorMessage: "Select Payment Methods", value: formData.paymentMethods, placeholder: "Select Payment Methods", isMulti: true, options: paymentMethods, defaultValue: hotel?.paymentMethods, },
     ],
   };
 
