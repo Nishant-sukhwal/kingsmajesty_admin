@@ -124,6 +124,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
   };
 
   const submitForm = async () => {
+    console.log("formdata in submit when call",formData)
     const errors = {};
     formFields.form.forEach(field => {
       if (field.required && !formData[field.fieldName]) {

@@ -61,7 +61,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
 
 
   const submitForm = async () => {
-
+    console.log("formdata for facility66666666666666666666666666666666",formData)
     // Check if at least one facility is selected
     if (formData.facilities.length === 0) {
       toastr.error("Please select at least one facility");

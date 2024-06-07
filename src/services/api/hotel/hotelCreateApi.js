@@ -141,7 +141,7 @@ export const PropertyRulesAddApi = async (formData, id) => {
 
 
 export const FacilitiesAddApi = async (formData, id) => {
-  console.log("FacilitiesAddApi formData: ", formData, id);
+  console.log("FacilitiesAddApi formData09090909909090909090: ", formData, id);
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.patch(
@@ -237,6 +237,7 @@ export const MediaUpdateApi = async (formData, id) => {
 };
 
 export const PropertyRulesUpdateApi = async (formData, id) => {
+  console.log("formdata in submit when call PropertyRulesUpdateApi",formData)
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const response = await axios.put(
@@ -257,6 +258,7 @@ export const PropertyRulesUpdateApi = async (formData, id) => {
 };
 
 export const FacilitiesUpdateApi = async (formData, id) => {
+  console.log(formData)
   try {
     // const formDataToSend = new FormData();
     // formDataToSend.append(JSON.stringify( formData.facilities)); 

@@ -8,13 +8,14 @@ import { useSelector } from "react-redux";
 import { FacilitiesAddApi, FacilitiesUpdateApi, getHotelByIdApi } from "../../../services/api/hotel/hotelCreateApi";
 import GenralForm from "../../../components/Form/GenricForm/GenralForm";
 import { useLocation } from "react-router-dom";
+import { getFacilityListAPI } from "../../../services/api/facilityCreateApi";
 
 const FacilitiesForm = forwardRef((props, ref) => {
   const hotelId = useSelector((state) => state.Hotel.id);
   const hotel = useSelector((state) => state.Hotel.data);
 
   const hotelFacilities = hotel?.facilities || []; // Ensure hotel.facilities is not null or undefined
-  console.log("hotelFacilities------------------------",hotelFacilities)
+  console.log("hotelFacilities------------------------", hotelFacilities)
   // Extract only the labels from the hotelFacilities array
   const labels = hotelFacilities.map(item => item.label);
 
@@ -34,24 +35,16 @@ const FacilitiesForm = forwardRef((props, ref) => {
   const [facilities, setFacilities] = useState([]);
 
 
-
+  const fetchFacility = async () => {
+    const res = await getFacilityListAPI()
+    const filteredFacilities = res.facilities.filter(
+      (facility) => !facility.deleted
+    );
+    setFacilities(filteredFacilities);
+  }
   useEffect(() => {
-    const fetchFacilities = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8086/v1/new/facility/get-facilities"
-        );
-        const data = await response.json();
-        const filteredFacilities = data.facilities.filter(
-          (facility) => !facility.deleted
-        );
-        setFacilities(filteredFacilities);
-      } catch (error) {
-        console.error("Error fetching facilities:", error);
-      }
-    };
-    fetchFacilities();
-  }, []);
+    fetchFacility();
+  }, [])
 
 
 
@@ -92,7 +85,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
       const labels = hotelFacilities.map(item => item.label);
 
       // Convert the labels array into the desired format as a JSON string inside another array
-      const formattedFacilities = JSON.stringify(labels);
+      const formattedFacilities = JSON?.stringify(labels);
 
 
       // Update formData with the formatted facilities
@@ -112,7 +105,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
 
   const formFields = {
     form: [
-      { fieldName: "facilities", label: "Facilities", type: "multiselect", errorMessage: "Select Facilities", value: formData.facilities, placeholder: "Select Facilities", isMulti: true, options: fetchedFacilities, defaultValue: hotelFacilities},
+      { fieldName: "facilities", label: "Facilities", type: "multiselect", errorMessage: "Select Facilities", value: formData.facilities, placeholder: "Select Facilities", isMulti: true, options: fetchedFacilities, defaultValue: hotelFacilities },
     ],
   };
 
@@ -126,6 +119,7 @@ const FacilitiesForm = forwardRef((props, ref) => {
       return;
     }
     try {
+     
       const res = await FacilitiesUpdateApi(formData, id);
       console.log(res);
       if (res.status === 200) {

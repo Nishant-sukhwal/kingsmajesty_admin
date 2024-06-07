@@ -18,7 +18,7 @@ const ViewHotels = () => {
     const fetchHotels = async () => {
       try {
         const response = await getHotelsApi();
-        console.log(response.hotels)
+        // console.log(response.hotels)
         setHotels(response.hotels);
       } catch (error) {
         console.error("Error fetching facilities:", error);

@@ -28,7 +28,7 @@ const UpdateHotelForm = () => {
   const facilitiesFormRef = useRef(null);
   const dispatch = useDispatch();
   const hotels = useSelector((state) => state.Hotel.data);  
-  console.log("data from redux store in  the update component ", hotels)
+  // console.log("data from redux store in  the update component ", hotels)
   const toggleTab = (tab) => {
     if (activeTab !== tab && tab >= 1 && tab <= 5) {
       setActiveTab(tab);
@@ -77,7 +77,7 @@ const UpdateHotelForm = () => {
             // Fetch data from your API endpoint
             const data = await getHotelByIdApi(id)
             dispatch(getHotelById(data.hotel,));
-            console.log("hotel data in component for update",data.hotel)
+            // console.log("hotel data in component for update",data.hotel)
         } catch (error) {
             console.error("Error fetching hotel:", error);
         }

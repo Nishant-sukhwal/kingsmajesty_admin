@@ -28,7 +28,7 @@ const SelectInput = ({
     try {
       if (defaultVal) {
         if (Array.isArray(defaultVal)) {
-          const defaultValue = JSON.parse(defaultVal);
+          const defaultValue = JSON?.parse(defaultVal);
           const defaultOptions = defaultValue.map(val =>
             options.find(option => option.label === val)
           );
@@ -44,7 +44,7 @@ const SelectInput = ({
     } catch (error) {
       // console.error("Error parsing default value:", error);
     }
-  }, [defaultVal]);
+  }, [defaultVal,options]);
 
 
 

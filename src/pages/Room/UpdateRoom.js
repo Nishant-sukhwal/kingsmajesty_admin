@@ -168,7 +168,7 @@ const UpdateRoom = () => {
             {
                 fieldName: "category",
                 label: "Room Category",
-                type: "select",
+                type: "singleselect",
                 errorMessage: "Select Room Category Name",
                 value: formData.category,
                 placeholder: "Select Room Category Name eg: Delux,SuperDelux...",

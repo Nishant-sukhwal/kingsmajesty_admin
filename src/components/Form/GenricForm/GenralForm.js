@@ -13,6 +13,7 @@ import RadioButton from "../FormComponent/RadioInput";
 import TimeInput from "../FormComponent/TimeInput";
 import MultiSelectInput from "../FormComponent/MultiSelectInput";
 import PasswordInput from "../FormComponent/PasswordInput";
+import SingleSelectInput from "../FormComponent/SingleSelectInput";
 
 const GenralForm = ({ formFields, onChange }) => {
   const navigate = useNavigate();
@@ -51,6 +52,22 @@ const GenralForm = ({ formFields, onChange }) => {
                 return (
                   <Col key={fieldConfig.fieldName} lg="6">
                     <SelectInput
+                      label={fieldConfig.label}
+                      fieldName={fieldConfig.fieldName}
+                      options={fieldConfig.options}
+                      onChange={handleFieldChange}
+                      errorMessage={fieldConfig.errorMessage}
+                      isMulti={fieldConfig.isMulti}
+                      placeholder={fieldConfig.placeholder}
+                      defaultVal={fieldConfig.defaultValue}
+                    // categoryVal={fieldConfig.categoryValue}
+                    />
+                  </Col>
+                );
+              case "singleselect":
+                return (
+                  <Col key={fieldConfig.fieldName} lg="6">
+                    <SingleSelectInput
                       label={fieldConfig.label}
                       fieldName={fieldConfig.fieldName}
                       options={fieldConfig.options}
@@ -192,20 +209,20 @@ const GenralForm = ({ formFields, onChange }) => {
                     />
                   </Col>
                 );
-                case "password":
-                  return (
-                    <Col key={fieldConfig.fieldName} lg="6">
-                      <PasswordInput
-                        label={fieldConfig.label}
-                        fieldName={fieldConfig.fieldName}
-                        errorMessage={fieldConfig.errorMessage}
-                        value={fieldConfig.value}
-                        placeholder={fieldConfig.placeholder}
-                        onChange={handleFieldChange}
-                        defaultVal={fieldConfig.defaultValue}
-                      />
-                    </Col>
-                  );
+              case "password":
+                return (
+                  <Col key={fieldConfig.fieldName} lg="6">
+                    <PasswordInput
+                      label={fieldConfig.label}
+                      fieldName={fieldConfig.fieldName}
+                      errorMessage={fieldConfig.errorMessage}
+                      value={fieldConfig.value}
+                      placeholder={fieldConfig.placeholder}
+                      onChange={handleFieldChange}
+                      defaultVal={fieldConfig.defaultValue}
+                    />
+                  </Col>
+                );
               default:
                 return null; // Return null for the default case
             }
