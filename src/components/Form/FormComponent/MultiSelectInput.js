@@ -19,38 +19,44 @@ const MultiSelectInput = ({
     console.log("defaultValue defaultValue defaultValue defaultValue ", defaultVal)
 
     useEffect(() => {
-        if (defaultVal) {
-            if (Array.isArray(defaultVal)) {
-                const defaultOptions = defaultVal.map(val =>
-                    options.find(option => option.label === val)
-                );
-                setDefaultValue(defaultOptions);
+        try {
+            if (defaultVal) {
+                if (Array.isArray(defaultVal)) {
+                    const defaultValue = JSON?.parse(defaultVal);
+                    const defaultOptions = defaultValue.map(val =>
+                        options.find(option => option.label === val)
+                    );
+                    setDefaultValue(defaultOptions);
+                }
             }
+        } catch (error) {
+            // console.error("Error parsing default value:", error);
         }
     }, [defaultVal, options]);
 
+
     const handleSelectChange = (selectedOption) => {
         if (Array.isArray(selectedOption)) {
-          // Multi-selector input box
-          // Extract values from selected options
-          const selectedValues = selectedOption.map((option) => option.value);
-          // Pass the array of selected values to the parent component
-          onChange(fieldName, selectedValues);
-          // Set input error based on whether any option is selected or not
-          setInputError(selectedOption.length === 0);
-          // Update the defaultValue state with the selected options
-          setDefaultValue(selectedOption);
+            // Multi-selector input box
+            // Extract values from selected options
+            const selectedValues = selectedOption.map((option) => option.value);
+            // Pass the array of selected values to the parent component
+            onChange(fieldName, selectedValues);
+            // Set input error based on whether any option is selected or not
+            setInputError(selectedOption.length === 0);
+            // Update the defaultValue state with the selected options
+            setDefaultValue(selectedOption);
         } else {
-          // Single selector input box
-          // Pass the single selected value to the parent component
-        //   onChange(fieldName, selectedOption ? selectedOption.value : null, index, arrayName);
-          // Set input error based on whether the option is selected or not
-          setInputError(!selectedOption);
-          // Update the defaultValue state with the single selected option
-          setDefaultValue(selectedOption);
+            // Single selector input box
+            // Pass the single selected value to the parent component
+            onChange(fieldName, selectedOption ? selectedOption.value : null,);
+            // Set input error based on whether the option is selected or not
+            setInputError(!selectedOption);
+            // Update the defaultValue state with the single selected option
+            setDefaultValue(selectedOption);
         }
-      };
-    
+    };
+
 
     // const handleSelectChange = (selectedOption) => {
     //     if (Array.isArray(selectedOption)) {
@@ -77,8 +83,8 @@ const MultiSelectInput = ({
                     placeholder={placeholder}
                     onChange={handleSelectChange}
                     options={options}
-
-                    isMulti
+                    classNamePrefix="select2-selection"
+                    isMulti="true"
                 />
                 {inputError && <FormFeedback>{errorMessage}</FormFeedback>}
             </Col>

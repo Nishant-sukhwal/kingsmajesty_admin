@@ -119,7 +119,7 @@ const PropertyRulesForm = forwardRef((props, ref) => {
       { fieldName: "ageRestriction", label: "Age Restriction", type: 'address', required: true, errorMessage: "Please Enter Age Restriction ploicy", placeholder: "Enter Age Restriction Policy", defaultValue: hotel?.ageRestriction },
       { fieldName: "petsRules", label: "Pets", type: 'address', required: true, errorMessage: "Please Enter Pets Policy", placeholder: "Enter Pets Policy", defaultValue: hotel?.petsRules, },
       { fieldName: "childRules", label: "Child Policies", type: 'address', required: true, errorMessage: "Please Enter Child policies", placeholder: "Enter Child policies", defaultValue: hotel?.childRules },
-      { fieldName: "paymentMethods", label: "PaymentMethods", type: "select", errorMessage: "Select Payment Methods", value: formData.paymentMethods, placeholder: "Select Payment Methods", isMulti: true, options: paymentMethods, defaultValue: hotel?.paymentMethods, },
+      { fieldName: "paymentMethods", label: "PaymentMethods", type: "multiselect", errorMessage: "Select Payment Methods", value: formData.paymentMethods, placeholder: "Select Payment Methods", isMulti: true, options: paymentMethods, defaultValue: hotel?.paymentMethods, },
     ],
   };
 
