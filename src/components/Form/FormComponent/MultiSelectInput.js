@@ -22,8 +22,8 @@ const MultiSelectInput = ({
         try {
             if (defaultVal) {
                 if (Array.isArray(defaultVal)) {
-                    const defaultValue = JSON?.parse(defaultVal);
-                    const defaultOptions = defaultValue.map(val =>
+                    // const defaultValue = JSON?.parse(defaultVal);
+                    const defaultOptions = defaultVal.map(val =>
                         options.find(option => option.label === val)
                     );
                     setDefaultValue(defaultOptions);
@@ -37,6 +37,7 @@ const MultiSelectInput = ({
 
     const handleSelectChange = (selectedOption) => {
         if (Array.isArray(selectedOption)) {
+            console.log("Call come inside!");
             // Multi-selector input box
             // Extract values from selected options
             const selectedValues = selectedOption.map((option) => option.value);
