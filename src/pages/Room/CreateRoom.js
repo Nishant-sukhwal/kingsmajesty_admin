@@ -64,7 +64,7 @@ const CreateRoom = () => {
     dealsOptions,
   ] = [
     hotelDropdownOptions?.map((hotel) => ({
-      value: hotel.name,
+      value: hotel._id,
       label: hotel.name,
     })),
     categories?.map((category) => ({

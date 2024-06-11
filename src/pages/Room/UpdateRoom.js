@@ -12,6 +12,8 @@ import {
 } from "../../store/actions";
 import SubHeader from "../../components/Common/SubHeader";
 import { getRoomByIdApi, updateRoomByIdApi } from "../../services/api/room/roomsApi";
+import { getServicesApi } from "../../services/api/servicesApi";
+import { getAmenitiesApi } from "../../services/api/amenitiesApi";
 
 const UpdateRoom = () => {
     const location = useLocation();
@@ -19,7 +21,8 @@ const UpdateRoom = () => {
     const id = searchParams.get("id")
     const [rooms, setRooms] = useState([]);
     const dispatch = useDispatch();
-
+    const [services, setServices] = useState([]);
+    const [amenities, setAmenities] = useState([]);
     const [
         hotelDropdownOptions,
         categories,
@@ -36,9 +39,12 @@ const UpdateRoom = () => {
         hotel: "",
         category: "",
         facilities: [],
+        amenities: [],
+        services: [],
         deals: [],
         gallery: [],
         thumbnail: "",
+        banner: "",
         description: "",
         min_people: "",
         max_adults: "",
@@ -46,8 +52,11 @@ const UpdateRoom = () => {
         todays_price: "",
         max_children: "",
         rooms_stock: "",
+        room_size: "",
+        room_size_unit: "",
+        beds: "",
     });
-  console.log(formData)
+    console.log(formData)
     const [fetchedData, setFetchedData] = useState({
         hotel: "",
         category: "",
@@ -63,7 +72,35 @@ const UpdateRoom = () => {
         max_children: "",
         rooms_stock: "",
     });
-    
+
+    const fetchAminities = async () => {
+        try {
+            const response = await getAmenitiesApi();
+            console.log(response);
+            const filteredData = response.amenities.filter((item) => !item.deleted);
+            const formattedServices = filteredData.map(data => ({
+                value: data.name,
+                label: data.name
+            }));
+            setAmenities(formattedServices);
+        } catch (error) {
+            console.error("Error fetching facilities:", error);
+        }
+    }
+
+    const fetchServices = async () => {
+        try {
+            const response = await getServicesApi();
+            const filteredData = response.services.filter((item) => !item.deleted);
+            const formattedServices = filteredData.map(data => ({
+                value: data.title,
+                label: data.title
+            }));
+            setServices(formattedServices);
+        } catch (error) {
+            console.error("Error fetching facilities:", error);
+        }
+    }
 
     const handleFormChange = (fieldName, value) => {
         setFormData(formData => ({
@@ -77,8 +114,10 @@ const UpdateRoom = () => {
         dispatch(getCategories());
         dispatch(getFacilityList());
         dispatch(getDeals());
+        fetchServices();
+        fetchAminities();
     }, []);
-    
+
 
     useEffect(() => {
         const fetchRooms = async () => {
@@ -152,7 +191,7 @@ const UpdateRoom = () => {
                 label: deals.name,
             })),
         ];
-   console.log(facilitiesOptions)
+    console.log(facilitiesOptions)
     const formFields = {
         backbutton: "/rooms",
         form: [
@@ -176,6 +215,26 @@ const UpdateRoom = () => {
                 defaultValue: formData.category,
             },
             {
+                fieldName: "beds",
+                label: "Beds",
+                type: "singleselect",
+                errorMessage: "Select Bed Type",
+                value: formData.beds,
+                placeholder: "Select Bed Type",
+                options: roomCategoryOptions,
+                defaultValue: formData.beds,
+            },
+            {
+                fieldName: "price_type",
+                label: "Price Type",
+                type: "singleselect",
+                errorMessage: "Select Price Type",
+                value: formData.price_type,
+                placeholder: "Select Price Type",
+                options: roomCategoryOptions,
+                defaultValue: formData.price_type,
+            },
+            {
                 fieldName: "min_people",
                 label: "Min People",
                 type: "number",
@@ -194,6 +253,15 @@ const UpdateRoom = () => {
                 defaultValue: formData.max_adults,
             },
             {
+                fieldName: "max_children",
+                label: "Max Children",
+                type: "number",
+                errorMessage: "Enter Max. Children in Room",
+                placeholder: "Enter Max. Children in Room",
+                value: "",
+                defaultValue: formData.max_children,
+            },
+            {
                 fieldName: "base_Price",
                 label: "Base Price",
                 type: "number",
@@ -210,16 +278,7 @@ const UpdateRoom = () => {
                 placeholder: "Enter Todays Price",
                 value: "",
                 defaultValue: formData.todays_price,
-            },
-            {
-                fieldName: "max_children",
-                label: "Max Children",
-                type: "number",
-                errorMessage: "Enter Max. Children in Room",
-                placeholder: "Enter Max. Children in Room",
-                value: "",
-                defaultValue: formData.max_children,
-            },
+            },  
             {
                 fieldName: "rooms_stock",
                 label: "Rooms Stock",
@@ -228,7 +287,26 @@ const UpdateRoom = () => {
                 placeholder: "Enter Number of Rooms in stock",
                 value: "",
                 defaultValue: formData.rooms_stock,
+            },                     
+            {
+                fieldName: "room_size",
+                label: "Room Size",
+                type: "number",
+                errorMessage: "Room Size",
+                placeholder: "Enter Room Size",
+                value: "",
+                defaultValue: formData.room_size,
             },
+            {
+                fieldName: "room_size_unit",
+                label: "Room Size Unit",
+                type: "text",
+                errorMessage: "Room Size Unit",
+                placeholder: "Enter Room Size Unit",
+                value: "",
+                defaultValue: formData.room_size_unit,
+            },
+           
             {
                 fieldName: "facilities",
                 label: "Facilities",
@@ -238,6 +316,28 @@ const UpdateRoom = () => {
                 placeholder: "Select Facilities For Room eg: TV,AC,WiFi...",
                 isMulti: true,
                 options: facilitiesOptions,
+                defaultValue: formData.facilities,
+            },
+            {
+                fieldName: "amenities",
+                label: "Amenities",
+                type: "select",
+                errorMessage: "Select Amenities For Room",
+                value: formData.facilities,
+                placeholder: "Select Amenities For Room",
+                isMulti: true,
+                options: amenities,
+                defaultValue: formData.facilities,
+            },
+            {
+                fieldName: "services",
+                label: "Services",
+                type: "select",
+                errorMessage: "Select Services For Room",
+                value: formData.facilities,
+                placeholder: "Select Services For Room",
+                isMulti: true,
+                options: services,
                 defaultValue: formData.facilities,
             },
             {
@@ -257,6 +357,16 @@ const UpdateRoom = () => {
                 type: "file",
                 errorMessage: "Select File",
                 value: formData.thumbnail,
+                placeholder: "Select Image...",
+                defaultValue: formData.thumbnail,
+                imageViewer: true, // Enable image viewer for this field
+            },
+            {
+                fieldName: "banner",
+                label: "Banner",
+                type: "file",
+                errorMessage: "Select File",
+                value: formData.banner,
                 placeholder: "Select Image...",
                 defaultValue: formData.thumbnail,
                 imageViewer: true, // Enable image viewer for this field
@@ -282,9 +392,9 @@ const UpdateRoom = () => {
     };
 
     const handleSubmit = async () => {
-        console.log("Update this data in DB", id,formData)
+        console.log("Update this data in DB", id, formData)
         const res = updateRoomByIdApi(id, formData)
-        console.log("Api response is here in componet",res);
+        console.log("Api response is here in componet", res);
         // dispatch(saveRoom(formData));
     };
 
