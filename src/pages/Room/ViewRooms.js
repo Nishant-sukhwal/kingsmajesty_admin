@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useMemo } from "react";
 import TableContainer from "../../components/Common/TableContainer";
-import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
+import { Button, Card, CardBody, Col, Container, Input, Row ,Badge} from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import ConfirmationModal from "../../components/Common/ConfirmationModal";
@@ -17,6 +17,7 @@ const ViewRooms = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to control the delete confirmation modal
  
   const [rooms, setRooms] = useState([]);
+  const [roomActive, setRoomActive] = useState([]);
 
 
   useEffect(() => {
@@ -94,6 +95,25 @@ const ViewRooms = () => {
     }
   };
 
+  const handleToggleActivate = (room) => {
+    // Update the 'Activate' property of the selected hotel
+    const updatedRoms = rooms.map((r) =>
+      r._id === room._id ? { ...r, Activate: !room.Activate } : r
+    );
+    setRoomActive(updatedRoms);
+  };
+
+  
+  const renderStatusBadge = (status) => {
+    switch (status) {
+      case "Published":
+        return <Badge className="bg-success me-1">Published</Badge>;
+      case "NotPublished":
+        return <Badge className="bg-danger me-1">Not Published</Badge>;
+      default:
+        return <Badge className="bg-dark me-1">{status}</Badge>; // Default badge for unknown statuses
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -179,6 +199,43 @@ const ViewRooms = () => {
         accessor: "category",
         disableFilters: true,
         filterable: false,
+      },
+      {
+        Header: "Room Stocks",
+        accessor: "rooms_stock",
+        disableFilters: true,
+        filterable: false,
+      },
+
+      {
+        Header: "Status",
+        accessor: "releaseStatus",
+        disableFilters: true,
+        filterable: false,
+        Cell: ({ value }) => renderStatusBadge(value),
+      },
+      {
+        Header: "Active",
+        accessor: "Activate",
+        Cell: ({ row }) => (
+          <div className="form-check form-switch mb-3" dir="ltr">
+            <Input
+              type="checkbox"
+              className="form-check-input"
+              id={`customSwitch-${row.original._id}`}
+              checked={row.original.Activate}
+              onChange={() => handleToggleActivate(row.original)}
+            // checked={toggleSwitch}
+            // onChange={() => setToggleSwitch((prev) => !prev)}
+            // onChange={() => setToggleSwitch(!toggleSwitch)}
+            />
+          </div>
+        ),
+
+        disableFilters: true,
+        filterable: false,
+        disableSortBy: true,
+        show: false,
       },
       {
         Header: "Action",

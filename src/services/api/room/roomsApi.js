@@ -47,11 +47,13 @@ export const fetchHotelsDropdownListApi = async () => {
 
 
 export const addRoomApi = async (formData) => {
+  console.log("formData in api------------------> ",formData );
   try {
     const token = localStorage.getItem("token").replace(/^"(.*)"$/, "$1");
     const formDataToSend = new FormData();
     // Append thumbnail
     formDataToSend.append("thumbnail", formData.thumbnail);
+    formDataToSend.append("banner", formData.banner);
     // Append gallery files
     formData.gallery.forEach((file, index) => {
       formDataToSend.append(`gallery`, file);
@@ -59,15 +61,21 @@ export const addRoomApi = async (formData) => {
     //other fields
     formDataToSend.append("hotel", formData.hotel);
     formDataToSend.append("category", formData.category);
+    formDataToSend.append("beds", formData.beds);
+    formDataToSend.append("price_type", formData.price_type);
     formDataToSend.append("min_people", formData.min_people);
     formDataToSend.append("max_adults", formData.max_adults);
     formDataToSend.append("base_Price", formData.base_Price);
     formDataToSend.append("todays_price", formData.todays_price);
     formDataToSend.append("max_children", formData.max_children);
     formDataToSend.append("rooms_stock", formData.rooms_stock);
+    formDataToSend.append("room_size", formData.room_size);
+    formDataToSend.append("room_size_unit", formData.room_size_unit);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("facilities", JSON.stringify(formData.facilities)); // Assuming facilities is an array, stringify it
     formDataToSend.append("deals", JSON.stringify(formData.deals));
+    formDataToSend.append("amenities", JSON.stringify(formData.amenities));
+    formDataToSend.append("services", JSON.stringify(formData.services));
 
     const response = await axios.post(
       "http://localhost:8086/v1/rm/rooms/create-room",

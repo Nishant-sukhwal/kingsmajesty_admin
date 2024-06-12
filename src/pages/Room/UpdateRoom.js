@@ -14,6 +14,8 @@ import SubHeader from "../../components/Common/SubHeader";
 import { getRoomByIdApi, updateRoomByIdApi } from "../../services/api/room/roomsApi";
 import { getServicesApi } from "../../services/api/servicesApi";
 import { getAmenitiesApi } from "../../services/api/amenitiesApi";
+import { getBedsApi } from "../../services/api/bedsApi";
+import { getPricesApi } from "../../services/api/pricesApi";
 
 const UpdateRoom = () => {
     const location = useLocation();
@@ -23,6 +25,8 @@ const UpdateRoom = () => {
     const dispatch = useDispatch();
     const [services, setServices] = useState([]);
     const [amenities, setAmenities] = useState([]);
+    const [bedsType, setBedsType] = useState([]);
+    const [prices, setPrices] = useState([]);
     const [
         hotelDropdownOptions,
         categories,
@@ -55,6 +59,7 @@ const UpdateRoom = () => {
         room_size: "",
         room_size_unit: "",
         beds: "",
+        price_type: ""
     });
     console.log(formData)
     const [fetchedData, setFetchedData] = useState({
@@ -102,6 +107,37 @@ const UpdateRoom = () => {
         }
     }
 
+    const fetchBedsList = async () => {
+        try {
+            const response = await getBedsApi();
+            const filteredData = response.bedTypes.filter((item) => !item.deleted);
+            const formattedServices = filteredData.map(data => ({
+                value: data.name,
+                label: data.name
+            }));
+            setBedsType(formattedServices);
+        } catch (error) {
+            console.error("Error fetching facilities:", error);
+        }
+    }
+
+    const fetchPricesList = async () => {
+        try {
+            const response = await getPricesApi();
+            console.log("response is----------->",response)
+            const filteredData = response.priceTypes.filter((item) => !item.deleted);
+            const formattedServices = filteredData.map(data => ({
+                value: data.name,
+                label: data.name
+            }));
+            setPrices(formattedServices);
+        } catch (error) {
+            console.error("Error fetching facilities:", error);
+        }
+    }
+    
+    
+
     const handleFormChange = (fieldName, value) => {
         setFormData(formData => ({
             ...formData,
@@ -116,6 +152,8 @@ const UpdateRoom = () => {
         dispatch(getDeals());
         fetchServices();
         fetchAminities();
+        fetchBedsList();
+        fetchPricesList();
     }, []);
 
 
@@ -192,6 +230,7 @@ const UpdateRoom = () => {
             })),
         ];
     console.log(facilitiesOptions)
+
     const formFields = {
         backbutton: "/rooms",
         form: [
@@ -221,7 +260,7 @@ const UpdateRoom = () => {
                 errorMessage: "Select Bed Type",
                 value: formData.beds,
                 placeholder: "Select Bed Type",
-                options: roomCategoryOptions,
+                options: bedsType,
                 defaultValue: formData.beds,
             },
             {
@@ -231,7 +270,7 @@ const UpdateRoom = () => {
                 errorMessage: "Select Price Type",
                 value: formData.price_type,
                 placeholder: "Select Price Type",
-                options: roomCategoryOptions,
+                options: prices,
                 defaultValue: formData.price_type,
             },
             {
